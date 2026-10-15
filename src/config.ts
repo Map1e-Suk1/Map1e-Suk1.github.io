@@ -77,14 +77,26 @@ export const profileConfig: ProfileConfig = {
 
 // 友链：朋友们页面（/friends/）的内容，加人就在 friends 数组里加一组
 export const friendsConfig: FriendsConfig = {
-	title: "朋友们",
-	intro: "这里是我的朋友们，欢迎去他们的站点逛逛。",
+	title: "My Friends",
+	intro: "这里是我的朋友们！欢迎你去他们的站点逛一逛~",
 	friends: [
 		{
-			name: "3w3's Blog",
-			url: "https://blog.3w3.asia/friends",
+			name: "宛宛",
+			url: "https://blog.3w3.asia",
 			avatar: "https://blog.3w3.asia/favicon.png",
-			description: "朋友的小站",
+			description: "第一个友链！",
+		},
+		{
+			name: "aClosure",
+			url: "https://aclosure.github.io/",
+			avatar: "https://aclosure.github.io/images/avatar.jpg",
+			description: "喵喵喵？",
+		},
+		{
+			name: "Kioroshi Aki",
+			url: "https://kioroshiaki.github.io/",
+			avatar: "https://kioroshiaki.github.io/img/blowfish_logo_hu_81700eacd4516d13.png",
+			description: "pwn大佬?!",
 		},
 	],
 };

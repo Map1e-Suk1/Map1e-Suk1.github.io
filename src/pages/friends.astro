@@ -23,10 +23,10 @@ const { title, intro, friends } = friendsConfig;
                             ? `background-image: url("${friend.avatar}"); background-size: cover; background-position: center;`
                             : undefined}
                     >
-                        {friend.name.slice(0, 1)}
+                        {!friend.avatar && friend.name.slice(0, 1)}
                     </div>
                     <div class="min-w-0 flex-1">
-                        <div class="font-bold truncate transition group-hover:text-[var(--primary)]">{friend.name}</div>
+                        <div class="text-lg font-bold truncate text-black dark:text-white transition group-hover:text-[var(--primary)] dark:group-hover:text-[var(--primary)]">{friend.name}</div>
                         {friend.description && (
                             <div class="text-sm text-black/40 dark:text-white/40 line-clamp-2 transition">{friend.description}</div>
                         )}
