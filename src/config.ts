@@ -124,6 +124,12 @@ export const friendsConfig: FriendsConfig = {
 				avatar: "/friends/piyuanzhoulv.png",
 				description: "圆周率的废纸堆，里面或许有你需要的？",
 			},
+			{
+				name: "Dalang",
+				url: "https://xiaolang0817.github.io",
+				avatar: "https://xiaolang0817.github.io/personal_blog/touxiang.jpg",
+				description: "里面可能会有我半夜发疯想的东西和一些记录啥啥啥的",
+			},
 		],
 };
 
