@@ -19,6 +19,7 @@ import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
+import siteBackground from "../assets/images/site-background.webp";
 
 interface Props {
 	title?: string;
@@ -140,7 +141,22 @@ const bannerOffset =
 		<style define:vars={{
 			configHue,
 			'page-width': `${PAGE_WIDTH}rem`,
-		}}></style>  <!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why -->
+			'site-bg': `url("${siteBackground.src}")`,
+		}}>
+			/* 全站背景图：固定铺满屏幕，不透明度 30%，位于页面底色之上、内容之下 */
+			html::before {
+				content: "";
+				position: fixed;
+				inset: 0;
+				z-index: -1;
+				pointer-events: none;
+				background-image: var(--site-bg);
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+				opacity: 0.3;
+			}
+		</style>
 
 
 		<slot name="head"></slot>
