@@ -1,0 +1,44 @@
+---
+import { Icon } from "astro-icon/components";
+import { friendsConfig } from "@/config";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+
+const { title, intro, friends } = friendsConfig;
+---
+
+<MainGridLayout title={title} description={intro}>
+    <div class="flex flex-col gap-4 w-full">
+        <div class="card-base px-9 py-6">
+            <div class="text-2xl font-bold text-[var(--primary)] mb-3 transition">{title}</div>
+            {intro && <div class="text-black/50 dark:text-white/50 transition">{intro}</div>}
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {friends.map((friend) => (
+                <a href={friend.url} target="_blank" rel="noopener noreferrer"
+                   class="card-base card-shadow p-4 flex items-center gap-4 group transition hover:-translate-y-0.5 active:scale-[0.99]">
+                    <div
+                        class="w-14 h-14 rounded-full shrink-0 flex items-center justify-center text-xl font-bold bg-[var(--btn-regular-bg)] text-[var(--primary)] transition"
+                        style={friend.avatar
+                            ? `background-image: url("${friend.avatar}"); background-size: cover; background-position: center;`
+                            : undefined}
+                    >
+                        {friend.name.slice(0, 1)}
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <div class="font-bold truncate transition group-hover:text-[var(--primary)]">{friend.name}</div>
+                        {friend.description && (
+                            <div class="text-sm text-black/40 dark:text-white/40 line-clamp-2 transition">{friend.description}</div>
+                        )}
+                    </div>
+                    <Icon name="fa6-solid:arrow-up-right-from-square"
+                          class="text-black/20 dark:text-white/20 group-hover:text-[var(--primary)] transition shrink-0" />
+                </a>
+            ))}
+        </div>
+
+        <div class="card-base px-9 py-5 text-sm text-black/40 dark:text-white/40 transition">
+            想交换友链？可以在 GitHub 上找我，或者发邮件到 <a class="text-[var(--primary)] hover:underline" href="mailto:Map1e-Suk1@qq.com">Map1e-Suk1@qq.com</a>。
+        </div>
+    </div>
+</MainGridLayout>

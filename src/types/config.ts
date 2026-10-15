@@ -100,3 +100,16 @@ export type BlogPostData = {
 export type ExpressiveCodeConfig = {
 	theme: string;
 };
+
+export type FriendLink = {
+	name: string;
+	url: string;
+	avatar?: string;
+	description?: string;
+};
+
+export type FriendsConfig = {
+	title: string;
+	intro?: string;
+	friends: FriendLink[];
+};

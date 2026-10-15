@@ -1,5 +1,6 @@
 import type {
 	ExpressiveCodeConfig,
+	FriendsConfig,
 	LicenseConfig,
 	NavBarConfig,
 	ProfileConfig,
@@ -45,6 +46,10 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Archive,
 		LinkPreset.About,
 		{
+			name: "朋友们",
+			url: "/friends/", // 内部链接不要带 base 前缀，主题会自动加上
+		},
+		{
 			name: "GitHub",
 			url: "https://github.com/Map1e-Suk1", // Internal links should not include the base path, as it is automatically added
 			external: true, // Show an external link icon and will open in a new tab
@@ -66,6 +71,20 @@ export const profileConfig: ProfileConfig = {
 			name: "Email",
 			icon: "fa6-solid:envelope",
 			url: "mailto:Map1e-Suk1@qq.com",
+		},
+	],
+};
+
+// 友链：朋友们页面（/friends/）的内容，加人就在 friends 数组里加一组
+export const friendsConfig: FriendsConfig = {
+	title: "朋友们",
+	intro: "这里是我的朋友们，欢迎去他们的站点逛逛。",
+	friends: [
+		{
+			name: "3w3's Blog",
+			url: "https://blog.3w3.asia/friends",
+			avatar: "https://blog.3w3.asia/favicon.png",
+			description: "朋友的小站",
 		},
 	],
 };

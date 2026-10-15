@@ -104,3 +104,62 @@ git config --global https.proxy http://127.0.0.1:7890
 git remote set-url origin git@github.com:<用户名>/<仓库名>.git
 ```
 
+## 朋友们（友链）页面
+
+页面地址 `/friends/`，内容在 `src/config.ts` 的 `friendsConfig` 里。
+
+加一个友链（复制一段改引号里的内容就行）：
+
+```ts
+export const friendsConfig: FriendsConfig = {
+	title: "朋友们",
+	intro: "这里是我的朋友们，欢迎去他们的站点逛逛。",
+	friends: [
+		{
+			name: "对方的名字",
+			url: "https://example.com",
+			avatar: "https://example.com/avatar.png", // 可选：没有就删掉这行
+			description: "一句话介绍", // 可选
+		},
+	],
+};
+```
+
+- `avatar` 留空或加载失败时，会自动显示名字的第一个字，不会出现破图
+- 名字里含英文单引号时，写成 \' 或用双引号把整个名字包起来
+- 导航栏上「朋友们」这个入口在同一个文件的 `navBarConfig.links` 里
+
+## 想自己改网页内容，怎么改
+
+记住一个流程：**本地改 → 本地预览 → 推送 → 自动上线**
+
+```bash
+cd /d D:\Blog
+pnpm dev          # 本地预览 http://localhost:4321，改完自动刷新，Ctrl+C 停止
+# ……编辑文件……
+git add -A
+git commit -m "改了什么"
+git push          # 约 1 分钟后自动部署
+```
+
+改哪里：
+
+| 想改的东西 | 文件 |
+| --- | --- |
+| 站点标题、副标题、主题色、导航栏、个人资料、邮箱 | `src/config.ts` |
+| 友链（朋友们页面） | `src/config.ts` 的 `friendsConfig` |
+| 「关于」页面 | `src/content/spec/about.md` |
+| 文章 | `src/content/posts/` 新建 `.md`，或 `pnpm new-post 标题` |
+| 首页顶部横幅 banner | `src/config.ts` 的 `siteConfig.banner` |
+| 全站背景图 / 不透明度 | 图片放 `src/assets/images/`；透明度改 `src/layouts/Layout.astro` 里的 `opacity: 0.3` |
+| 头像 | 替换 `src/assets/images/avatar.png`（换文件名要同步改 `profileConfig.avatar`） |
+| 页面结构 / 新页面 | `src/pages/`（复制 `friends.astro` 改最省事） |
+
+几条经验：
+
+- **只改引号里的内容**，别删括号和逗号；`pnpm dev` 会立刻告诉你哪一行出错
+- 文章 frontmatter 里 `draft: true` 表示「不发布，只在本地可见」
+- 推之前 `git status` 看一眼改了哪些文件；`git checkout <文件>` 可以撤销还没提交的改动
+- 改坏了别慌：`git log --oneline` 找到上一个提交，把文件改回去再推一次即可
+- 部署结果在仓库的 **Actions** 页面看，绿勾＝已上线
+
