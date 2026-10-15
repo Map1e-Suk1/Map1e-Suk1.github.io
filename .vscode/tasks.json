@@ -1,0 +1,46 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "① 本地预览（改完即时刷新）",
+			"detail": "启动本地开发服务器 http://localhost:4321，改完自动刷新，Ctrl+C 停止",
+			"type": "shell",
+			"command": "pnpm dev",
+			"isBackground": true,
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "② 发布到线上（提交 + 推送）",
+			"detail": "运行 发布博客.bat：输入更新说明后自动 commit 并 push，约 1 分钟后上线",
+			"type": "shell",
+			"command": "cmd",
+			"args": ["/c", "发布博客.bat"],
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated",
+				"clear": true
+			}
+		},
+		{
+			"label": "③ 构建检查（pnpm build）",
+			"detail": "本地完整构建一次，确认没有报错",
+			"type": "shell",
+			"command": "pnpm build",
+			"problemMatcher": [],
+			"presentation": {
+				"reveal": "always",
+				"panel": "dedicated"
+			}
+		}
+	]
+}

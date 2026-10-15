@@ -2,6 +2,29 @@
 
 站点基于 [Astro](https://astro.build/) + [Fuwari](https://github.com/saicaca/fuwari) 主题，内容为纯 Markdown，推送即部署。
 
+## 用 VS Code 图形化维护（不用敲命令）
+
+打开 VS Code → 「文件 → 打开文件夹」选 `D:\Blog`。已经装好这几个扩展：
+
+| 扩展 | 作用 |
+| --- | --- |
+| **Front Matter CMS** | 左栏出现 Front Matter 图标：文章列表、表单化编辑 front matter、新建文章、封面图、草稿开关 |
+| Astro | `.astro` 文件的语法高亮与补全 |
+| Biome | 保存时自动格式化代码 |
+| Git Graph | 图形化查看提交历史 |
+
+三个常用操作：
+
+1. **改文章**：在 Front Matter 面板里点开文章编辑（或 `Ctrl+P` 搜文件名直接打开，`Ctrl+Shift+V` 预览 Markdown）
+2. **本地预览**：菜单「终端 → 运行任务 → ① 本地预览」，浏览器打开 <http://localhost:4321>
+3. **发布**（二选一）：
+   - 「终端 → 运行任务 → ② 发布到线上」，输入更新说明即可
+   - 左侧「源代码管理」→ 写一句说明 → 点 ✓ 提交 → 点「同步更改」
+
+> 网络说明：git 已配置走系统代理 `http://127.0.0.1:7897`。以后如果换了代理端口，执行
+> `git config --global http.proxy http://127.0.0.1:新端口`；
+> 想取消代理用 `git config --global --unset http.proxy` 和 `--unset https.proxy`。
+
 ## 目录速查
 
 | 路径 | 作用 |
