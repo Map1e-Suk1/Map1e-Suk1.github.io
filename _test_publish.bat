@@ -58,9 +58,30 @@ if (-not (Test-Path -LiteralPath (Join-Path $repo 'src\config.ts'))) {
 if (-not (git config user.name))  { git config user.name  'Map1e-Suk1' | Out-Null }
 if (-not (git config user.email)) { git config user.email 'Map1e-Suk1@users.noreply.github.com' | Out-Null }
 
+# 自动识别系统代理（Clash / v2rayN 等），让 git 也能连上 GitHub
+$sysProxy = $null
+try {
+  $reg = Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -ErrorAction SilentlyContinue
+  if ($reg -and $reg.ProxyEnable -eq 1 -and $reg.ProxyServer) {
+    $raw = [string]$reg.ProxyServer
+    if ($raw -match '=') {
+      $m = [regex]::Match($raw, 'https?=([^;]+)')
+      if ($m.Success) { $raw = $m.Groups[1].Value }
+    }
+    if ($raw) {
+      if ($raw -notmatch '^[a-zA-Z]+://') { $raw = 'http://' + $raw }
+      $sysProxy = $raw
+      $env:HTTP_PROXY  = $raw
+      $env:HTTPS_PROXY = $raw
+      $env:http_proxy  = $raw
+      $env:https_proxy = $raw
+    }
+  }
+} catch {}
+
 # ---------- 1 检查改动 ----------
 Write-Step '1/4' '检查改动'
-$status = @(git status --porcelain)
+$status = @(git -c core.quotepath=false status --porcelain)
 if ($status.Count -eq 0) {
   Write-Ok '没有任何改动，不需要发布。'
   Write-Host ''
@@ -97,6 +118,7 @@ if ($commitCode -ne 0) {
 $hash = (git log -1 --format='%h')
 Write-Ok ('已提交  ' + $hash + '   ' + $msg)
 
+if ($sysProxy) { Write-Info ('走系统代理： ' + $sysProxy) }
 Write-Host '         正在推送到 GitHub……' -ForegroundColor DarkGray
 $pushLog = git push origin main 2>&1
 $pushCode = $LASTEXITCODE
