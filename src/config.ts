@@ -131,7 +131,7 @@ export const friendsConfig: FriendsConfig = {
 				name: "Dalang",
 				url: "https://xiaolang0817.github.io",
 				avatar: "https://xiaolang0817.github.io/personal_blog/touxiang.jpg",
-				description: "里面可能会有我半夜发疯想的东西和一些记录啥啥啥的",
+				description: "里面可能会有我半夜发疯想的东西和一些记录",
 			},
 		],
 };
@@ -142,14 +142,14 @@ export const appearanceConfig = {
 		enable: true,
 		opacity: 0.3,
 	},
-	fontFamily: "",
+	fontFamily: "\"Noto Sans SC\", \"Source Han Sans SC\", \"Microsoft YaHei\", sans-serif",
 };
 
 // 樱花飘落动效：不想要就把 enable 改成 false
 export const sakuraConfig = {
 	enable: true,
 	count: 66, // 花瓣数量上限（窄屏会自动按比例减少）
-	opacity: 0.75, // 花瓣最大不透明度
+	opacity: 0.66, // 花瓣最大不透明度
 };
 
 export const licenseConfig: LicenseConfig = {
