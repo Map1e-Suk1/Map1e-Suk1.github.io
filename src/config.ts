@@ -101,7 +101,13 @@ export const friendsConfig: FriendsConfig = {
 		{
 			name: "Miso",
 			url: "https://miso2233.github.io/",
-			avatar: "/friends/188649822.png",
+			avatar: "/friends/miso.png",
+			description: "",
+		},
+		{
+			name: "yuanmuyan",
+			url: "https://yuanmuyan.github.io/",
+			avatar: "/friends/yuanmuyan.webp",
 			description: "",
 		},
 	],
