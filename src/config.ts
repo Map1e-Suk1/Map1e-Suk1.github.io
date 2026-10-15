@@ -133,8 +133,8 @@ export const appearanceConfig = {
 // 樱花飘落动效：不想要就把 enable 改成 false
 export const sakuraConfig = {
 	enable: true,
-	count: 34, // 花瓣数量上限（窄屏会自动按比例减少）
-	opacity: 0.85, // 花瓣最大不透明度
+	count: 50, // 花瓣数量上限（窄屏会自动按比例减少）
+	opacity: 0.75, // 花瓣最大不透明度
 };
 
 export const licenseConfig: LicenseConfig = {
