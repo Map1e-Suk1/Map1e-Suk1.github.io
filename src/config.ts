@@ -58,7 +58,9 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	// 以 / 开头 = public 目录里的固定地址（不带哈希，更新站点后不会出现破图）；
+	// 想改用外部图床热链，直接写成 "https://..." 即可。
+	avatar: "/avatar.webp",
 	name: "Map1e-Suk1",
 	bio: "Roam free, for life is wide.",
 	links: [
