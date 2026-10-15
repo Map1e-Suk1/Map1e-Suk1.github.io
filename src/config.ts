@@ -42,9 +42,12 @@ export const siteConfig: SiteConfig = {
 
 export const navBarConfig: NavBarConfig = {
 	links: [
-		LinkPreset.Home,
 		{
-			name: "记录",
+			name: "Home",
+			url: "/",
+		},
+		{
+			name: "Archive",
 			url: "/archive/",
 		},
 		{
@@ -52,7 +55,7 @@ export const navBarConfig: NavBarConfig = {
 			url: "/friends/",
 		},
 		{
-			name: "关于我",
+			name: "About me?",
 			url: "/about/",
 		},
 		{
