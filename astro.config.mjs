@@ -24,11 +24,22 @@ import { remarkExcerpt } from "./src/plugins/remark-excerpt.js";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time.mjs";
 import { pluginCustomCopyButton } from "./src/plugins/expressive-code/custom-copy-button.js";
 
+function normalizeSite(raw) {
+	try {
+		const u = new URL(raw);
+		u.hostname = u.hostname.toLowerCase();
+		return u.toString();
+	} catch {
+		return raw;
+	}
+}
+
 // https://astro.build/config
 export default defineConfig({
 	// 站点地址与部署子路径。GitHub Actions 部署时自动注入（见 .github/workflows/deploy.yml），
 	// 本地开发/预览默认使用根路径，不用手改。
-	site: process.env.SITE ?? "https://map1e-suk1.github.io/",
+	// GitHub 仓库名可能带大写，但 Pages 域名是小写的，这里统一一下，保证 sitemap/RSS 里的地址规范。
+	site: normalizeSite(process.env.SITE ?? "https://map1e-suk1.github.io/"),
 	base: process.env.BASE ?? "/",
 	trailingSlash: "always",
 	integrations: [
