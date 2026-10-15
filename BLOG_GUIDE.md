@@ -174,8 +174,9 @@ git push          # 约 1 分钟后自动部署
 | 「关于」页面 | `src/content/spec/about.md` |
 | 文章 | `src/content/posts/` 新建 `.md`，或 `pnpm new-post 标题` |
 | 首页顶部横幅 banner | `src/config.ts` 的 `siteConfig.banner` |
-| 全站背景图 / 不透明度 | 图片放 `src/assets/images/`；透明度改 `src/layouts/Layout.astro` 里的 `opacity: 0.3` |
-| 头像 | 替换 `src/assets/images/avatar.png`（换文件名要同步改 `profileConfig.avatar`） |
+| 全站背景图 / 不透明度 | 图片放 `src/assets/images/`；透明度改 `src/config.ts` 的 `appearanceConfig.background.opacity` |
+| 头像 | 替换 `public/avatar.webp`（固定地址，不带哈希，不会因更新而破图） |
+| 樱花飘落动效 | `src/config.ts` 的 `sakuraConfig`：`enable` 开关、`count` 花瓣数量、`opacity` 不透明度 |
 | 页面结构 / 新页面 | `src/pages/`（复制 `friends.astro` 改最省事） |
 
 几条经验：
