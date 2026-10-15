@@ -29,3 +29,6 @@ yarn.lock
 # ide
 .idea
 *.iml
+
+# Front Matter CMS 的本地数据库（只是缓存，不需要提交）
+.frontmatter/

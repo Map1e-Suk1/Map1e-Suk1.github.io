@@ -10,7 +10,7 @@ import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
 	title: "Map1e-Suk1的个人空间",
-	subtitle: "记录学习心得 · 分享所见所得",
+	subtitle: "大佬大佬快来带带我",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
 		hue: 250, // Default hue for the theme color, from 0 to 360. e.g. red: 0, teal: 200, cyan: 250, pink: 345
@@ -112,7 +112,29 @@ export const friendsConfig: FriendsConfig = {
 			avatar: "/friends/yuanmuyan.webp",
 			description: "",
 		},
+		{
+			name: "圆周率的废纸堆",
+			url: "https://piyuanzhoulv.github.io/",
+			avatar: "/friends/piyuanzhoulv.png",
+			description: "",
+		},
 	],
+};
+
+// 外观设置：全站背景图 + 正文字体（供 Fuwari 管家读写）
+export const appearanceConfig = {
+	background: {
+		enable: true,
+		opacity: 0.3,
+	},
+	fontFamily: "",
+};
+
+// 樱花飘落动效：不想要就把 enable 改成 false
+export const sakuraConfig = {
+	enable: true,
+	count: 34, // 花瓣数量上限（窄屏会自动按比例减少）
+	opacity: 0.85, // 花瓣最大不透明度
 };
 
 export const licenseConfig: LicenseConfig = {

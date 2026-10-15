@@ -4,7 +4,8 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import ConfigCarrier from "@components/ConfigCarrier.astro";
-import { profileConfig, siteConfig } from "@/config";
+import SakuraEffect from "@components/misc/SakuraEffect.astro";
+import { appearanceConfig, profileConfig, siteConfig } from "@/config";
 import {
 	AUTO_MODE,
 	BANNER_HEIGHT,
@@ -142,8 +143,9 @@ const bannerOffset =
 			configHue,
 			'page-width': `${PAGE_WIDTH}rem`,
 			'site-bg': `url("${siteBackground.src}")`,
+			'site-bg-opacity': String(appearanceConfig.background.enable ? appearanceConfig.background.opacity : 0),
 		}}>
-			/* 全站背景图：固定铺满屏幕，不透明度 30%，位于页面底色之上、内容之下 */
+			/* 全站背景图：固定铺满屏幕，不透明度由 appearanceConfig.background.opacity 控制 */
 			html::before {
 				content: "";
 				position: fixed;
@@ -154,9 +156,13 @@ const bannerOffset =
 				background-size: cover;
 				background-position: center;
 				background-repeat: no-repeat;
-				opacity: 0.3;
+				opacity: var(--site-bg-opacity, 0.3);
 			}
 		</style>
+
+		{appearanceConfig.fontFamily && (
+			<style is:global set:html={`html, body { font-family: ${appearanceConfig.fontFamily} !important; }`}></style>
+		)}
 
 
 		<slot name="head"></slot>
@@ -174,6 +180,8 @@ const bannerOffset =
 	>
 		<ConfigCarrier></ConfigCarrier>
 		<slot />
+
+		<SakuraEffect />
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>

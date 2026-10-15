@@ -1,0 +1,156 @@
+---
+/**
+ * 樱花飘落动效：canvas 实现，全站生效
+ * 开关与参数在 src/config.ts 的 sakuraConfig
+ * 说明：图层固定覆盖视口（position: fixed），pointer-events: none 不会挡住点击；
+ *      z-index 15 位于正文之上、导航栏/面板（z-index 20~50）之下。
+ */
+import { sakuraConfig } from "@/config";
+
+const { enable, count, opacity } = sakuraConfig;
+---
+
+{
+	enable && (
+		<canvas
+			id="sakura-canvas"
+			aria-hidden="true"
+			class="pointer-events-none fixed inset-0 h-full w-full z-[15]"
+			data-count={count}
+			data-opacity={opacity}
+		/>
+	)
+}
+
+<script>
+	type Petal = {
+		x: number;
+		y: number;
+		size: number;
+		vy: number;
+		sway: number;
+		phase: number;
+		spin: number;
+		angle: number;
+		color: string;
+		alpha: number;
+	};
+
+	const canvas = document.getElementById("sakura-canvas") as HTMLCanvasElement | null;
+	const noMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	if (canvas && !noMotion) {
+		const ctx = canvas.getContext("2d");
+
+		if (ctx) {
+			const maxCount = Number(canvas.dataset.count ?? 32);
+			const maxAlpha = Number(canvas.dataset.opacity ?? 0.85);
+			const COLORS = ["#ffd7e6", "#ffc2da", "#ffb3cd", "#f9a8c9", "#ffe9f3"];
+
+			let width = 0;
+			let height = 0;
+			let petals: Petal[] = [];
+			let raf = 0;
+
+			const rand = (min: number, max: number) => min + Math.random() * (max - min);
+
+			const createPetal = (scatter: boolean): Petal => {
+				const size = rand(7, 15);
+				return {
+					x: rand(-40, width + 40),
+					y: scatter ? rand(-height, height) : rand(-90, -20),
+					size,
+					vy: (rand(18, 46) * size) / 11,
+					sway: rand(16, 58),
+					phase: rand(0, Math.PI * 2),
+					spin: rand(-0.55, 0.55),
+					angle: rand(0, Math.PI * 2),
+					color: COLORS[Math.floor(Math.random() * COLORS.length)] ?? "#ffd7e6",
+					alpha: rand(0.45, 1),
+				};
+			};
+
+			// 花瓣形状：尖端向下，宽端带缺口
+			const tracePetal = (size: number) => {
+				const ph = size * 1.3;
+				const pw = size;
+				ctx.beginPath();
+				ctx.moveTo(0, -ph / 2);
+				ctx.bezierCurveTo(pw * 0.55, -ph * 0.36, pw * 0.5, ph * 0.26, pw * 0.22, ph * 0.48);
+				ctx.quadraticCurveTo(0, ph * 0.26, -pw * 0.22, ph * 0.48);
+				ctx.bezierCurveTo(-pw * 0.5, ph * 0.26, -pw * 0.55, -ph * 0.36, 0, -ph / 2);
+				ctx.closePath();
+			};
+
+			const resize = () => {
+				const dpr = Math.min(window.devicePixelRatio || 1, 2);
+				width = window.innerWidth;
+				height = window.innerHeight;
+				canvas.width = Math.floor(width * dpr);
+				canvas.height = Math.floor(height * dpr);
+				canvas.style.width = width + "px";
+				canvas.style.height = height + "px";
+				ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+				const target = Math.max(10, Math.min(maxCount, Math.round(width / 36)));
+				while (petals.length < target) petals.push(createPetal(true));
+				petals.length = target;
+			};
+
+			let last = performance.now();
+
+			const frame = (now: number) => {
+				const dt = Math.min((now - last) / 1000, 0.05);
+				last = now;
+				ctx.clearRect(0, 0, width, height);
+
+				for (const petal of petals) {
+					petal.phase += dt * 0.9;
+					petal.angle += petal.spin * dt;
+					petal.y += petal.vy * dt;
+
+					if (petal.y > height + 60) {
+						Object.assign(petal, createPetal(false), { x: rand(-40, width + 40) });
+					}
+
+					const x = petal.x + Math.sin(petal.phase) * petal.sway;
+					const fade = 0.6 + 0.4 * Math.abs(Math.sin(petal.phase * 0.5));
+
+					ctx.save();
+					ctx.translate(x, petal.y);
+					ctx.rotate(petal.angle);
+					ctx.globalAlpha = Math.min(maxAlpha, petal.alpha * fade);
+					ctx.fillStyle = petal.color;
+					tracePetal(petal.size);
+					ctx.fill();
+					ctx.restore();
+				}
+
+				raf = window.requestAnimationFrame(frame);
+			};
+
+			const start = () => {
+				if (!raf) {
+					last = performance.now();
+					raf = window.requestAnimationFrame(frame);
+				}
+			};
+
+			const stop = () => {
+				if (raf) {
+					window.cancelAnimationFrame(raf);
+					raf = 0;
+				}
+			};
+
+			resize();
+			start();
+
+			window.addEventListener("resize", resize);
+			document.addEventListener("visibilitychange", () => {
+				if (document.hidden) stop();
+				else start();
+			});
+		}
+	}
+</script>
