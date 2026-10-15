@@ -83,19 +83,19 @@ export const friendsConfig: FriendsConfig = {
 		{
 			name: "宛宛",
 			url: "https://blog.3w3.asia",
-			avatar: "https://blog.3w3.asia/favicon.png",
+			avatar: "/friends/wanwan.webp",
 			description: "第一个友链！",
 		},
 		{
 			name: "aClosure",
 			url: "https://aclosure.github.io/",
-			avatar: "https://aclosure.github.io/images/avatar.jpg",
+			avatar: "/friends/aclosure.webp",
 			description: "喵喵喵？",
 		},
 		{
 			name: "Kioroshi Aki",
 			url: "https://kioroshiaki.github.io/",
-			avatar: "https://kioroshiaki.github.io/img/blowfish_logo_hu_81700eacd4516d13.png",
+			avatar: "/friends/kioroshiaki.webp",
 			description: "pwn大佬?!",
 		},
 	],
