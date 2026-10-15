@@ -1,17 +1,21 @@
 ---
 title: TSCTF-J 2026 Writeup
 published: 2026-10-15
-description: "TSCTF-J 2026 部分题解：Liar's Bar、恋爱.skill、恋爱.skill Bonus，记录提示词注入和 SQL 注入的思路。"
+description: "TSCTF-J 2026 部分题解"
 image: ""
-tags: [CTF, Writeup, 提示词注入]
-category: CTF
+tags: [CTF, Writeup]
+category: WP
 draft: false
 lang: ""
 ---
 
 笔者：Map1e
 
-本次共解出6题（含签到题）~~（我是菜鸡）~~
+是一年一度的BUPT新人CTF赛！ ~~（很多老登也参加了，狠狠被上压力了）~~
+
+笔者虽然是个初来乍到的新生，但也硬着头皮参加了。没有依赖Agent，而是选择和网页版大肥鱼LLM同甘共苦！不过也把做出来的弄懂了
+
+本次只解出6题（含签到题）~~（我是菜鸡）~~
 
 # AI题
 
