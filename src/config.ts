@@ -9,7 +9,7 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "Map1e-Suk1的个人空间",
+	title: "Map1e-Suk1的秘密基地",
 	subtitle: "大佬大佬快来带带我",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
@@ -17,7 +17,7 @@ export const siteConfig: SiteConfig = {
 		fixed: false, // Hide the theme color picker for visitors
 	},
 	banner: {
-		enable: false,
+		enable: true,
 		src: "assets/images/demo-banner.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 		position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
 		credit: {
@@ -43,17 +43,23 @@ export const siteConfig: SiteConfig = {
 export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
-		LinkPreset.Archive,
-		LinkPreset.About,
 		{
-			name: "朋友们",
-			url: "/friends/", // 内部链接不要带 base 前缀，主题会自动加上
+			name: "记录",
+			url: "/archive/",
+		},
+		{
+			name: "My Friends！",
+			url: "/friends/",
+		},
+		{
+			name: "关于我",
+			url: "/about/",
 		},
 		{
 			name: "GitHub",
-			url: "https://github.com/Map1e-Suk1", // Internal links should not include the base path, as it is automatically added
-			external: true, // Show an external link icon and will open in a new tab
-		},
+			url: "https://github.com/Map1e-Suk1",
+			external: true,
+		}
 	],
 };
 
@@ -80,45 +86,45 @@ export const profileConfig: ProfileConfig = {
 // 友链：朋友们页面（/friends/）的内容，加人就在 friends 数组里加一组
 export const friendsConfig: FriendsConfig = {
 	title: "My Friends",
-	intro: "这里是我的朋友们！欢迎你去他们的站点逛一逛~",
+	intro: "这里是我的朋友们！欢迎去他们的站点逛一逛~",
 	friends: [
-		{
-			name: "宛宛",
-			url: "https://blog.3w3.asia",
-			avatar: "/friends/wanwan.webp",
-			description: "",
-		},
-		{
-			name: "aClosure",
-			url: "https://aclosure.github.io/",
-			avatar: "/friends/aclosure.webp",
-			description: "",
-		},
-		{
-			name: "Kioroshi Aki",
-			url: "https://kioroshiaki.github.io/",
-			avatar: "/friends/kioroshiaki.webp",
-			description: "",
-		},
-		{
-			name: "Miso",
-			url: "https://miso2233.github.io/",
-			avatar: "/friends/miso.png",
-			description: "",
-		},
-		{
-			name: "yuanmuyan",
-			url: "https://yuanmuyan.github.io/",
-			avatar: "/friends/yuanmuyan.webp",
-			description: "",
-		},
-		{
-			name: "圆周率的废纸堆",
-			url: "https://piyuanzhoulv.github.io/",
-			avatar: "/friends/piyuanzhoulv.png",
-			description: "",
-		},
-	],
+			{
+				name: "宛宛",
+				url: "https://blog.3w3.asia",
+				avatar: "/friends/wanwan.webp",
+				description: "人生五十年，如梦亦如幻",
+			},
+			{
+				name: "aClosure",
+				url: "https://aclosure.github.io/",
+				avatar: "/friends/aclosure.webp",
+				description: "Ciallo～(∠・ω< )⌒★",
+			},
+			{
+				name: "Kioroshi Aki",
+				url: "https://kioroshiaki.github.io/",
+				avatar: "/friends/kioroshiaki.webp",
+				description: "KioroshiAki，简称KA。",
+			},
+			{
+				name: "Miso",
+				url: "https://miso2233.github.io/",
+				avatar: "/friends/miso.png",
+				description: "让梦想起飞的不是鸡翅，而是少年气",
+			},
+			{
+				name: "yuanmuyan",
+				url: "https://yuanmuyan.github.io/",
+				avatar: "/friends/yuanmuyan.webp",
+				description: "web手一枚~，欢迎各位师傅的参观~",
+			},
+			{
+				name: "圆周率的废纸堆",
+				url: "https://piyuanzhoulv.github.io/",
+				avatar: "/friends/piyuanzhoulv.png",
+				description: "圆周率的废纸堆，里面或许有你需要的？",
+			},
+		],
 };
 
 // 外观设置：全站背景图 + 正文字体（供 Fuwari 管家读写）
@@ -133,7 +139,7 @@ export const appearanceConfig = {
 // 樱花飘落动效：不想要就把 enable 改成 false
 export const sakuraConfig = {
 	enable: true,
-	count: 50, // 花瓣数量上限（窄屏会自动按比例减少）
+	count: 66, // 花瓣数量上限（窄屏会自动按比例减少）
 	opacity: 0.75, // 花瓣最大不透明度
 };
 
