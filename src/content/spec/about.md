@@ -12,7 +12,7 @@
 ## 联系方式
 
 - GitHub：<https://github.com/Map1e-Suk1>
-- 邮箱：<you@example.com>
+- 邮箱：<Map1e-Suk1@qq.com>
 
 ## 版权
 

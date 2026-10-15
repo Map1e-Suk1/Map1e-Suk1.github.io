@@ -8,7 +8,7 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "我的博客",
+	title: "Map1e-Suk1的个人空间",
 	subtitle: "记录学习心得 · 分享所见所得",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
@@ -53,14 +53,19 @@ export const navBarConfig: NavBarConfig = {
 };
 
 export const profileConfig: ProfileConfig = {
-	avatar: "assets/images/demo-avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
+	avatar: "assets/images/avatar.png", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 	name: "Map1e-Suk1",
-	bio: "记录学习心得，分享技术笔记与生活随想。",
+	bio: "Roam free, for life is wide.",
 	links: [
 		{
 			name: "GitHub",
 			icon: "fa6-brands:github", // Visit https://icones.js.org/ for icon codes
 			url: "https://github.com/Map1e-Suk1",
+		},
+		{
+			name: "Email",
+			icon: "fa6-solid:envelope",
+			url: "mailto:Map1e-Suk1@qq.com",
 		},
 	],
 };
