@@ -186,8 +186,6 @@ const bannerOffset =
 				document.documentElement.classList.add('is-intro');
 				window.setTimeout(() => {
 					document.documentElement.classList.remove('is-intro');
-					// 首屏动画放完后再挂这个标记：站内翻页时，容器外的元素（侧栏）不要重播进场动画
-					document.documentElement.classList.add('intro-done');
 				}, 1750);
 			}
 
@@ -648,6 +646,19 @@ const setup = () => {
 		}
 	})
 	window.swup.hooks.on('content:replace', initCustomScrollbar)
+	// 友链页底部的「复制这四项信息」按钮。
+	// 用 document 级委托，站内翻页（Swup 替换内容）之后按钮依然可用。
+	document.addEventListener('click', (e: MouseEvent) => {
+		const btn = (e.target as Element | null)?.closest('.copy-friend-info') as HTMLElement | null
+		if (!btn) return
+		const box = document.getElementById('friend-info-template')
+		if (!box) return
+		// 优先复制 data-copy 里拼好的等宽对齐文本（innerText 会把列对齐全丢掉）
+		navigator.clipboard.writeText(box.getAttribute('data-copy')?.trim() || (box as HTMLElement).innerText.trim())
+		const original = btn.textContent ?? ''
+		btn.textContent = '已复制！'
+		window.setTimeout(() => { btn.textContent = original }, 1200)
+	})
 	window.swup.hooks.on('visit:start', (visit: {to: {url: string}}) => {
 		// change banner height immediately when a link is clicked
 		const bodyElement = document.querySelector('body')

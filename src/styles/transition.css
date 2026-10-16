@@ -3,10 +3,12 @@ html.is-changing .transition-swup-fade {
     @apply transition-all duration-200
 }
 /* 站内翻页同理：只做位移，不要 opacity。
-   opacity < 1 会让毛玻璃失效，动画结束时模糊才出现，看起来就是「突然变模糊」。 */
-html.is-animating .transition-swup-fade {
-    @apply translate-y-4
-}
+   opacity < 1 会让毛玻璃失效，动画结束时模糊才出现，看起来就是「突然变模糊」。
+   但这里连位移也不能加。上面那条规则给容器声明了 200ms 过渡，
+   Swup 会用这段时间等「离开」阶段；如果这段时间里给容器加位移（不管方向），
+   换内容时容器的回位和页面内部 .onload-animation 的上浮会叠在一起，
+   看起来就是内容先动一次、再跳一次，进场动画像播了两遍。
+   所以离开阶段容器保持不动，进场完全交给新页面自己的 .onload-animation。 */
 
 /* Fade-in animations for components */
 @keyframes fade-in-up {
@@ -47,7 +49,11 @@ html.is-intro::before {
 .onload-animation {
     opacity: 0;
     animation: 300ms fade-in-up;
-    animation-fill-mode: forwards;
+    /* 必须用 both（= backwards + forwards）。只用 forwards 时，
+       带 animation-delay 的元素（#sidebar 有 100ms、页脚有 250ms）
+       在延迟这段时间里会先停在动画结束的位置，延迟一过才跳回起点重新上浮——
+       看起来就是「先露一下、再往下跳一次」。backwards 让元素从第一帧就在起点等着。 */
+    animation-fill-mode: both;
 }
 
 /* 毛玻璃元素（以及包着毛玻璃的容器）不能淡入：
@@ -96,15 +102,4 @@ html.is-intro::before {
 #post-container :nth-child(4) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 175ms) }
 #post-container :nth-child(5) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 250ms) }
 #post-container :nth-child(6) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 325ms) }
-
-/* 侧栏在 Swup 的替换范围之外、并且会被 body.no-sidebar 用 display 切换。
-   元素从 display:none 变回可见时，CSS 动画会从头再播一次，
-   于是「内容先跳一次、右侧栏再跳一次」——看起来就是进场动画写了两遍。
-   html.intro-done 在首屏进场结束后挂上，站内翻页时它一直都在，
-   所以侧栏只在自己真正第一次出现时播放动画。 */
-html.intro-done #sidebar.onload-animation,
-html.intro-done #sidebar .onload-animation {
-    opacity: 1;
-    animation: none;
-}
 
