@@ -143,6 +143,12 @@ export const friendsConfig: FriendsConfig = {
 				avatar: "https://ch0kk4ku.github.io/assets/images/avatar.avif",
 				description: "有趣有盼，无灾无难。",
 			},
+			{
+				name: "Mortal",
+				url: "https://aaaa521.github.io/mortal-blog/",
+				avatar: "https://aaaa521.github.io/mortal-blog/avatar.png",
+				description: "web 安全学习中~，偶尔打打 CTF，欢迎各位师傅参观~",
+			},
 		],
 };
 
