@@ -60,8 +60,10 @@
         backdrop-filter: blur(calc(var(--glass-blur, 16px) + 4px)) saturate(1.8);
         -webkit-backdrop-filter: blur(calc(var(--glass-blur, 16px) + 4px)) saturate(1.8);
     }
+    /* 收起的面板用 visibility 隐藏，而不是 opacity：
+       opacity 会让面板展开的过程中毛玻璃失效，最后一帧才「啪」地变模糊 */
     .float-panel-closed {
-        @apply -translate-y-1 opacity-0 pointer-events-none
+        @apply -translate-y-1 invisible pointer-events-none
     }
     .search-panel mark {
         @apply bg-transparent text-[var(--primary)]

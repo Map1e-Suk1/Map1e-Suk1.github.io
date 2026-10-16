@@ -2,8 +2,10 @@
 html.is-changing .transition-swup-fade {
     @apply transition-all duration-200
 }
+/* 站内翻页同理：只做位移，不要 opacity。
+   opacity < 1 会让毛玻璃失效，动画结束时模糊才出现，看起来就是「突然变模糊」。 */
 html.is-animating .transition-swup-fade {
-    @apply opacity-0 translate-y-4
+    @apply translate-y-4
 }
 
 /* Fade-in animations for components */
@@ -46,6 +48,27 @@ html.is-intro::before {
     opacity: 0;
     animation: 300ms fade-in-up;
     animation-fill-mode: forwards;
+}
+
+/* 毛玻璃元素（以及包着毛玻璃的容器）不能淡入：
+   只要自身或任意祖先的 opacity < 1，backdrop-filter 就会被忽略，
+   等动画结束 opacity 回到 1，模糊才「啪」地一下出现——这就是毛玻璃突然出现的原因。
+   所以下面这些元素改成只做位移，透明度始终为 1。 */
+@keyframes rise-in {
+    0% {
+        transform: translateY(2rem);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+#navbar.onload-animation,
+#sidebar.onload-animation,
+#content-wrapper.onload-animation,
+.footer.onload-animation,
+.card-base.onload-animation {
+    opacity: 1;
+    animation-name: rise-in;
 }
 #navbar {
     animation-delay: calc(var(--intro-offset) + 0ms)

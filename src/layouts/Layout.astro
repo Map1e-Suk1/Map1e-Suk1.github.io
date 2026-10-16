@@ -49,30 +49,41 @@ const hideSidebar = isFriendsPage || isHomePage || isAboutPage;
 const configHue = siteConfig.themeColor.hue;
 const themeColorFixed = siteConfig.themeColor.fixed;
 
-// 英文花体字体：扫描 public/fonts/script/*.woff2，文件名（如 great-vibes）就是配置里的字体 key。
+// 自定义字体：扫描 public/fonts/script/ 下的字体文件，文件名（如 great-vibes）就是配置里的字体 key。
 // family 名由文件名推导（great-vibes -> "Great Vibes"），所以往那个目录丢新字体就能直接用。
+// 支持 woff2 / woff / ttf / otf；同名文件只注册一个，优先 woff2（体积最小）。
 const scriptFontDir = path.join(process.cwd(), "public", "fonts", "script");
-let scriptFonts: string[] = [];
+const FONT_FORMATS: Record<string, string> = { woff2: "woff2", woff: "woff", ttf: "truetype", otf: "opentype" };
+const scriptFontMap = new Map<string, { file: string; format: string }>();
 try {
-	scriptFonts = fs.readdirSync(scriptFontDir)
-		.filter((f) => f.endsWith(".woff2"))
-		.map((f) => f.slice(0, -".woff2".length))
-		.sort();
+	fs.readdirSync(scriptFontDir)
+		.map((f) => ({ file: f, ext: (f.split(".").pop() || "").toLowerCase() }))
+		.filter((f) => !!FONT_FORMATS[f.ext])
+		.sort((a, b) => a.file.localeCompare(b.file))
+		.forEach((f) => {
+			const key = f.file.slice(0, -(f.ext.length + 1));
+			const prev = scriptFontMap.get(key);
+			if (!prev || (prev.format !== "woff2" && f.ext === "woff2")) scriptFontMap.set(key, { file: f.file, format: FONT_FORMATS[f.ext] });
+		});
 } catch {
-	scriptFonts = [];
+	/* 目录不存在就当没有自定义字体 */
 }
+const scriptFonts = Array.from(scriptFontMap.keys()).sort();
 const scriptFamily = (key: string) =>
 	key.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 const scriptStack = (key?: string) => {
 	const k = String(key || "").trim();
-	return k && scriptFonts.includes(k) ? `"${scriptFamily(k)}", ${appearanceConfig.fontFamily}` : "";
+	return k && scriptFontMap.has(k) ? `"${scriptFamily(k)}", ${appearanceConfig.fontFamily}` : "";
 };
 const bioFontStack = scriptStack(appearanceConfig.bioFont);
 const titleFontStack = scriptStack(appearanceConfig.titleFont);
 const titleSizePx = Math.min(160, Math.max(24, Number(appearanceConfig.titleSize) || 64));
 const fontBase = import.meta.env.BASE_URL.replace(/\/+$/, "");
 const scriptFontCss = scriptFonts
-	.map((k) => `@font-face{font-family:"${scriptFamily(k)}";src:url("${fontBase}/fonts/script/${k}.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap;}`)
+	.map((k) => {
+		const info = scriptFontMap.get(k)!;
+		return `@font-face{font-family:"${scriptFamily(k)}";src:url("${fontBase}/fonts/script/${encodeURIComponent(info.file)}") format("${info.format}");font-style:normal;font-weight:400;font-display:swap;}`;
+	})
 	.join("");
 if (!banner || typeof banner !== "string" || banner.trim() === "") {
 	banner = siteConfig.banner.src;
@@ -400,8 +411,9 @@ const bannerOffset =
 	.enable-banner.is-home #sidebar-sticky {
 		@apply top-[calc(1rem_-_var(--banner-height-extend))]
 	}
+	/* 滚动收起导航栏：同样不能用 opacity，否则导航栏的毛玻璃会先消失、回滚时再「啪」地出现 */
 	.navbar-hidden {
-		@apply opacity-0 -translate-y-16
+		@apply -translate-y-24 invisible
 	}
 }
 </style>
