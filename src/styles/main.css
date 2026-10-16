@@ -9,6 +9,26 @@
         -webkit-backdrop-filter: blur(16px) saturate(1.7);
         box-shadow: 0 0 0 1px var(--glass-border);
     }
+    /* 分类 / 标签上的数字徽章：直接取主题色，不要用偏灰的默认按钮底色 */
+    .count-badge {
+        background-color: color-mix(in srgb, var(--primary) 16%, transparent);
+        color: var(--primary);
+    }
+    .dark .count-badge {
+        background-color: color-mix(in srgb, var(--primary) 26%, transparent);
+        color: var(--primary);
+    }
+
+    /* 朋友们这类不需要右侧栏的页面：内容占满整行 */
+    body.no-sidebar #sidebar {
+        display: none;
+    }
+    @media (min-width: 1024px) {
+        body.no-sidebar #main-grid {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
     h1, h2, h3, h4, h5, h6, p, a, span, li, ul, ol, blockquote, code, pre, table, th, td, strong {
         @apply transition;
     }

@@ -10,7 +10,7 @@ import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
 	title: "Map1e-Suk1的秘密基地",
-	subtitle: "大佬大佬快来带带我",
+	subtitle: "",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
 		hue: 188, // 主题色 #39c5bb 对应的 oklch 色相（精确颜色写在 src/styles/variables.styl 的 --primary）
