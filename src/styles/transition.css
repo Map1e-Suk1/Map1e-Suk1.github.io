@@ -97,3 +97,14 @@ html.is-intro::before {
 #post-container :nth-child(5) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 250ms) }
 #post-container :nth-child(6) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 325ms) }
 
+/* 侧栏在 Swup 的替换范围之外、并且会被 body.no-sidebar 用 display 切换。
+   元素从 display:none 变回可见时，CSS 动画会从头再播一次，
+   于是「内容先跳一次、右侧栏再跳一次」——看起来就是进场动画写了两遍。
+   html.intro-done 在首屏进场结束后挂上，站内翻页时它一直都在，
+   所以侧栏只在自己真正第一次出现时播放动画。 */
+html.intro-done #sidebar.onload-animation,
+html.intro-done #sidebar .onload-animation {
+    opacity: 1;
+    animation: none;
+}
+

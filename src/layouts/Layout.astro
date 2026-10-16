@@ -184,7 +184,11 @@ const bannerOffset =
 			if (!window.__introPlayed) {
 				window.__introPlayed = true;
 				document.documentElement.classList.add('is-intro');
-				window.setTimeout(() => document.documentElement.classList.remove('is-intro'), 1750);
+				window.setTimeout(() => {
+					document.documentElement.classList.remove('is-intro');
+					// 首屏动画放完后再挂这个标记：站内翻页时，容器外的元素（侧栏）不要重播进场动画
+					document.documentElement.classList.add('intro-done');
+				}, 1750);
 			}
 
 			// calculate the --banner-height-extend, which needs to be a multiple of 4 to avoid blurry text

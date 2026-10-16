@@ -26,7 +26,7 @@ const quickLinks = [
         </h1>
     )}
 
-    <!-- 头像：外发光 + 主题色渐变圆环 + 右下角“在线”小绿点 -->
+    <!-- 头像：外发光 + 主题色渐变圆环 -->
     <a href={url("/about/")} aria-label="关于我"
        class="relative group mb-5 active:scale-95 transition">
         <div class="absolute -inset-3 rounded-full bg-[var(--primary)] opacity-20 blur-xl transition group-hover:opacity-40"></div>
@@ -38,16 +38,7 @@ const quickLinks = [
                 </div>
             </div>
         </div>
-        <span class="absolute right-1 bottom-1 flex h-5 w-5 items-center justify-center">
-            <span class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60 animate-ping"></span>
-            <span class="relative inline-flex h-3 w-3 rounded-full bg-green-400 ring-2 ring-[var(--card-bg)]"></span>
-        </span>
     </a>
-
-    <!-- 名字（站点大标题在上面，这里用实色，避免两块渐变大字互相抢戏） -->
-    <div class="text-2xl lg:text-3xl font-bold mb-3 text-neutral-800 dark:text-neutral-50 transition">
-        {profileConfig.name}
-    </div>
 
     <!-- 签名 -->
     <div class="flex items-center gap-3 mb-2.5">

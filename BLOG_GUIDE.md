@@ -209,6 +209,9 @@ git push          # 约 1 分钟后自动部署
 | 亚克力毛玻璃（卡片/导航/浮层） | `src/styles/main.css` 的 `.card-base`、`.float-panel`：改 `blur()` 半径与 `color-mix` 里的透明度百分比；描边色是 `src/styles/variables.styl` 的 `--glass-border` |
 | 鼠标框选渐变大标题时字会「隐身」 | `src/layouts/Layout.astro` 的 `.bg-clip-text::selection`：渐变裁剪的文字被选中时只剩一块底色，这条让选中的字用主题色画出来 |
 | 进入首页的进场动画 | `src/styles/transition.css`：`--intro-offset`（UI 延迟出现的时长，默认 700ms）、`site-bg-in`（背景图淡入时长） |
+| 主页头像（现在不显示名字、右下角也没有闪动的绿点） | `src/components/misc/HomeHero.astro`：头像下面是签名与大标题；名字和绿点已删掉，想加回来照 `Profile` 组件的写法补一个 `<div>{profileConfig.name}</div>` 即可 |
+| 顶部导航栏「当前在哪一页」的高亮 | `src/components/Navbar.astro`：`data-nav-path` + `nav-current` 类，样式在 `src/styles/main.css` 的 `#navbar a.nav-current`；站内翻页由脚本的 `syncCurrentNav()`（挂在 swup 的 `page:view`）重算 |
+| 侧栏进场动画（翻页时右侧栏不要跟着再跳一次） | `src/styles/transition.css` 的 `html.intro-done #sidebar.onload-animation { animation: none }`；`intro-done` 由 `src/layouts/Layout.astro` 在首屏动画结束后挂上 |
 | 页面结构 / 新页面 | `src/pages/`（复制 `friends.astro` 改最省事） |
 
 几条经验：
@@ -218,5 +221,6 @@ git push          # 约 1 分钟后自动部署
 - 推之前 `git status` 看一眼改了哪些文件；`git checkout <文件>` 可以撤销还没提交的改动
 - 改坏了别慌：`git log --oneline` 找到上一个提交，把文件改回去再推一次即可
 - 部署结果在仓库的 **Actions** 页面看，绿勾＝已上线
+- 元素从 `display: none` 切回可见时，浏览器会把它的 CSS 进场动画**从头再播一遍**（本站右侧栏就是这样被左右 `body.no-sidebar` 切换触发的，所以给首屏之后加了 `html.intro-done` 来关掉重播）；判断「动画写了两遍」时先看元素是不是被隐藏过
 - `src/styles/*.css` 之间**不要**用 `@apply` 引用别的文件里的自定义类（比如 `@apply link`、`@apply btn-regular-dark`）：Tailwind 处理多个 CSS 文件的顺序不固定，会随机报 The `link` class does not exist，构建时好时坏。要用就把那边的属性展开成工具类照抄过来（`src/styles/markdown.css` 里已经这么改了）
 

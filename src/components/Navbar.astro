@@ -19,6 +19,16 @@ let links: NavBarLink[] = navBarConfig.links.map(
 		return item;
 	},
 );
+
+// 当前页高亮：路径统一成「带尾斜杠」再比较，/archive/2/ 这类分页也会命中 /archive/
+const withTrailingSlash = (p: string) => (p.endsWith("/") ? p : p + "/");
+const currentPath = withTrailingSlash(Astro.url.pathname);
+const isCurrentLink = (l: NavBarLink) => {
+	if (l.external) return false;
+	const target = withTrailingSlash(new URL(url(l.url), Astro.url).pathname);
+	return target === "/" ? currentPath === "/" : currentPath.startsWith(target);
+};
+
 ---
 <div id="navbar" class="z-50 onload-animation">
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
@@ -33,8 +43,11 @@ let links: NavBarLink[] = navBarConfig.links.map(
         </a>
         <div class="hidden md:flex">
             {links.map((l) => {
+                const active = isCurrentLink(l);
                 return <a aria-label={l.name} href={l.external ? l.url : url(l.url)} target={l.external ? "_blank" : null}
-                          class="btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95"
+                          data-nav-link data-nav-path={l.external ? "" : url(l.url)}
+                          aria-current={active ? "page" : undefined}
+                          class:list={["btn-plain scale-animation rounded-lg h-11 font-bold px-5 active:scale-95", active && "nav-current"]}
                 >
                     <div class="flex items-center">
                         {l.name}
@@ -100,6 +113,29 @@ function loadButtonScript() {
         };
     }
 }
+
+// 导航栏在 Swup 的替换范围之外，站内翻页后要自己重新算一次当前页
+function syncCurrentNav() {
+    const here = window.location.pathname.endsWith('/') ? window.location.pathname : window.location.pathname + '/';
+    document.querySelectorAll('[data-nav-link]').forEach((el) => {
+        const raw = el.getAttribute('data-nav-path') || '';
+        let current = false;
+        if (raw) {
+            const target = new URL(raw, window.location.origin).pathname;
+            const targetSlash = target.endsWith('/') ? target : target + '/';
+            current = targetSlash === '/' ? here === '/' : here.startsWith(targetSlash);
+        }
+        el.classList.toggle('nav-current', current);
+        if (current) el.setAttribute('aria-current', 'page');
+        else el.removeAttribute('aria-current');
+    });
+}
+
+syncCurrentNav();
+
+const setupCurrentNav = () => window.swup.hooks.on('page:view', syncCurrentNav);
+if (window.swup && window.swup.hooks) setupCurrentNav();
+else document.addEventListener('swup:enable', setupCurrentNav);
 
 loadButtonScript();
 </script>
