@@ -20,6 +20,8 @@ import { defaultFavicons } from "../constants/icon";
 import type { Favicon } from "../types/config";
 import { pathsEqual, url } from "../utils/url-utils";
 import "katex/dist/katex.css";
+import fs from "node:fs";
+import path from "node:path";
 import siteBackground from "../assets/images/site-background.webp";
 
 interface Props {
@@ -46,6 +48,32 @@ const hideSidebar = isFriendsPage || isHomePage || isAboutPage;
 // why doing this in Layout instead of GlobalStyles: https://github.com/withastro/astro/issues/6728#issuecomment-1502203757
 const configHue = siteConfig.themeColor.hue;
 const themeColorFixed = siteConfig.themeColor.fixed;
+
+// 英文花体字体：扫描 public/fonts/script/*.woff2，文件名（如 great-vibes）就是配置里的字体 key。
+// family 名由文件名推导（great-vibes -> "Great Vibes"），所以往那个目录丢新字体就能直接用。
+const scriptFontDir = path.join(process.cwd(), "public", "fonts", "script");
+let scriptFonts: string[] = [];
+try {
+	scriptFonts = fs.readdirSync(scriptFontDir)
+		.filter((f) => f.endsWith(".woff2"))
+		.map((f) => f.slice(0, -".woff2".length))
+		.sort();
+} catch {
+	scriptFonts = [];
+}
+const scriptFamily = (key: string) =>
+	key.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+const scriptStack = (key?: string) => {
+	const k = String(key || "").trim();
+	return k && scriptFonts.includes(k) ? `"${scriptFamily(k)}", ${appearanceConfig.fontFamily}` : "";
+};
+const bioFontStack = scriptStack(appearanceConfig.bioFont);
+const titleFontStack = scriptStack(appearanceConfig.titleFont);
+const titleSizePx = Math.min(160, Math.max(24, Number(appearanceConfig.titleSize) || 64));
+const fontBase = import.meta.env.BASE_URL.replace(/\/+$/, "");
+const scriptFontCss = scriptFonts
+	.map((k) => `@font-face{font-family:"${scriptFamily(k)}";src:url("${fontBase}/fonts/script/${k}.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap;}`)
+	.join("");
 if (!banner || typeof banner !== "string" || banner.trim() === "") {
 	banner = siteConfig.banner.src;
 }
@@ -161,6 +189,10 @@ const bannerOffset =
 			'glass-blur': ((appearanceConfig.glass && appearanceConfig.glass.enable !== false) ? appearanceConfig.glass.blur : 0) + "px",
 			'site-bg': `url("${siteBackground.src}")`,
 			'site-bg-opacity': String(appearanceConfig.background.enable ? appearanceConfig.background.opacity : 0),
+			'font-bio': bioFontStack || "inherit",
+			'font-title': titleFontStack || "inherit",
+			'title-size': `${titleSizePx}px`,
+			'bio-scale': bioFontStack ? "1.6" : "1",
 		}}>
 						/* 首屏进场遮罩：和 html::before 一样的背景合成，完全不透明地盖住 UI，
 			   等 UI 的进场动画全部结束（这时毛玻璃才真正生效）再淡出，
@@ -209,6 +241,29 @@ const bannerOffset =
 		{appearanceConfig.fontFamily && (
 			<style is:global set:html={`html, body { font-family: ${appearanceConfig.fontFamily} !important; }`}></style>
 		)}
+
+		<!-- 花体字体：public/fonts/script/ 下的每个 woff2 自动注册一个 @font-face -->
+		<style is:global set:html={scriptFontCss}></style>
+		<!-- 花体排版：.script-bio（一句话简介）/ .script-title（主页大标题） -->
+		<style is:global set:html={`
+			.script-bio {
+				font-family: var(--font-bio, inherit);
+				font-size: calc(1rem * var(--bio-scale, 1));
+				font-weight: 400;
+				line-height: 1.6;
+				letter-spacing: 0.01em;
+			}
+			@media (min-width: 1024px) {
+				.script-bio { font-size: calc(1.125rem * var(--bio-scale, 1)); }
+			}
+			.script-title {
+				font-family: var(--font-title, inherit);
+				font-size: clamp(2rem, 7vw, var(--title-size, 64px));
+				font-weight: 400;
+				line-height: 1.15;
+				letter-spacing: 0.01em;
+			}
+		`}></style>
 
 
 		<slot name="head"></slot>

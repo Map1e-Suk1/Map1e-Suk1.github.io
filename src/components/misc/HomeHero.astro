@@ -1,6 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
-import { heroConfig, profileConfig } from "../../config";
+import { heroConfig, profileConfig, siteConfig } from "../../config";
 import { url } from "../../utils/url-utils";
 import ImageWrapper from "./ImageWrapper.astro";
 
@@ -17,6 +17,14 @@ const quickLinks = [
     <!-- 两团主题色光晕，让大卡片不那么平 -->
     <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-[var(--primary)] opacity-[0.14] blur-3xl pointer-events-none transition"></div>
     <div class="absolute -bottom-28 -right-20 w-72 h-72 rounded-full bg-[var(--primary)] opacity-[0.14] blur-3xl pointer-events-none transition"></div>
+
+    <!-- 站点大标题：字号用法 appearanceConfig.titleSize，字体用 appearanceConfig.titleFont 的花体 -->
+    {heroConfig.enable !== false && heroConfig.showTitle !== false && (
+        <h1 class="script-title mb-6 lg:mb-8 max-w-full break-words">
+            <span class="bg-gradient-to-r from-[var(--primary)] via-[oklch(0.72_0.16_var(--hue))] to-[oklch(0.62_0.18_var(--hue))]
+                bg-clip-text text-transparent">{siteConfig.title}</span>
+        </h1>
+    )}
 
     <!-- 头像：外发光 + 主题色渐变圆环 + 右下角“在线”小绿点 -->
     <a href={url("/about/")} aria-label="关于我"
@@ -36,16 +44,15 @@ const quickLinks = [
         </span>
     </a>
 
-    <!-- 名字 -->
-    <h1 class="text-3xl lg:text-4xl font-bold mb-3 dark:text-neutral-50 transition">
-        <span class="bg-gradient-to-r from-[var(--primary)] via-[oklch(0.72_0.16_var(--hue))] to-[oklch(0.62_0.18_var(--hue))]
-            bg-clip-text text-transparent">{profileConfig.name}</span>
-    </h1>
+    <!-- 名字（站点大标题在上面，这里用实色，避免两块渐变大字互相抢戏） -->
+    <div class="text-2xl lg:text-3xl font-bold mb-3 text-neutral-800 dark:text-neutral-50 transition">
+        {profileConfig.name}
+    </div>
 
     <!-- 签名 -->
     <div class="flex items-center gap-3 mb-2.5">
         <div class="h-px w-8 bg-[var(--primary)] opacity-40"></div>
-        <p class="text-base lg:text-lg text-neutral-600 dark:text-neutral-300 transition">{profileConfig.bio}</p>
+        <p class="script-bio text-neutral-600 dark:text-neutral-300 transition">{profileConfig.bio}</p>
         <div class="h-px w-8 bg-[var(--primary)] opacity-40"></div>
     </div>
 

@@ -90,19 +90,31 @@ git push
 - `siteConfig.title` / `subtitle`：站点标题和副标题
 - `siteConfig.lang`：界面语言，中文用 `"zh_CN"`
 - `siteConfig.themeColor.hue`：主题色相（0～360）
+- `siteConfig.themeColor.fixed`：`true` = 固定主题色，对访客隐藏主题色选择器（全站只用 `hue` 这一个色相）
 - `navBarConfig.links`：顶部导航
 - `profileConfig`：头像、昵称、签名（`bio`）、社交链接
+- `heroConfig.enable` / `heroConfig.showTitle`：主页大卡片的开关、以及大卡片顶部要不要显示大号的站点标题（`siteConfig.title`）
 - `heroConfig.slogans`：主页大卡片里那行轮播的「打字机」句子，写几句换着显示
+- `appearanceConfig.bioFont` / `titleFont` / `titleSize`：**花体字体**。`bioFont` = 「一句话简介」用哪款花体，`titleFont` = 主页中央大号站点标题用哪款花体，`titleSize` = 大标题字号（px，24～160，默认 64）。取值就是 `public/fonts/script/` 里的文件名（不带扩展名），留空 = 不用花体。内置 5 款：`great-vibes` / `dancing-script` / `pacifico` / `satisfy` / `allura`
+
+> 上面这些都**不用手改**——打开「Blog Manager」软件 →「站点设置」，滑杆和下拉框点一点、点右上角「保存所有设置」就写回去了。
 
 ## 页面结构（现在长什么样）
 
-- **主页 `/`**（`src/pages/index.astro`）：顶上一张个人介绍大卡片（头像 + 名字 + 签名 + 打字机句子 + 联系方式 + 快捷入口），下面接「文章时间线」（按年份分组的紧凑列表，右上角有去文章列表的入口）；主页不显示右侧的分类/标签栏，为的是让人第一眼看到的是人而不是文章。
+- **主页 `/`**（`src/pages/index.astro`，大卡片本体是 `src/components/misc/HomeHero.astro`）：顶上一张个人介绍大卡片（**大号花体站点标题** + 头像 + 名字 + **花体签名** + 打字机句子 + 联系方式 + 快捷入口），下面接「文章时间线」（按年份分组的紧凑列表，右上角有去文章列表的入口）；主页不显示右侧的分类/标签栏，为的是让人第一眼看到的是人而不是文章。
 - **归档 `/archive/`**（`src/pages/archive/[...page].astro`）：完整的文章卡片列表（标题 / 摘要 / 字数 / 分页），也就是原来主页下面那部分；右侧是「分类 / 标签」。
 - **关于我 `/about/`**：一张整页大卡片 —— 大头像、名字、签名，分隔线下面就是 `src/content/spec/about.md` 里的自我介绍（正文限制在 760px 宽，手机上更好读）；这一页也不显示右侧栏。
 - **不要右侧栏的页面**：主页、朋友们、关于我（`src/layouts/Layout.astro` 里的 `hideSidebar`，客户端在 Swup 翻页时同步）。
 - 时间线的过滤参数还在：主页或归档页加 `?tag=...`、`?category=...` 也能筛（沿用上游主题的行为）。
 - 分页组件 `src/components/control/Pagination.astro` 会自动按当前目录算页码链接，放到 `/archive/` 下也指得对。
 - 想恢复「侧栏里的小头像卡片」：那个组件还在 `src/components/widget/Profile.astro`，在 `src/components/widget/SideBar.astro` 里 import 并放回 `<div id="sidebar-sticky">` 上面即可。
+
+## 花体字体（主页大标题 / 一句话简介）
+
+- 字体文件放在 `public/fonts/script/`，**一个字体一个 `.woff2`**（文件名就是配置里写的 key，比如 `great-vibes.woff2` → `bioFont: "great-vibes"`），许可证（OFL 的 `.LICENSE.txt`）建议一起放进来。
+- 想加新花体：从 [Google Fonts](https://fonts.google.com/) 下 `.woff2` 丢进这个目录，重新打开软件（或重新 `pnpm dev`）就会出现在下拉里；也可以直接在 `src/config.ts` 里写文件名。
+- 样式在 `src/layouts/Layout.astro`：启动时扫描 `public/fonts/script/*.woff2` 自动生成 `@font-face` 和 `--font-bio` / `--font-title` / `--title-size` 变量；`.script-bio` 用在主页、关于我、侧栏的签名上，`.script-title` 用在主页中央的大标题上。
+- **花体只对英文和数字生效**：中文没有花体字形，会回退到正文字体，所以是「花体英文 + 常规中文」的混排（CJK 书法字体动辄几 MB，没放）。如果哪天想连中文一起花，得再找体积可接受的中文手写字体。
 
 ## 备注
 
