@@ -133,6 +133,12 @@ export const friendsConfig: FriendsConfig = {
 				avatar: "https://xiaolang0817.github.io/personal_blog/touxiang.jpg",
 				description: "里面可能会有我半夜发疯想的东西和一些记录",
 			},
+			{
+				name: "Ch0kk4ku's Blog",
+				url: "https://ch0kk4ku.github.io/",
+				avatar: "https://ch0kk4ku.github.io/assets/images/avatar.avif",
+				description: "有趣有盼，无灾无难。",
+			},
 		],
 };
 
