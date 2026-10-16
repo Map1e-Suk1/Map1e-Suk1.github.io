@@ -176,7 +176,7 @@ export const friendsConfig: FriendsConfig = {
 - `avatar` 留空或加载失败时，会自动显示名字的第一个字，不会出现破图
 - 名字里含英文单引号时，写成 \' 或用双引号把整个名字包起来
 - 导航栏上「朋友们」这个入口在同一个文件的 `navBarConfig.links` 里
-- 页面底部还有一张「想交换友链？」的卡片，列出别人加你时要填的四项（name / url / avatar / description）。这四项自动从 `profileConfig`（名字、头像、一句话简介）和 `astro.config.mjs` 的站点地址生成，旁边「复制这四项信息」按钮复制的就是排版好的这四行；想改说明文案改 `src/pages/friends.astro` 里那张卡片
+- 页面底部还有一张「想交换友链？」的卡片，列出别人加你时要填的四项（name / url / avatar / description）。这四项自动从 `profileConfig`（名字、头像、一句话简介）和 `astro.config.mjs` 的站点地址生成，旁边「复制这四项信息」按钮复制的就是排版好的这四行；想改中文名、图标或说明文案改 `src/pages/friends.astro` 里那张卡片
 
 ## 想自己改网页内容，怎么改
 
@@ -213,7 +213,7 @@ git push          # 约 1 分钟后自动部署
 | 主页头像（现在不显示名字、右下角也没有闪动的绿点） | `src/components/misc/HomeHero.astro`：头像下面是签名与大标题；名字和绿点已删掉，想加回来照 `Profile` 组件的写法补一个 `<div>{profileConfig.name}</div>` 即可 |
 | 顶部导航栏「当前在哪一页」的高亮 | `src/components/Navbar.astro`：`data-nav-path` + `nav-current` 类，样式在 `src/styles/main.css` 的 `#navbar a.nav-current`；站内翻页由脚本的 `syncCurrentNav()`（挂在 swup 的 `page:view`）重算 |
 | 站内翻页的进场动画（左右各只跳一次） | `src/styles/transition.css`：离开阶段容器**不能**加位移（`html.is-animating .transition-swup-fade` 那条已删掉），进场只交给页面自己的 `.onload-animation`；带 `animation-delay` 的元素必须是 `animation-fill-mode: both` |
-| 友链页底部「换友链要填哪四项」的模板 | `src/pages/friends.astro`：四项内容自动取 `profileConfig` 的 `name` / 头像 / `bio` 和站点地址；显示用 flex 两列（`w-24` 键列），复制按钮读的是 `data-copy` 属性里拼好的等宽对齐文本，点击处理在 `src/layouts/Layout.astro` 的 document 级委托里 |
+| 友链页底部「想交换友链？」卡片 | `src/pages/friends.astro`：四项内容自动取 `profileConfig` 的 `name` / 头像 / `bio` 和站点地址；显示是 2×2 小卡片（中文名 + 字段名 + 值），复制按钮读的是 `data-copy` 属性里拼好的等宽对齐文本，点击处理在 `src/layouts/Layout.astro` 的 document 级委托里（按钮里有图标，只替换里面的 `<span>`） |
 | 页面结构 / 新页面 | `src/pages/`（复制 `friends.astro` 改最省事） |
 
 几条经验：

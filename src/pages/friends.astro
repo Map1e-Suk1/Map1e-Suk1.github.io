@@ -9,15 +9,16 @@ const { title, intro, friends } = friendsConfig;
 // 以 / 开头的本地图片加上 base 前缀，外链保持原样
 const avatarUrl = (src: string) => (src.startsWith("/") ? url(src) : src);
 
-// 交换友链时对方需要填的四项信息，直接取自站点配置，改配置这里会跟着变。
-// 注意：模板里不能用连续空格对齐（Astro 会把连续空格压成一个），所以显示用 flex 两列，
-// 复制出去的文字用这里拼好的等宽对齐文本（存在 data-copy 里）。
+// 交换友链时对方需要填的四项信息，值直接取自站点配置，改配置这里会跟着变。
+// key 必须和 friendsConfig.friends[] 里的字段名一致（对方就是照着这个填的）；
+// label/icon 只是给本站访客看的。注意连续空格在 HTML 里会被 Astro 压成一个，
+// 所以显示用卡片式排版，复制出去的文字用下面拼好的等宽对齐文本（存在 data-copy 里）。
 const siteOrigin = import.meta.env.SITE;
 const infoRows = [
-	{ key: "name", value: profileConfig.name },
-	{ key: "url", value: new URL(siteOrigin).href },
-	{ key: "avatar", value: new URL(url(profileConfig.avatar), siteOrigin).href },
-	{ key: "description", value: profileConfig.bio },
+	{ key: "name", label: "名字", icon: "fa6-solid:user", value: profileConfig.name },
+	{ key: "url", label: "链接", icon: "fa6-solid:link", value: new URL(siteOrigin).href },
+	{ key: "avatar", label: "头像图片链接", icon: "fa6-solid:image", value: new URL(url(profileConfig.avatar), siteOrigin).href },
+	{ key: "description", label: "一句话简介", icon: "fa6-solid:quote-left", value: profileConfig.bio },
 ];
 const infoText = infoRows.map(({ key, value }) => key.padEnd(12) + value).join("\n");
 ---
@@ -53,28 +54,47 @@ const infoText = infoRows.map(({ key, value }) => key.padEnd(12) + value).join("
             ))}
         </div>
 
-        <div class="card-base px-9 py-6 transition">
-            <div class="text-lg font-bold text-black dark:text-white mb-2 transition">想交换友链？</div>
+        <div class="card-base px-6 py-6 lg:px-9 transition">
+            <div class="flex items-center gap-2.5 mb-2.5">
+                <div class="w-1 h-4 rounded-md bg-[var(--primary)] transition"></div>
+                <div class="text-lg font-bold text-black dark:text-white transition">想交换友链？</div>
+            </div>
             <div class="text-sm text-black/50 dark:text-white/50 leading-6 transition">
                 可以在 GitHub 上找我，或者发邮件到 <a class="text-[var(--primary)] hover:underline" href="mailto:Map1e-Suk1@qq.com">Map1e-Suk1@qq.com</a>。
-                添加时把下面这四项（名字 / 链接 / 头像图片链接 / 简介）填进你的友链配置里就行：
+                把下面这四项填进你站点的友链配置里就行：
             </div>
+
             <div
                 id="friend-info-template"
                 data-copy={infoText}
-                class="mt-4 px-4 py-3 rounded-xl bg-[var(--btn-regular-bg)] text-[13px] leading-6 font-mono text-black/70 dark:text-white/70 transition"
+                class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-2.5"
             >
-                {infoRows.map(({ key, value }) => (
-                    <div class="flex gap-3">
-                        <span class="w-24 shrink-0 text-[var(--primary)]">{key}</span>
-                        <span class="break-all">{value}</span>
+                {infoRows.map(({ key, label, icon, value }) => (
+                    <div class="flex items-start gap-3 px-3.5 py-3 rounded-xl bg-black/[0.035] dark:bg-white/[0.06] transition">
+                        <div class="w-8 h-8 rounded-lg shrink-0 flex items-center justify-center bg-[color-mix(in_srgb,var(--primary)_14%,transparent)] text-[var(--primary)] transition">
+                            <Icon name={icon} class="text-[0.9rem]"></Icon>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <div class="text-[13px] leading-5 transition">
+                                <span class="font-bold text-black/70 dark:text-white/70">{label}</span>
+                                <span class="ml-1.5 font-mono text-black/30 dark:text-white/30">{key}</span>
+                            </div>
+                            <div class="mt-0.5 text-[13px] leading-5 font-mono text-black/75 dark:text-white/75 break-all select-all transition">{value}</div>
+                        </div>
                     </div>
                 ))}
             </div>
-            <button
-                type="button"
-                class="copy-friend-info mt-3 px-3 py-1.5 rounded-lg text-sm bg-[var(--btn-regular-bg)] text-[var(--primary)] hover:bg-[var(--btn-regular-bg-hover)] active:bg-[var(--btn-regular-bg-active)] transition active:scale-95"
-            >复制这四项信息</button>
+
+            <div class="mt-3.5 flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                <button
+                    type="button"
+                    class="copy-friend-info btn-regular rounded-lg h-9 gap-2 px-4 text-sm font-bold text-[var(--primary)] active:scale-95"
+                >
+                    <Icon name="fa6-regular:copy" class="text-[1rem]"></Icon>
+                    <span>复制这四项信息</span>
+                </button>
+                <span class="text-xs text-black/35 dark:text-white/35 transition">复制出来是排好版的纯文本，直接发给对方就行</span>
+            </div>
         </div>
     </div>
 </MainGridLayout>
