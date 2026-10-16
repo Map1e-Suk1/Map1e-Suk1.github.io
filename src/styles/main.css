@@ -36,6 +36,12 @@
         body.no-sidebar #main-grid {
             grid-template-columns: minmax(0, 1fr);
         }
+        /* 正文的 lg:col-start-2 是给「左栏小卡片 + 右栏正文」写的：侧栏隐藏后只剩一列，
+           继续放在第 2 列会被自动生成的第 1 列挤到右边，整页看起来像右对齐
+           （主页 / 朋友们 / 关于我 就是这样中招的）。这里把正文拉回第一列，才会居中占满整行。 */
+        body.no-sidebar #main-grid > main {
+            grid-column-start: 1;
+        }
     }
 
     /* 顶部导航栏：当前页高亮（主题色文字 + 一层很淡的主题色底） */

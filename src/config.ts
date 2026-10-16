@@ -30,7 +30,7 @@ export const siteConfig: SiteConfig = {
 		enable: true, // Display the table of contents on the right side of the post
 		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
 	},
-	favicon: [],
+	favicon: [{ src: "/favicon/icon.png" }],
 };
 
 export const navBarConfig: NavBarConfig = {
@@ -44,12 +44,12 @@ export const navBarConfig: NavBarConfig = {
 			url: "/archive/",
 		},
 		{
-			name: "My Friends！",
-			url: "/friends/",
-		},
-		{
 			name: "About me?",
 			url: "/about/",
+		},
+		{
+			name: "My Friends！",
+			url: "/friends/",
 		},
 		{
 			name: "GitHub",
