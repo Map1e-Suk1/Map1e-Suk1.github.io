@@ -36,8 +36,11 @@ let { title, banner, description, lang, setOGTypeArticle } = Astro.props;
 // Swup can update the body for each page visit, but it's after the page transition, causing a delay for banner height change
 // so use Swup hooks instead to change the height immediately when a link is clicked
 const isHomePage = pathsEqual(Astro.url.pathname, url("/"));
-// 朋友们页面不需要右侧栏（分类 / 标签 / 个人信息都收起来）
+// 主页 / 朋友们 / 关于我 都不显示右侧栏（分类 / 标签）
 const isFriendsPage = pathsEqual(Astro.url.pathname, url("/friends/"));
+const isAboutPage = pathsEqual(Astro.url.pathname, url("/about/"));
+// 三类页面共用一个开关：服务端给初值，客户端在 Swup 翻页时同步
+const hideSidebar = isFriendsPage || isHomePage || isAboutPage;
 
 // defines global css variables
 // why doing this in Layout instead of GlobalStyles: https://github.com/withastro/astro/issues/6728#issuecomment-1502203757
@@ -153,6 +156,9 @@ const bannerOffset =
 		<style define:vars={{
 			configHue,
 			'page-width': `${PAGE_WIDTH}rem`,
+			'glass-card': String((appearanceConfig.glass && appearanceConfig.glass.enable !== false) ? appearanceConfig.glass.card : 100) + "%",
+			'glass-panel': String((appearanceConfig.glass && appearanceConfig.glass.enable !== false) ? appearanceConfig.glass.panel : 100) + "%",
+			'glass-blur': ((appearanceConfig.glass && appearanceConfig.glass.enable !== false) ? appearanceConfig.glass.blur : 0) + "px",
 			'site-bg': `url("${siteBackground.src}")`,
 			'site-bg-opacity': String(appearanceConfig.background.enable ? appearanceConfig.background.opacity : 0),
 		}}>
@@ -215,7 +221,7 @@ const bannerOffset =
 		/>
 
 	</head>
-	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner, "no-sidebar": isFriendsPage || isHomePage}]}
+	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner, "no-sidebar": hideSidebar}]}
 		  data-overlayscrollbars-initialize
 	>
 		<ConfigCarrier></ConfigCarrier>
@@ -236,12 +242,15 @@ const bannerOffset =
 			// 主页（个人介绍大卡片）和朋友们页面都不显示右侧栏。
 			const homePath = url("/");
 			const friendsPath = url("/friends/");
+			const aboutPath = url("/about/");
 
 			function syncSidebar() {
 				const path = window.location.pathname;
 				document.body.classList.toggle(
 					"no-sidebar",
-					pathsEqual(path, friendsPath) || pathsEqual(path, homePath),
+					pathsEqual(path, friendsPath) ||
+						pathsEqual(path, homePath) ||
+						pathsEqual(path, aboutPath),
 				);
 			}
 

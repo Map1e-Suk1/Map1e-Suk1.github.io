@@ -1,0 +1,30 @@
+---
+import type { GetStaticPaths } from "astro";
+import Pagination from "../../components/control/Pagination.astro";
+import PostPage from "../../components/PostPage.astro";
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+import MainGridLayout from "../../layouts/MainGridLayout.astro";
+import { PAGE_SIZE } from "../../constants/constants";
+import { getSortedPosts } from "../../utils/content-utils";
+
+// 归档页 = 完整的文章列表（卡片形式），带分页；时间线在主页。
+export const getStaticPaths = (async ({ paginate }) => {
+	const allBlogPosts = await getSortedPosts();
+	return paginate(allBlogPosts, { pageSize: PAGE_SIZE });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+const len = page.data.length;
+---
+
+<MainGridLayout title={i18n(I18nKey.archive)}>
+    <div class="flex items-center gap-2 mb-4 onload-animation">
+        <div class="h-6 w-1 rounded-full bg-[var(--primary)]"></div>
+        <h1 class="text-2xl font-bold dark:text-neutral-50">{i18n(I18nKey.archive)}</h1>
+    </div>
+
+    <PostPage page={page}></PostPage>
+    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+</MainGridLayout>

@@ -4,9 +4,9 @@
     .card-base {
         @apply rounded-[var(--radius-large)] overflow-hidden bg-[var(--card-bg)] transition;
         /* 亚克力毛玻璃：半透明卡片 + 背景模糊 + 一圈高光描边 */
-        background-color: color-mix(in srgb, var(--card-bg) 72%, transparent);
-        backdrop-filter: blur(16px) saturate(1.7);
-        -webkit-backdrop-filter: blur(16px) saturate(1.7);
+        background-color: color-mix(in srgb, var(--card-bg) var(--glass-card, 72%), transparent);
+        backdrop-filter: blur(var(--glass-blur, 16px)) saturate(1.7);
+        -webkit-backdrop-filter: blur(var(--glass-blur, 16px)) saturate(1.7);
         box-shadow: 0 0 0 1px var(--glass-border);
     }
     /* 分类 / 标签上的数字徽章：直接取主题色，不要用偏灰的默认按钮底色 */
@@ -56,9 +56,9 @@
     }
     .float-panel {
         @apply top-[5.25rem] rounded-[var(--radius-large)] overflow-hidden bg-[var(--float-panel-bg)] transition shadow-xl dark:shadow-none;
-        background-color: color-mix(in srgb, var(--float-panel-bg) 78%, transparent);
-        backdrop-filter: blur(20px) saturate(1.8);
-        -webkit-backdrop-filter: blur(20px) saturate(1.8);
+        background-color: color-mix(in srgb, var(--float-panel-bg) var(--glass-panel, 78%), transparent);
+        backdrop-filter: blur(calc(var(--glass-blur, 16px) + 4px)) saturate(1.8);
+        -webkit-backdrop-filter: blur(calc(var(--glass-blur, 16px) + 4px)) saturate(1.8);
     }
     .float-panel-closed {
         @apply -translate-y-1 opacity-0 pointer-events-none

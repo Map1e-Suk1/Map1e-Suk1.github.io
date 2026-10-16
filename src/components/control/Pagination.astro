@@ -45,9 +45,14 @@ if (r < page.lastPage - 2) pages.push(HIDDEN);
 if (r === page.lastPage - 2) pages.push(page.lastPage - 1);
 if (r < page.lastPage) pages.push(page.lastPage);
 
+// 分页所在的目录：这样组件用在 /archive/ 之类的子路径下，页码链接也指向正确的地方
+const segments = Astro.url.pathname.split("/").filter(Boolean);
+if (segments.length > 0 && /^\d+$/.test(segments[segments.length - 1])) segments.pop();
+const basePath = segments.length > 0 ? `/${segments.join("/")}/` : "/";
+
 const getPageUrl = (p: number) => {
-	if (p === 1) return "/";
-	return `/${p}/`;
+	if (p === 1) return basePath;
+	return `${basePath}${p}/`;
 };
 ---
 

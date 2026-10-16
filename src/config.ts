@@ -160,6 +160,8 @@ export const appearanceConfig = {
 		opacity: 0.35,
 	},
 	fontFamily: "\"Noto Sans SC\", \"Source Han Sans SC\", \"Microsoft YaHei\", sans-serif",
+	// 毛玻璃：卡片/悬浮面板底色百分比（越低越通透）+ 背景模糊 px
+	glass: { enable: true, card: 72, panel: 78, blur: 16 }
 };
 
 // 樱花飘落动效：不想要就把 enable 改成 false

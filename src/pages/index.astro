@@ -1,0 +1,29 @@
+---
+import ArchivePanel from "@components/ArchivePanel.svelte";
+import { Icon } from "astro-icon/components";
+import HomeHero from "../components/misc/HomeHero.astro";
+import MainGridLayout from "../layouts/MainGridLayout.astro";
+import { getSortedPostsList } from "../utils/content-utils";
+import { url } from "../utils/url-utils";
+
+// 主页 = 个人介绍大卡片 + 全部文章的时间线；
+// 文章卡片列表（标题 / 摘要 / 字数 / 分页）搬去了 /archive/。
+const sortedPostsList = await getSortedPostsList();
+---
+
+<MainGridLayout>
+    <HomeHero />
+
+    <div class="flex items-center justify-between mb-3 onload-animation" style="animation-delay: calc(var(--content-delay) - 50ms);">
+        <div class="flex items-center gap-2">
+            <div class="h-5 w-1 rounded-full bg-[var(--primary)]"></div>
+            <h2 class="text-lg lg:text-xl font-bold dark:text-neutral-50">文章时间线</h2>
+        </div>
+        <a href={url("/archive/")} class="flex items-center gap-1 text-sm text-neutral-400 hover:text-[var(--primary)] transition">
+            文章列表
+            <Icon name="fa6-solid:angle-right" class="text-[0.75rem]"></Icon>
+        </a>
+    </div>
+
+    <ArchivePanel sortedPosts={sortedPostsList} client:only="svelte"></ArchivePanel>
+</MainGridLayout>
