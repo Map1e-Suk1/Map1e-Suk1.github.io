@@ -658,7 +658,7 @@ const setup = () => {
 		// 按钮里有图标，只换文字那一段，别把图标一起清掉
 		const label = btn.querySelector('span') ?? btn
 		const original = label.textContent ?? ''
-		label.textContent = '已复制！'
+		label.textContent = '快粘贴给别人吧！'
 		window.setTimeout(() => { label.textContent = original }, 1200)
 	})
 	window.swup.hooks.on('visit:start', (visit: {to: {url: string}}) => {

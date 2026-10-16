@@ -1,0 +1,51 @@
+---
+import type { GetStaticPaths } from "astro";
+import { Icon } from "astro-icon/components";
+import Pagination from "../../../components/control/Pagination.astro";
+import PostPage from "../../../components/PostPage.astro";
+import I18nKey from "../../../i18n/i18nKey";
+import { i18n } from "../../../i18n/translation";
+import MainGridLayout from "../../../layouts/MainGridLayout.astro";
+import { PAGE_SIZE } from "../../../constants/constants";
+import { getSortedPosts } from "../../../utils/content-utils";
+import { url } from "../../../utils/url-utils";
+
+// 「未分类」文章列表页：/archive/uncategorized/（没有填 category 的文章）
+// 分类小卡片和文章信息里的「未分类」都指向这里（见 src/utils/url-utils.ts 的 getCategoryUrl）
+// 文件名必须是 [...page].astro：Astro 的 paginate() 要求路径里有 [page] 参数
+export const getStaticPaths = (async ({ paginate }) => {
+	const allBlogPosts = await getSortedPosts();
+	const list = allBlogPosts.filter((post) => String(post.data.category ?? "").trim() === "");
+	return paginate(
+		list,
+		{
+			pageSize: PAGE_SIZE,
+			props: { total: list.length },
+		},
+	);
+}) satisfies GetStaticPaths;
+
+const { page, total } = Astro.props;
+const len = page.data.length;
+---
+
+<MainGridLayout title={i18n(I18nKey.uncategorized)}>
+    <div class="flex items-center justify-between gap-4 mb-4 onload-animation">
+        <div class="flex items-center gap-2 min-w-0">
+            <div class="h-6 w-1 rounded-full bg-[var(--primary)] shrink-0"></div>
+            <div class="text-2xl font-bold dark:text-neutral-50 truncate">
+                {i18n(I18nKey.uncategorized)}
+            </div>
+            <div class="text-sm text-black/30 dark:text-white/30 shrink-0 whitespace-nowrap">
+                {total} {" " + i18n(total === 1 ? I18nKey.postCount : I18nKey.postsCount)}
+            </div>
+        </div>
+        <a href={url("/archive/")} class="flex items-center gap-1 text-sm text-neutral-400 hover:text-[var(--primary)] transition shrink-0">
+            <Icon name="fa6-solid:angle-left" class="text-[0.75rem]"></Icon>
+            {i18n(I18nKey.archive)}
+        </a>
+    </div>
+
+    <PostPage page={page}></PostPage>
+    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+</MainGridLayout>

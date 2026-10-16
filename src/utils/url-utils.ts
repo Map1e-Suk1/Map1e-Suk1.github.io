@@ -16,9 +16,12 @@ export function getPostUrlBySlug(slug: string): string {
 	return url(`/posts/${slug}/`);
 }
 
+// 标签页：/archive/tag/<标签名>/（真实静态页，见 src/pages/archive/tag/[tag]/[...page].astro）
+// 以前是 /archive/?tag=xxx：归档页是构建时就生成好的静态页，浏览器地址栏里的查询参数它读不到，
+// 点进去永远只会显示全部文章，所以改成给每个标签单独生成一页。
 export function getTagUrl(tag: string): string {
 	if (!tag) return url("/archive/");
-	return url(`/archive/?tag=${encodeURIComponent(tag.trim())}`);
+	return url(`/archive/tag/${encodeURIComponent(tag.trim())}/`);
 }
 
 export function getCategoryUrl(category: string | null): string {
@@ -27,8 +30,8 @@ export function getCategoryUrl(category: string | null): string {
 		category.trim() === "" ||
 		category.trim().toLowerCase() === i18n(I18nKey.uncategorized).toLowerCase()
 	)
-		return url("/archive/?uncategorized=true");
-	return url(`/archive/?category=${encodeURIComponent(category.trim())}`);
+		return url("/archive/uncategorized/");
+	return url(`/archive/category/${encodeURIComponent(category.trim())}/`);
 }
 
 export function getDir(path: string): string {

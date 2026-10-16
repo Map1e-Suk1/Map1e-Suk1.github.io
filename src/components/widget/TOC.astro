@@ -112,13 +112,17 @@ class TableOfContents extends HTMLElement {
             this.tocEntries[i].classList.remove(this.visibleClass);
             i--;
         }
-        if (min > max) {
+        // 高亮框只框住当前那一个小条目（列表里最靠后的那条 active）。
+        // 不能用 min..max 一整段：文章里每个标题都被 <section> 包着，相邻两节的可见范围会重叠，
+        // 一次可能有好几条同时 active，那样框会连父级小节标题一起框进来。
+        const cur = max;
+        if (cur < 0) {
             this.activeIndicator?.setAttribute("style", `opacity: 0`);
         } else {
             let parentOffset = this.tocEl?.getBoundingClientRect().top || 0;
             let scrollOffset = this.tocEl?.scrollTop || 0;
-            let top = this.tocEntries[min].getBoundingClientRect().top - parentOffset + scrollOffset;
-            let bottom = this.tocEntries[max].getBoundingClientRect().bottom - parentOffset + scrollOffset;
+            let top = this.tocEntries[cur].getBoundingClientRect().top - parentOffset + scrollOffset;
+            let bottom = this.tocEntries[cur].getBoundingClientRect().bottom - parentOffset + scrollOffset;
             this.activeIndicator?.setAttribute("style", `top: ${top}px; height: ${bottom - top}px`);
         }
     };

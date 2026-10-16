@@ -4,8 +4,8 @@ import type { Translation } from "../translation";
 export const zh_CN: Translation = {
 	[Key.home]: "主页",
 	[Key.about]: "关于",
-	[Key.archive]: "归档",
-	[Key.search]: "搜索",
+	[Key.archive]: "文章",
+	[Key.search]: "想搜些什么呢？",
 
 	[Key.tags]: "标签",
 	[Key.categories]: "分类",
@@ -13,9 +13,9 @@ export const zh_CN: Translation = {
 
 	[Key.comments]: "评论",
 
-	[Key.untitled]: "无标题",
-	[Key.uncategorized]: "未分类",
-	[Key.noTags]: "无标签",
+	[Key.untitled]: "（这个文章似乎没有标题呢）",
+	[Key.uncategorized]: "（还没想好分类）",
+	[Key.noTags]: "（还没想好标签）",
 
 	[Key.wordCount]: "字",
 	[Key.wordsCount]: "字",
@@ -26,13 +26,13 @@ export const zh_CN: Translation = {
 
 	[Key.themeColor]: "主题色",
 
-	[Key.lightMode]: "亮色",
-	[Key.darkMode]: "暗色",
-	[Key.systemMode]: "跟随系统",
+	[Key.lightMode]: "亮亮的",
+	[Key.darkMode]: "暗暗的",
+	[Key.systemMode]: "跟着系统走！",
 
 	[Key.more]: "更多",
 
 	[Key.author]: "作者",
 	[Key.publishedAt]: "发布于",
-	[Key.license]: "许可协议",
+	[Key.license]: "",
 };

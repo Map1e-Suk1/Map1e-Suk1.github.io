@@ -30,14 +30,7 @@ export const siteConfig: SiteConfig = {
 		enable: true, // Display the table of contents on the right side of the post
 		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
 	},
-	favicon: [
-		// Leave this array empty to use the default favicon
-		// {
-		//   src: '/favicon/icon.png',    // Path of the favicon, relative to the /public directory
-		//   theme: 'light',              // (Optional) Either 'light' or 'dark', set only if you have different favicons for light and dark mode
-		//   sizes: '32x32',              // (Optional) Size of the favicon, set only if you have favicons of different sizes
-		// }
-	],
+	favicon: [],
 };
 
 export const navBarConfig: NavBarConfig = {
@@ -47,7 +40,7 @@ export const navBarConfig: NavBarConfig = {
 			url: "/",
 		},
 		{
-			name: "Archive",
+			name: "Articles",
 			url: "/archive/",
 		},
 		{
@@ -100,7 +93,7 @@ export const heroConfig = {
 // 友链：朋友们页面（/friends/）的内容，加人就在 friends 数组里加一组
 export const friendsConfig: FriendsConfig = {
 	title: "My Friends！",
-	intro: "这里是我的朋友们！欢迎去他们的站点逛一逛~",
+	intro: "这里是我的朋友们！也去他们的站点逛一下吧~",
 	friends: [
 			{
 				name: "宛宛",
@@ -161,19 +154,19 @@ export const appearanceConfig = {
 	},
 	fontFamily: "\"Noto Sans SC\", \"Source Han Sans SC\", \"Microsoft YaHei\", sans-serif",
 	// 毛玻璃：卡片/悬浮面板底色百分比（越低越通透）+ 背景模糊 px
-	glass: { enable: true, card: 35, panel: 23, blur: 7 },
+	glass: { enable: true, card: 35, panel: 40, blur: 7 },
 	// 英文花体字体：只作用于英文和数字，中文会自动回退到上面的正文字体；留空 "" = 不用花体
 	// 可选值 = public/fonts/script/ 下的文件名，目前有：great-vibes / dancing-script / pacifico / satisfy / allura
 	bioFont: "great-vibes", // 「一句话简介」用哪款花体
-	titleFont: "long-cang", // 主页中央的大号站点标题用哪款花体
-	titleSize: 82, // 大号标题的字号（px，24~160）
+	titleFont: "ma-shan-zheng", // 主页中央的大号站点标题用哪款花体
+	titleSize: 96, // 大号标题的字号（px，24~160）
 };
 
 // 樱花飘落动效：不想要就把 enable 改成 false
 export const sakuraConfig = {
 	enable: true,
 	count: 50, // 花瓣数量上限（窄屏会自动按比例减少）
-	opacity: 0.5, // 花瓣最大不透明度
+	opacity: 0.3, // 花瓣最大不透明度
 };
 
 export const licenseConfig: LicenseConfig = {

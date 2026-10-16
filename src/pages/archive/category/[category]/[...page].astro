@@ -1,0 +1,56 @@
+---
+import type { GetStaticPaths } from "astro";
+import { Icon } from "astro-icon/components";
+import Pagination from "../../../../components/control/Pagination.astro";
+import PostPage from "../../../../components/PostPage.astro";
+import I18nKey from "../../../../i18n/i18nKey";
+import { i18n } from "../../../../i18n/translation";
+import MainGridLayout from "../../../../layouts/MainGridLayout.astro";
+import { PAGE_SIZE } from "../../../../constants/constants";
+import { getCategoryList, getSortedPosts } from "../../../../utils/content-utils";
+import { url } from "../../../../utils/url-utils";
+
+// 单个分类的文章列表页：/archive/category/WP/、/archive/category/WP/2/ …
+// 侧栏「分类」小卡片和文章信息里的分类都指向这里（见 src/utils/url-utils.ts 的 getCategoryUrl）
+// 文件名必须是 [...page].astro：Astro 的 paginate() 要求路径里有 [page] 参数
+export const getStaticPaths = (async ({ paginate }) => {
+	const allBlogPosts = await getSortedPosts();
+	// 「未分类」不是一个真的分类名，它有自己的页面 /archive/uncategorized/
+	const uncategorizedName = i18n(I18nKey.uncategorized);
+	const categories = (await getCategoryList()).filter((c) => c.name !== uncategorizedName);
+	return categories.flatMap((category) =>
+		paginate(
+			allBlogPosts.filter((post) => String(post.data.category ?? "").trim() === category.name),
+			{
+				pageSize: PAGE_SIZE,
+				params: { category: category.name },
+				props: { categoryName: category.name, total: category.count },
+			},
+		),
+	);
+}) satisfies GetStaticPaths;
+
+const { page, categoryName, total } = Astro.props;
+const len = page.data.length;
+---
+
+<MainGridLayout title={`${i18n(I18nKey.categories)}：${categoryName}`}>
+    <div class="flex items-center justify-between gap-4 mb-4 onload-animation">
+        <div class="flex items-center gap-2 min-w-0">
+            <div class="h-6 w-1 rounded-full bg-[var(--primary)] shrink-0"></div>
+            <div class="text-2xl font-bold dark:text-neutral-50 truncate">
+                {categoryName}
+            </div>
+            <div class="text-sm text-black/30 dark:text-white/30 shrink-0 whitespace-nowrap">
+                {total} {" " + i18n(total === 1 ? I18nKey.postCount : I18nKey.postsCount)}
+            </div>
+        </div>
+        <a href={url("/archive/")} class="flex items-center gap-1 text-sm text-neutral-400 hover:text-[var(--primary)] transition shrink-0">
+            <Icon name="fa6-solid:angle-left" class="text-[0.75rem]"></Icon>
+            {i18n(I18nKey.archive)}
+        </a>
+    </div>
+
+    <PostPage page={page}></PostPage>
+    <Pagination class="mx-auto onload-animation" page={page} style={`animation-delay: calc(var(--content-delay) + ${(len)*50}ms)`}></Pagination>
+</MainGridLayout>

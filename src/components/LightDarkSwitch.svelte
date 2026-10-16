@@ -71,7 +71,9 @@ function hidePanel() {
         </div>
     </button>
 
-    <div id="light-dark-panel" class="hidden lg:block absolute transition float-panel-closed top-11 -right-2 pt-5" >
+    <!-- left-1/2 -translate-x-1/2：面板横向居中在月亮/太阳按钮正下方（原来是 -right-2 右对齐，看着是偏的）；
+         窗口窄到 1240px 以下时按钮离右边太近，居中会顶出屏幕，所以那时改回贴右边 -->
+    <div id="light-dark-panel" class="hidden lg:block absolute transition float-panel-closed top-11 left-1/2 -translate-x-1/2 pt-5 max-[1240px]:left-auto max-[1240px]:right-0 max-[1240px]:translate-x-0" >
         <div class="card-base float-panel p-2">
             <button class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 mb-0.5"
                     class:current-theme-btn={mode === LIGHT_MODE}
