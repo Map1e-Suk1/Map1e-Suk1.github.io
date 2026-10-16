@@ -1,0 +1,92 @@
+---
+import { Icon } from "astro-icon/components";
+import { heroConfig, profileConfig } from "../../config";
+import { url } from "../../utils/url-utils";
+import ImageWrapper from "./ImageWrapper.astro";
+
+// 主页顶部的个人介绍大卡片：头像 + 名字 + 签名 + 打字机座右铭 + 联系方式 + 快捷入口
+const quickLinks = [
+	{ name: "关于我", icon: "fa6-regular:address-card", url: url("/about/") },
+	{ name: "全部文章", icon: "fa6-solid:box-archive", url: url("/archive/") },
+	{ name: "朋友们", icon: "fa6-solid:user-group", url: url("/friends/") },
+];
+---
+
+<div class="card-base onload-animation relative overflow-hidden px-6 py-10 lg:px-10 lg:py-14
+    flex flex-col items-center text-center" style="animation-delay: calc(var(--content-delay) - 100ms);">
+    <!-- 两团主题色光晕，让大卡片不那么平 -->
+    <div class="absolute -top-24 -left-20 w-72 h-72 rounded-full bg-[var(--primary)] opacity-[0.14] blur-3xl pointer-events-none transition"></div>
+    <div class="absolute -bottom-28 -right-20 w-72 h-72 rounded-full bg-[var(--primary)] opacity-[0.14] blur-3xl pointer-events-none transition"></div>
+
+    <!-- 头像：外发光 + 主题色渐变圆环 + 右下角“在线”小绿点 -->
+    <a href={url("/about/")} aria-label="关于我"
+       class="relative group mb-5 active:scale-95 transition">
+        <div class="absolute -inset-3 rounded-full bg-[var(--primary)] opacity-20 blur-xl transition group-hover:opacity-40"></div>
+        <div class="relative rounded-full p-[3px] bg-gradient-to-tr from-[var(--primary)] via-[oklch(0.82_0.12_var(--hue))] to-[var(--primary)]">
+            <div class="rounded-full p-1 bg-[var(--card-bg)]">
+                <div class="w-24 h-24 lg:w-28 lg:h-28 rounded-full overflow-hidden">
+                    <ImageWrapper src={profileConfig.avatar || ""} alt="Profile Image of the Author"
+                                  class="w-full h-full transition group-hover:scale-105"></ImageWrapper>
+                </div>
+            </div>
+        </div>
+        <span class="absolute right-1 bottom-1 flex h-5 w-5 items-center justify-center">
+            <span class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60 animate-ping"></span>
+            <span class="relative inline-flex h-3 w-3 rounded-full bg-green-400 ring-2 ring-[var(--card-bg)]"></span>
+        </span>
+    </a>
+
+    <!-- 名字 -->
+    <h1 class="text-3xl lg:text-4xl font-bold mb-3 dark:text-neutral-50 transition">
+        <span class="bg-gradient-to-r from-[var(--primary)] via-[oklch(0.72_0.16_var(--hue))] to-[oklch(0.62_0.18_var(--hue))]
+            bg-clip-text text-transparent">{profileConfig.name}</span>
+    </h1>
+
+    <!-- 签名 -->
+    <div class="flex items-center gap-3 mb-2.5">
+        <div class="h-px w-8 bg-[var(--primary)] opacity-40"></div>
+        <p class="text-base lg:text-lg text-neutral-600 dark:text-neutral-300 transition">{profileConfig.bio}</p>
+        <div class="h-px w-8 bg-[var(--primary)] opacity-40"></div>
+    </div>
+
+    <!-- 打字机座右铭 -->
+    <p class="font-mono text-xs lg:text-sm text-[var(--primary)] mb-8 flex items-center gap-1.5 min-h-[1.4rem]">
+        <span class="opacity-60 select-none">&gt;_</span>
+        <span id="hero-typing" data-phrases={heroConfig.slogans.join("|")}></span>
+        <span class="hero-cursor select-none">▍</span>
+    </p>
+
+    <!-- 联系方式 -->
+    <div class="flex flex-wrap items-center justify-center gap-2.5 mb-4">
+        {profileConfig.links.map(item => (
+            <a rel="me" aria-label={item.name} href={item.url} target="_blank"
+               class="btn-regular rounded-lg h-10 gap-2 px-4 text-sm font-bold active:scale-95">
+                <Icon name={item.icon} class="text-[1.25rem]"></Icon>
+                {item.name}
+            </a>
+        ))}
+    </div>
+
+    <!-- 快捷入口 -->
+    <div class="flex flex-wrap items-center justify-center gap-2.5">
+        {quickLinks.map(item => (
+            <a href={item.url} class="hero-link rounded-lg h-9 gap-1.5 px-3 text-sm font-bold flex items-center justify-center active:scale-95">
+                <Icon name={item.icon} class="text-[1rem]"></Icon>
+                {item.name}
+            </a>
+        ))}
+    </div>
+</div>
+
+<style>
+    @keyframes hero-cursor-blink {
+        0%, 45% { opacity: 1; }
+        55%, 100% { opacity: 0; }
+    }
+    .hero-cursor {
+        animation: hero-cursor-blink 1s steps(1, end) infinite;
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .hero-cursor { animation: none; }
+    }
+</style>

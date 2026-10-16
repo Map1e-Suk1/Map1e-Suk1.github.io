@@ -1,9 +1,7 @@
 ---
 import type { MarkdownHeading } from "astro";
 import Categories from "./Categories.astro";
-import Profile from "./Profile.astro";
 import Tag from "./Tags.astro";
-import { pathsEqual, url } from "@/utils/url-utils";
 
 interface Props {
 	class?: string;
@@ -11,13 +9,8 @@ interface Props {
 }
 
 const className = Astro.props.class;
-// 个人信息卡片只在「关于我」页面显示
-const showProfile = pathsEqual(Astro.url.pathname, url("/about/"));
 ---
 <div id="sidebar" class:list={[className, "w-full"]}>
-    <div id="profile-card" class:list={["flex flex-col w-full gap-4 mb-4", { "hidden": !showProfile }]}>
-        <Profile></Profile>
-    </div>
     <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4">
         <Categories class="onload-animation" style="animation-delay: 150ms"></Categories>
         <Tag class="onload-animation" style="animation-delay: 200ms"></Tag>

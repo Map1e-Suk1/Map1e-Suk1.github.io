@@ -86,6 +86,17 @@ export const profileConfig: ProfileConfig = {
 	],
 };
 
+// 主页大卡片：头像下面打字机轮流显示的「签名 / 座右铭」，喜欢哪句就增删哪句
+export const heroConfig = {
+	enable: true,
+	slogans: [
+		"Roam free, for life is wide.",
+		"记录学习心得，也记录深夜的胡思乱想",
+		"一个还在慢慢变强的 CTF 新人",
+		"欢迎来我的秘密基地逛一逛~",
+	],
+};
+
 // 友链：朋友们页面（/friends/）的内容，加人就在 friends 数组里加一组
 export const friendsConfig: FriendsConfig = {
 	title: "My Friends",

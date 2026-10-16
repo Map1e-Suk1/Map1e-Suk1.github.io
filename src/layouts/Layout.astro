@@ -215,7 +215,7 @@ const bannerOffset =
 		/>
 
 	</head>
-	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner, "no-sidebar": isFriendsPage}]}
+	<body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner, "no-sidebar": isFriendsPage || isHomePage}]}
 		  data-overlayscrollbars-initialize
 	>
 		<ConfigCarrier></ConfigCarrier>
@@ -232,22 +232,73 @@ const bannerOffset =
 		<script>
 			import { pathsEqual, url } from "../utils/url-utils";
 
-			// 侧栏（个人信息卡片）在 Swup 的替换范围之外，站内翻页时不会重新渲染，
-			// 所以这里在每次页面切换后手动同步一次：个人信息只在「关于我」显示，
-			// 朋友们页面则整个右侧栏都不显示（body.no-sidebar）。
-			const aboutPath = url("/about/");
+			// 侧栏在 Swup 的替换范围之外，站内翻页时不会重新渲染，所以每次切换后手动同步一次。
+			// 主页（个人介绍大卡片）和朋友们页面都不显示右侧栏。
+			const homePath = url("/");
 			const friendsPath = url("/friends/");
 
 			function syncSidebar() {
 				const path = window.location.pathname;
-				document.body.classList.toggle("no-sidebar", pathsEqual(path, friendsPath));
-				document.getElementById("profile-card")?.classList.toggle("hidden", !pathsEqual(path, aboutPath));
+				document.body.classList.toggle(
+					"no-sidebar",
+					pathsEqual(path, friendsPath) || pathsEqual(path, homePath),
+				);
 			}
 
 			syncSidebar();
 
+			// 主页大卡片「签名」下面的打字机效果。
+			// 放在 Layout 里而不是组件里：站内翻页不会重新执行组件脚本，而 Layout 脚本一直挂着。
+			// 当前页面没有那个元素时直接返回，所以可以放心长期挂 page:view。
+			let heroTypingTimer: number | undefined;
+
+			function startHeroTyping() {
+				const el = document.getElementById("hero-typing");
+				if (!el) return;
+				if (heroTypingTimer) window.clearTimeout(heroTypingTimer);
+				const phrases = (el.dataset.phrases || "").split("|").filter(Boolean);
+				if (phrases.length === 0) return;
+				if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+					el.textContent = phrases[0];
+					return;
+				}
+				let phrase = 0;
+				let index = 0;
+				let deleting = false;
+				const tick = () => {
+					if (!el.isConnected) return;
+					const current = phrases[phrase];
+					if (!deleting) {
+						index++;
+						el.textContent = current.slice(0, index);
+						if (index === current.length) {
+							deleting = true;
+							heroTypingTimer = window.setTimeout(tick, 2400);
+							return;
+						}
+						heroTypingTimer = window.setTimeout(tick, 90);
+					} else {
+						index--;
+						el.textContent = current.slice(0, index);
+						if (index === 0) {
+							deleting = false;
+							phrase = (phrase + 1) % phrases.length;
+							heroTypingTimer = window.setTimeout(tick, 400);
+							return;
+						}
+						heroTypingTimer = window.setTimeout(tick, 40);
+					}
+				};
+				tick();
+			}
+
+			startHeroTyping();
+
 			const setupSidebar = () => {
-				window.swup.hooks.on("page:view", syncSidebar);
+				window.swup.hooks.on("page:view", () => {
+					syncSidebar();
+					startHeroTyping();
+				});
 			};
 			if (window?.swup?.hooks) setupSidebar();
 			else document.addEventListener("swup:enable", setupSidebar);

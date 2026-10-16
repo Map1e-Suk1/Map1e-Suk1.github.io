@@ -19,6 +19,15 @@
         color: var(--primary);
     }
 
+    /* 主页大卡片里的快捷入口：主题色浅底胶囊按钮 */
+    .hero-link {
+        background-color: color-mix(in srgb, var(--primary) 14%, transparent);
+        color: var(--primary);
+    }
+    .hero-link:hover {
+        background-color: color-mix(in srgb, var(--primary) 28%, transparent);
+    }
+
     /* 朋友们这类不需要右侧栏的页面：内容占满整行 */
     body.no-sidebar #sidebar {
         display: none;

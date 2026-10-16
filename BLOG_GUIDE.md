@@ -91,7 +91,15 @@ git push
 - `siteConfig.lang`：界面语言，中文用 `"zh_CN"`
 - `siteConfig.themeColor.hue`：主题色相（0～360）
 - `navBarConfig.links`：顶部导航
-- `profileConfig`：头像、昵称、简介、社交链接
+- `profileConfig`：头像、昵称、签名（`bio`）、社交链接
+- `heroConfig.slogans`：主页大卡片里那行轮播的「打字机」句子，写几句换着显示
+
+## 页面结构（现在长什么样）
+
+- **主页 `/`**：顶上一张个人介绍大卡片（头像 + 名字 + 签名 + 打字机句子 + 联系方式 + 快捷入口），下面才是「最新文章」列表；主页不显示右侧的分类/标签栏，为的是让人第一眼看到的是人而不是文章。
+- **关于我 `/about/`**：一张整页大卡片 —— 大头像、名字、签名，分隔线下面就是 `src/content/spec/about.md` 里的自我介绍（正文限制在 760px 宽，手机上更好读）。
+- **其他页面**（归档、关于、文章页）右侧仍然是「分类 / 标签」；朋友们页面和主页一样不要右侧栏。
+- 想恢复「侧栏里的小头像卡片」：那个组件还在 `src/components/widget/Profile.astro`，在 `src/components/widget/SideBar.astro` 里 import 并放回 `<div id="sidebar-sticky">` 上面即可。
 
 ## 备注
 
@@ -171,7 +179,9 @@ git push          # 约 1 分钟后自动部署
 | --- | --- |
 | 站点标题、副标题、主题色、导航栏、个人资料、邮箱 | `src/config.ts` |
 | 友链（朋友们页面） | `src/config.ts` 的 `friendsConfig` |
-| 「关于」页面 | `src/content/spec/about.md` |
+| 「关于」页面 | `src/content/spec/about.md`（上半部分的大头像 + 签名在 `src/pages/about.astro`，一般不用改） |
+| 主页顶部的个人介绍大卡片 | `src/components/misc/HomeHero.astro`；里面轮播的句子在 `src/config.ts` 的 `heroConfig.slogans` |
+| 主页/关于页的签名文字 | `src/config.ts` 的 `profileConfig.bio` |
 | 文章 | `src/content/posts/` 新建 `.md`，或 `pnpm new-post 标题` |
 | 首页顶部横幅 banner | `src/config.ts` 的 `siteConfig.banner` |
 | 全站背景图 / 不透明度 | 图片放 `src/assets/images/`；透明度改 `src/config.ts` 的 `appearanceConfig.background.opacity` |
