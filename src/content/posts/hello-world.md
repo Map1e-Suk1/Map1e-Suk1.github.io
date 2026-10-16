@@ -3,8 +3,8 @@ title: 个人博客开张大吉！
 published: 2026-10-15
 description: 为什么建这个博客，以及我打算在这里写些什么。
 tags:
-  - 博客
-category: 博客
+  - 杂谈
+category: 杂谈
 draft: false
 ---
 

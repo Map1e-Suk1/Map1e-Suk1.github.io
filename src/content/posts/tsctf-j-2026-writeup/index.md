@@ -1,12 +1,12 @@
 ---
 title: TSCTF-J 2026 Writeup
 published: 2026-10-16
-description: "TSCTF-J 2026 部分题解"
-image: ""
-tags: [CTF, Writeup]
-category: WP
+description: TSCTF-J 2026 部分题解
+tags:
+  - WP
+  - CTF
+category: CTF
 draft: false
-lang: ""
 ---
 
 笔者：Map1e
