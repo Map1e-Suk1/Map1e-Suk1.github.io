@@ -95,7 +95,7 @@ git push
 - `profileConfig`：头像、昵称、签名（`bio`）、社交链接
 - `heroConfig.enable` / `heroConfig.showTitle`：主页大卡片的开关、以及大卡片顶部要不要显示大号的站点标题（`siteConfig.title`）
 - `heroConfig.slogans`：主页大卡片里那行轮播的「打字机」句子，写几句换着显示
-- `appearanceConfig.bioFont` / `titleFont` / `titleSize`：**花体字体**。`bioFont` = 「一句话简介」用哪款花体，`titleFont` = 主页中央大号站点标题用哪款花体，`titleSize` = 大标题字号（px，24～160，默认 64）。取值就是 `public/fonts/script/` 里的文件名（不带扩展名），留空 = 不用花体。内置 5 款：`great-vibes` / `dancing-script` / `pacifico` / `satisfy` / `allura`
+- `appearanceConfig.bioFont` / `titleFont` / `titleSize`：**自定义字体**。`bioFont` = 「一句话简介」用哪款字体，`titleFont` = 主页中央大号站点标题用哪款字体，`titleSize` = 大标题字号（px，24～160，默认 64）。取值就是 `public/fonts/script/` 里的文件名（不带扩展名），留空 = 不用。软件里内置 12 款：英文花体 `great-vibes` / `dancing-script` / `pacifico` / `satisfy` / `allura`，中英通用 `zcool-kuaile`（站酷快乐体）/ `zcool-qingke-huangyou`（站酷庆科黄油体）/ `zcool-xiaowei`（站酷小薇）/ `ma-shan-zheng`（马善政毛笔楷书）/ `long-cang`（龙藏）/ `zhi-mang-xing`（志莽行书）/ `liu-jian-mao-cao`（刘建毛草）
 
 > 上面这些都**不用手改**——打开「Blog Manager」软件 →「站点设置」，滑杆和下拉框点一点、点右上角「保存所有设置」就写回去了。
 
@@ -109,12 +109,14 @@ git push
 - 分页组件 `src/components/control/Pagination.astro` 会自动按当前目录算页码链接，放到 `/archive/` 下也指得对。
 - 想恢复「侧栏里的小头像卡片」：那个组件还在 `src/components/widget/Profile.astro`，在 `src/components/widget/SideBar.astro` 里 import 并放回 `<div id="sidebar-sticky">` 上面即可。
 
-## 花体字体（主页大标题 / 一句话简介）
+## 自定义字体（主页大标题 / 一句话简介）
 
-- 字体文件放在 `public/fonts/script/`，**一个字体一个 `.woff2`**（文件名就是配置里写的 key，比如 `great-vibes.woff2` → `bioFont: "great-vibes"`），许可证（OFL 的 `.LICENSE.txt`）建议一起放进来。
-- 想加新花体：从 [Google Fonts](https://fonts.google.com/) 下 `.woff2` 丢进这个目录，重新打开软件（或重新 `pnpm dev`）就会出现在下拉里；也可以直接在 `src/config.ts` 里写文件名。
-- 样式在 `src/layouts/Layout.astro`：启动时扫描 `public/fonts/script/*.woff2` 自动生成 `@font-face` 和 `--font-bio` / `--font-title` / `--title-size` 变量；`.script-bio` 用在主页、关于我、侧栏的签名上，`.script-title` 用在主页中央的大标题上。
-- **花体只对英文和数字生效**：中文没有花体字形，会回退到正文字体，所以是「花体英文 + 常规中文」的混排（CJK 书法字体动辄几 MB，没放）。如果哪天想连中文一起花，得再找体积可接受的中文手写字体。
+- 字体文件放在 `public/fonts/script/`，**一个字体一个文件**（文件名去掉扩展名就是配置里写的 key，比如 `zcool-kuaile.woff2` → `titleFont: "zcool-kuaile"`），支持 `.woff2` / `.woff` / `.ttf` / `.otf`；同名文件只注册一个，优先 `.woff2`（体积最小）。OFL 的许可证 `.LICENSE.txt` 建议一起放进来。
+- 加字体最简单的办法：打开「Blog Manager」→「站点设置」→「网页外观」→「自定义字体」，点「导入我自己的字体…」选文件（多选），或把文件直接丢进那个目录再刷新软件。也可以直接在 `src/config.ts` 里写 key。
+- 内置 12 款：**英文花体** Great Vibes / Dancing Script / Pacifico / Satisfy / Allura；**中英通用** 站酷快乐体 / 站酷庆科黄油体 / 站酷小薇 / 马善政毛笔楷书 / 龙藏 / 志莽行书 / 刘建毛草。中英通用的可以从 [Fontsource](https://fontsource.org/) 的 CJK 包拿（要选 `chinese-simplified` 是单文件、CSS 里没有 `unicode-range` 的那种，它本身就含拉丁字母）。
+- 样式在 `src/layouts/Layout.astro`：启动时扫描 `public/fonts/script/` 自动生成 `@font-face`（按扩展名写对应的 `format(...)`，文件名做 URL 编码）和 `--font-bio` / `--font-title` / `--title-size` 变量；`.script-bio` 用在主页、关于我、侧栏的签名上，`.script-title` 用在主页中央的大标题上。所以**不需要**在 `main.css` 里再写一份 `@font-face`（软件也不会重复写）。
+- **英文花体只对英文和数字生效**，中文会回退到正文字体，是「花体英文 + 常规中文」的混排；想要中英文统一风格，大标题就选中英通用那几款。
+- **体积**：访客只下载页面真正用到的那一款字体，没用到的不占访客流量，但占仓库体积，目前 `public/fonts/script/` 约 14MB。不用了的字体直接从目录里删掉即可。
 
 ## 备注
 
