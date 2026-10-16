@@ -93,13 +93,13 @@ export const heroConfig = {
 	slogans: [
 		"一个还在慢慢变强的 CTF 新人",
 		"欢迎来我的秘密基地逛一逛~",
-		"你好呀",
+		"你好呀~"
 	],
 };
 
 // 友链：朋友们页面（/friends/）的内容，加人就在 friends 数组里加一组
 export const friendsConfig: FriendsConfig = {
-	title: "My Friends",
+	title: "My Friends！",
 	intro: "这里是我的朋友们！欢迎去他们的站点逛一逛~",
 	friends: [
 			{
@@ -161,7 +161,7 @@ export const appearanceConfig = {
 	},
 	fontFamily: "\"Noto Sans SC\", \"Source Han Sans SC\", \"Microsoft YaHei\", sans-serif",
 	// 毛玻璃：卡片/悬浮面板底色百分比（越低越通透）+ 背景模糊 px
-	glass: { enable: true, card: 56, panel: 60, blur: 10 },
+	glass: { enable: true, card: 35, panel: 23, blur: 7 },
 	// 英文花体字体：只作用于英文和数字，中文会自动回退到上面的正文字体；留空 "" = 不用花体
 	// 可选值 = public/fonts/script/ 下的文件名，目前有：great-vibes / dancing-script / pacifico / satisfy / allura
 	bioFont: "great-vibes", // 「一句话简介」用哪款花体
