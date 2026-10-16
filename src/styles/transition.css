@@ -18,6 +18,29 @@ html.is-animating .transition-swup-fade {
     }
 }
 
+/* 首次进入站点：先展示背景全图，UI 再出现。
+   --intro-offset 只有在 html.is-intro 时才有值（由 Layout 的头部脚本在第一次加载时挂上），
+   Swup 站内翻页不会带上它，所以翻页依旧是即时的。 */
+:root {
+    --intro-offset: 0ms;
+}
+html.is-intro {
+    --intro-offset: 700ms;
+}
+
+/* 背景图先淡入 */
+@keyframes site-bg-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: var(--site-bg-opacity, 0.3);
+    }
+}
+html.is-intro::before {
+    animation: site-bg-in 900ms ease-out both;
+}
+
 /* Main components */
 .onload-animation {
     opacity: 0;
@@ -25,29 +48,29 @@ html.is-animating .transition-swup-fade {
     animation-fill-mode: forwards;
 }
 #navbar {
-    animation-delay: 0ms
+    animation-delay: calc(var(--intro-offset) + 0ms)
 }
 #sidebar {
-    animation-delay: 100ms
+    animation-delay: calc(var(--intro-offset) + 100ms)
 }
 #swup-container {
     outline: none;
 }
 #content-wrapper {
-    animation-delay: var(--content-delay);
+    animation-delay: calc(var(--intro-offset) + var(--content-delay));
 }
 .footer {
-    animation-delay: 250ms;
+    animation-delay: calc(var(--intro-offset) + 250ms);
 }
 #banner-credit {
-    animation-delay: 400ms;
+    animation-delay: calc(var(--intro-offset) + 400ms);
 }
 
 /* Post content */
-#post-container :nth-child(1) { animation-delay: calc(var(--content-delay) + 0ms) }
-#post-container :nth-child(2) { animation-delay: calc(var(--content-delay) + 50ms) }
-#post-container :nth-child(3) { animation-delay: calc(var(--content-delay) + 100ms) }
-#post-container :nth-child(4) { animation-delay: calc(var(--content-delay) + 175ms) }
-#post-container :nth-child(5) { animation-delay: calc(var(--content-delay) + 250ms) }
-#post-container :nth-child(6) { animation-delay: calc(var(--content-delay) + 325ms) }
+#post-container :nth-child(1) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 0ms) }
+#post-container :nth-child(2) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 50ms) }
+#post-container :nth-child(3) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 100ms) }
+#post-container :nth-child(4) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 175ms) }
+#post-container :nth-child(5) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 250ms) }
+#post-container :nth-child(6) { animation-delay: calc(var(--intro-offset) + var(--content-delay) + 325ms) }
 

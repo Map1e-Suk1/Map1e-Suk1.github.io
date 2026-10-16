@@ -177,6 +177,10 @@ git push          # 约 1 分钟后自动部署
 | 全站背景图 / 不透明度 | 图片放 `src/assets/images/`；透明度改 `src/config.ts` 的 `appearanceConfig.background.opacity` |
 | 头像 | 替换 `public/avatar.webp`（固定地址，不带哈希，不会因更新而破图） |
 | 樱花飘落动效 | `src/config.ts` 的 `sakuraConfig`：`enable` 开关、`count` 花瓣数量、`opacity` 不透明度 |
+| 主题色（现在固定为 `#39c5bb`） | `src/config.ts` 的 `themeColor`：`hue` 是 oklch 色相（`fixed: true` 对访客隐藏调色板）；精确色值写在 `src/styles/variables.styl` 的 `--primary` |
+| UI 圆角大小 | `tailwind.config.cjs` 的 `borderRadius`（默认值已整体减半，`rounded-full` 圆形不受影响）+ `src/styles/variables.styl` 的 `--radius-large` |
+| 亚克力毛玻璃（卡片/导航/浮层） | `src/styles/main.css` 的 `.card-base`、`.float-panel`：改 `blur()` 半径与 `color-mix` 里的透明度百分比；描边色是 `src/styles/variables.styl` 的 `--glass-border` |
+| 进入首页的进场动画 | `src/styles/transition.css`：`--intro-offset`（UI 延迟出现的时长，默认 700ms）、`site-bg-in`（背景图淡入时长） |
 | 页面结构 / 新页面 | `src/pages/`（复制 `friends.astro` 改最省事） |
 
 几条经验：

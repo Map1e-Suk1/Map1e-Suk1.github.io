@@ -1,6 +1,6 @@
 ---
 title: TSCTF-J 2026 Writeup
-published: 2026-10-15
+published: 2026-10-16
 description: "TSCTF-J 2026 部分题解"
 image: ""
 tags: [CTF, Writeup]
