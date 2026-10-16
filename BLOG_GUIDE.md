@@ -215,7 +215,7 @@ git push          # 约 1 分钟后自动部署
 | 顶部导航栏「当前在哪一页」的高亮 | `src/components/Navbar.astro`：`data-nav-path` + `nav-current` 类，样式在 `src/styles/main.css` 的 `#navbar a.nav-current`；站内翻页由脚本的 `syncCurrentNav()`（挂在 swup 的 `page:view`）重算 |
 | 站内翻页的进场动画（左右各只跳一次） | `src/styles/transition.css`：离开阶段容器**不能**加位移（`html.is-animating .transition-swup-fade` 那条已删掉），进场只交给页面自己的 `.onload-animation`；带 `animation-delay` 的元素必须是 `animation-fill-mode: both` |
 | 友链页底部「想交换友链？」卡片 | `src/pages/friends.astro`：四项内容自动取 `profileConfig` 的 `name` / 头像 / `bio` 和站点地址；显示是 2×2 小卡片（中文名 + 字段名 + 值），复制按钮读的是 `data-copy` 属性里拼好的等宽对齐文本，点击处理在 `src/layouts/Layout.astro` 的 document 级委托里（按钮里有图标，只替换里面的 `<span>`） |
-| 文章页右侧栏的「目录」 | `src/components/widget/SideBar.astro`：有标题时渲染目录卡片、否则渲染分类/标签；目录挪进侧栏前挂在页面最右侧那条随窗口宽度伸缩的窄边距里（`MainGridLayout.astro` 里那段已删），所以 `--toc-width` 变量现在没人用了 |
+| 文章页右侧栏的「目录」 | `src/components/widget/SideBar.astro`：有标题时渲染目录卡片、否则渲染分类/标签；目录挪进侧栏前挂在页面最右侧那条随窗口宽度伸缩的窄边距里（`MainGridLayout.astro` 里那段已删），所以 `--toc-width` 变量现在没人用了。目录卡片本身有两个不能动的细节：滚动容器 `#toc-inner-wrapper` 必须带 `relative`（高亮框按它定位），上下别再挂渐隐（原来 `src/styles/main.css` 里的 `mask-image` 已删） |
 | 页面结构 / 新页面 | `src/pages/`（复制 `friends.astro` 改最省事） |
 
 几条经验：
@@ -227,6 +227,8 @@ git push          # 约 1 分钟后自动部署
 - 部署结果在仓库的 **Actions** 页面看，绿勾＝已上线
 - 进场动画看起来「跳了两遍」，最常见的是这两个原因：①**离开阶段给容器加了位移**，换内容的瞬间容器回位和页面内部 `.onload-animation` 的上浮叠在一起（先动一次、再跳一次）；②元素有 `animation-delay` 而 `animation-fill-mode` 只写了 `forwards`，延迟那段时间它先停在动画终点，延迟一过才跳回起点重播。现在本站容器全程不动、`fill-mode` 用 `both`，两个坑都堵上了
 - **要让右侧栏的内容随页面变化**（文章页显示目录、其它页面显示分类/标签），必须把 `#sidebar` 也交给 Swup 替换：`astro.config.mjs` 里 `containers: ["main", "#sidebar"]`。侧栏默认不在 Swup 的替换范围里，不写这条站内翻页时侧栏会一直停在上一页的内容（点了文章侧栏还是「分类 / 标签」）
+- **目录的高亮框（虚线框 / 深色条）错位**：框是 `#active-indicator`，脚本拿 `#toc-inner-wrapper` 的顶边当基准算 top，所以这个容器必须写 `relative`。不写的话，外层目录卡片有 `backdrop-filter` 毛玻璃（浏览器会拿它当包含块），框会整体上移一个「目录」标题的高度
+- 目录滚动容器原来是靠 `mask-image` 做上下渐隐的，最上面/最下面一条目录的文字会被压得发虚、看着像被挡住，已经整条删掉（`src/styles/main.css`），别再给它加回去
 - 目录卡片的滚动容器 **id 必须是 `toc-inner-wrapper`**：`src/components/widget/TOC.astro` 里的脚本靠这个 id 找滚动容器，找不到就直接 `return`，目录的高亮和自动滚动会整个失效（页面上看不出报错）
 - `src/styles/*.css` 之间**不要**用 `@apply` 引用别的文件里的自定义类（比如 `@apply link`、`@apply btn-regular-dark`）：Tailwind 处理多个 CSS 文件的顺序不固定，会随机报 The `link` class does not exist，构建时好时坏。要用就把那边的属性展开成工具类照抄过来（`src/styles/markdown.css` 里已经这么改了）
 

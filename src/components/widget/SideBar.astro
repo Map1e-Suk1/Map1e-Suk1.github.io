@@ -26,7 +26,9 @@ const showToc = siteConfig.toc.enable && headings.length > 0;
                         before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
                         before:absolute before:left-[-16px] before:top-[5.5px]">目录</div>
                     <!-- id 必须是 toc-inner-wrapper：TOC.astro 里的滚动跟随脚本就是按这个 id 找滚动容器的 -->
-                    <div id="toc-inner-wrapper" class="px-4 max-h-[calc(100vh_-_16rem)] overflow-y-auto overflow-x-hidden hide-scrollbar">
+                    <!-- relative 必须留着：TOC.astro 里高亮框（#active-indicator）是 absolute，它按这个容器的
+                         顶边算位置；不写 relative 的话浏览器会拿更外层的卡片当基准，高亮框会整体上移一个标题的高度 -->
+                    <div id="toc-inner-wrapper" class="relative px-4 max-h-[calc(100vh_-_16rem)] overflow-y-auto overflow-x-hidden hide-scrollbar">
                         <div id="toc" class="transition-swup-fade">
                             <TOC headings={headings}></TOC>
                         </div>

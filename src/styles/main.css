@@ -114,9 +114,8 @@
         @apply opacity-0 pointer-events-none
     }
 
-    #toc-inner-wrapper {
-        mask-image: linear-gradient(to bottom, transparent 0%, black 2rem, black calc(100% - 2rem), transparent 100%);
-    }
+    /* 目录滚动容器原来在这里挂了 mask-image 上下渐隐，会把最上面/最下一条目录的文字压得看不清，
+       已整条删掉；TOC.astro 的高亮框定位靠的是 #toc-inner-wrapper 顶边（SideBar.astro 里标了 relative） */
 
     .hide-scrollbar {
         scrollbar-width: none;
