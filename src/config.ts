@@ -91,9 +91,9 @@ export const heroConfig = {
 	enable: true,
 	showTitle: true, // 主页大卡片顶部是否显示大号站点标题（字体由 appearanceConfig.titleFont 决定）
 	slogans: [
-		"一个还在慢慢变强的 CTF 新人",
-		"欢迎来我的秘密基地逛一逛~",
-		"你好呀~"
+		"你好呀！",
+		"欢迎来我的秘密基地~",
+		"一个还在慢慢变强的 CTFer",
 	],
 };
 
@@ -165,7 +165,7 @@ export const appearanceConfig = {
 	// 英文花体字体：只作用于英文和数字，中文会自动回退到上面的正文字体；留空 "" = 不用花体
 	// 可选值 = public/fonts/script/ 下的文件名，目前有：great-vibes / dancing-script / pacifico / satisfy / allura
 	bioFont: "great-vibes", // 「一句话简介」用哪款花体
-	titleFont: "dancing-script", // 主页中央的大号站点标题用哪款花体
+	titleFont: "zcool-qingke-huangyou", // 主页中央的大号站点标题用哪款花体
 	titleSize: 64, // 大号标题的字号（px，24~160）
 };
 
