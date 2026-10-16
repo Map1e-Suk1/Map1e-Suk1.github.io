@@ -120,7 +120,7 @@ const bannerOffset =
 ---
 
 <!DOCTYPE html>
-<html lang={siteLang} class="bg-[var(--page-bg)] transition text-[14px] md:text-[16px]"
+<html lang={siteLang} class={`bg-[var(--page-bg)] transition text-[14px] md:text-[16px]${appearanceConfig.background.enable ? " has-site-bg" : ""}`}
 	  data-overlayscrollbars-initialize
 >
 	<head>
@@ -247,6 +247,14 @@ const bannerOffset =
 				background-repeat: no-repeat;
 				opacity: var(--site-bg-opacity, 0.3);
 			}
+			/* 开了全站背景图时，页面底色换成中性灰：
+			   背景图是半透明铺在页面底色上的，页面底色带主题色相就会把整张图染成那个颜色 */
+			html.has-site-bg {
+				--page-bg: oklch(0.95 0 0);
+			}
+			html.dark.has-site-bg {
+				--page-bg: oklch(0.16 0 0);
+			}
 		</style>
 
 		{appearanceConfig.fontFamily && (
@@ -273,6 +281,13 @@ const bannerOffset =
 				font-weight: 400;
 				line-height: 1.15;
 				letter-spacing: 0.01em;
+			}
+			/* 渐变裁剪的文字（bg-clip-text + text-transparent）被鼠标框选时，
+			   字本身是透明的、只剩一整块选中底色，看起来像「选中就变全蓝、字没了」。
+			   让被选中的字直接用主题色画出来。 */
+			.bg-clip-text::selection {
+				-webkit-text-fill-color: var(--primary);
+				color: var(--primary);
 			}
 		`}></style>
 

@@ -13,8 +13,8 @@ export const siteConfig: SiteConfig = {
 	subtitle: "",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
-		hue: 188, // 主题色 #39c5bb 对应的 oklch 色相（精确颜色写在 src/styles/variables.styl 的 --primary）
-		fixed: true, // 固定主题色：对访客隐藏主题色选择器
+		hue: 250, // 主题色相（0-360）：250 就是 Fuwari 自带的蓝色，--primary 由它推导（见 src/styles/variables.styl）
+		fixed: true, // 固定主题色：对访客隐藏主题色选择器；想恢复 Fuwari 默认的访客取色器就改成 false
 	},
 	banner: {
 		enable: false,
@@ -172,8 +172,8 @@ export const appearanceConfig = {
 // 樱花飘落动效：不想要就把 enable 改成 false
 export const sakuraConfig = {
 	enable: true,
-	count: 66, // 花瓣数量上限（窄屏会自动按比例减少）
-	opacity: 0.66, // 花瓣最大不透明度
+	count: 50, // 花瓣数量上限（窄屏会自动按比例减少）
+	opacity: 0.5, // 花瓣最大不透明度
 };
 
 export const licenseConfig: LicenseConfig = {

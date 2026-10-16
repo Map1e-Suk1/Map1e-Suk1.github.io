@@ -89,8 +89,8 @@ git push
 
 - `siteConfig.title` / `subtitle`：站点标题和副标题
 - `siteConfig.lang`：界面语言，中文用 `"zh_CN"`
-- `siteConfig.themeColor.hue`：主题色相（0～360）
-- `siteConfig.themeColor.fixed`：`true` = 固定主题色，对访客隐藏主题色选择器（全站只用 `hue` 这一个色相）
+- `siteConfig.themeColor.hue`：主题色相（0～360）。**250 = Fuwari 自带的蓝色（当前值）**，188 是之前那套青色；全站颜色都从它推导
+- `siteConfig.themeColor.fixed`：`true` = 固定主题色，对访客隐藏主题色选择器（全站只用 `hue` 这一个色相）；想要 Fuwari 默认的「访客也能拖色相」就改成 `false`
 - `navBarConfig.links`：顶部导航
 - `profileConfig`：头像、昵称、签名（`bio`）、社交链接
 - `heroConfig.enable` / `heroConfig.showTitle`：主页大卡片的开关、以及大卡片顶部要不要显示大号的站点标题（`siteConfig.title`）
@@ -201,12 +201,13 @@ git push          # 约 1 分钟后自动部署
 | 主页/关于页的签名文字 | `src/config.ts` 的 `profileConfig.bio` |
 | 文章 | `src/content/posts/` 新建 `.md`，或 `pnpm new-post 标题` |
 | 首页顶部横幅 banner | `src/config.ts` 的 `siteConfig.banner` |
-| 全站背景图 / 不透明度 | 图片放 `src/assets/images/`；透明度改 `src/config.ts` 的 `appearanceConfig.background.opacity` |
+| 全站背景图 / 不透明度 | 图片放 `src/assets/images/`；透明度改 `src/config.ts` 的 `appearanceConfig.background.opacity`。开着背景图时页面底色会自动换成中性灰（`src/layouts/Layout.astro` 的 `html.has-site-bg`），否则半透明背景图会被主题色染色 |
 | 头像 | 替换 `public/avatar.webp`（固定地址，不带哈希，不会因更新而破图） |
 | 樱花飘落动效 | `src/config.ts` 的 `sakuraConfig`：`enable` 开关、`count` 花瓣数量、`opacity` 不透明度 |
-| 主题色（现在固定为 `#39c5bb`） | `src/config.ts` 的 `themeColor`：`hue` 是 oklch 色相（`fixed: true` 对访客隐藏调色板）；精确色值写在 `src/styles/variables.styl` 的 `--primary` |
+| 主题色（现在是 Fuwari 默认蓝 `hue: 250`，已取消 `#39c5bb` 那套青色） | 只改 `src/config.ts` 的 `themeColor.hue`：`src/styles/variables.styl` 的 `--primary: oklch(0.70 0.14 var(--hue))` 会跟着变（`fixed: true` 时对访客隐藏调色板） |
 | UI 圆角大小 | `tailwind.config.cjs` 的 `borderRadius`（默认值已整体减半，`rounded-full` 圆形不受影响）+ `src/styles/variables.styl` 的 `--radius-large` |
 | 亚克力毛玻璃（卡片/导航/浮层） | `src/styles/main.css` 的 `.card-base`、`.float-panel`：改 `blur()` 半径与 `color-mix` 里的透明度百分比；描边色是 `src/styles/variables.styl` 的 `--glass-border` |
+| 鼠标框选渐变大标题时字会「隐身」 | `src/layouts/Layout.astro` 的 `.bg-clip-text::selection`：渐变裁剪的文字被选中时只剩一块底色，这条让选中的字用主题色画出来 |
 | 进入首页的进场动画 | `src/styles/transition.css`：`--intro-offset`（UI 延迟出现的时长，默认 700ms）、`site-bg-in`（背景图淡入时长） |
 | 页面结构 / 新页面 | `src/pages/`（复制 `friends.astro` 改最省事） |
 
@@ -217,4 +218,5 @@ git push          # 约 1 分钟后自动部署
 - 推之前 `git status` 看一眼改了哪些文件；`git checkout <文件>` 可以撤销还没提交的改动
 - 改坏了别慌：`git log --oneline` 找到上一个提交，把文件改回去再推一次即可
 - 部署结果在仓库的 **Actions** 页面看，绿勾＝已上线
+- `src/styles/*.css` 之间**不要**用 `@apply` 引用别的文件里的自定义类（比如 `@apply link`、`@apply btn-regular-dark`）：Tailwind 处理多个 CSS 文件的顺序不固定，会随机报 The `link` class does not exist，构建时好时坏。要用就把那边的属性展开成工具类照抄过来（`src/styles/markdown.css` 里已经这么改了）
 
