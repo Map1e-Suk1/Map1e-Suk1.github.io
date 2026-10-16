@@ -165,8 +165,8 @@ export const appearanceConfig = {
 	// 英文花体字体：只作用于英文和数字，中文会自动回退到上面的正文字体；留空 "" = 不用花体
 	// 可选值 = public/fonts/script/ 下的文件名，目前有：great-vibes / dancing-script / pacifico / satisfy / allura
 	bioFont: "great-vibes", // 「一句话简介」用哪款花体
-	titleFont: "dancing-script", // 主页中央的大号站点标题用哪款花体
-	titleSize: 64, // 大号标题的字号（px，24~160）
+	titleFont: "long-cang", // 主页中央的大号站点标题用哪款花体
+	titleSize: 82, // 大号标题的字号（px，24~160）
 };
 
 // 樱花飘落动效：不想要就把 enable 改成 false
