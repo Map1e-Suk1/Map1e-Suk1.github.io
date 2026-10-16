@@ -103,6 +103,7 @@ git push
 
 - **主页 `/`**（`src/pages/index.astro`，大卡片本体是 `src/components/misc/HomeHero.astro`）：顶上一张个人介绍大卡片（**大号花体站点标题** + 头像 + 名字 + **花体签名** + 打字机句子 + 联系方式 + 快捷入口），下面接「文章时间线」（按年份分组的紧凑列表，右上角有去文章列表的入口）；主页不显示右侧的分类/标签栏，为的是让人第一眼看到的是人而不是文章。
 - **归档 `/archive/`**（`src/pages/archive/[...page].astro`）：完整的文章卡片列表（标题 / 摘要 / 字数 / 分页），也就是原来主页下面那部分；右侧是「分类 / 标签」。
+- **文章页 `/posts/xxx/`**（`src/pages/posts/[...slug].astro`）：正文卡片 + 上下篇按钮；**桌面端右侧栏显示「目录」**（本文标题目录，点一下跳过去，滚动时还会高亮当前小节）。手机上侧栏在正文下方、目录没用，所以窄屏仍然显示「分类 / 标签」。
 - **关于我 `/about/`**：一张整页大卡片 —— 大头像、名字、签名，分隔线下面就是 `src/content/spec/about.md` 里的自我介绍（正文限制在 760px 宽，手机上更好读）；这一页也不显示右侧栏。
 - **不要右侧栏的页面**：主页、朋友们、关于我（`src/layouts/Layout.astro` 里的 `hideSidebar`，客户端在 Swup 翻页时同步）。
 - 时间线的过滤参数还在：主页或归档页加 `?tag=...`、`?category=...` 也能筛（沿用上游主题的行为）。
@@ -214,6 +215,7 @@ git push          # 约 1 分钟后自动部署
 | 顶部导航栏「当前在哪一页」的高亮 | `src/components/Navbar.astro`：`data-nav-path` + `nav-current` 类，样式在 `src/styles/main.css` 的 `#navbar a.nav-current`；站内翻页由脚本的 `syncCurrentNav()`（挂在 swup 的 `page:view`）重算 |
 | 站内翻页的进场动画（左右各只跳一次） | `src/styles/transition.css`：离开阶段容器**不能**加位移（`html.is-animating .transition-swup-fade` 那条已删掉），进场只交给页面自己的 `.onload-animation`；带 `animation-delay` 的元素必须是 `animation-fill-mode: both` |
 | 友链页底部「想交换友链？」卡片 | `src/pages/friends.astro`：四项内容自动取 `profileConfig` 的 `name` / 头像 / `bio` 和站点地址；显示是 2×2 小卡片（中文名 + 字段名 + 值），复制按钮读的是 `data-copy` 属性里拼好的等宽对齐文本，点击处理在 `src/layouts/Layout.astro` 的 document 级委托里（按钮里有图标，只替换里面的 `<span>`） |
+| 文章页右侧栏的「目录」 | `src/components/widget/SideBar.astro`：有标题时渲染目录卡片、否则渲染分类/标签；目录挪进侧栏前挂在页面最右侧那条随窗口宽度伸缩的窄边距里（`MainGridLayout.astro` 里那段已删），所以 `--toc-width` 变量现在没人用了 |
 | 页面结构 / 新页面 | `src/pages/`（复制 `friends.astro` 改最省事） |
 
 几条经验：
@@ -224,5 +226,7 @@ git push          # 约 1 分钟后自动部署
 - 改坏了别慌：`git log --oneline` 找到上一个提交，把文件改回去再推一次即可
 - 部署结果在仓库的 **Actions** 页面看，绿勾＝已上线
 - 进场动画看起来「跳了两遍」，最常见的是这两个原因：①**离开阶段给容器加了位移**，换内容的瞬间容器回位和页面内部 `.onload-animation` 的上浮叠在一起（先动一次、再跳一次）；②元素有 `animation-delay` 而 `animation-fill-mode` 只写了 `forwards`，延迟那段时间它先停在动画终点，延迟一过才跳回起点重播。现在本站容器全程不动、`fill-mode` 用 `both`，两个坑都堵上了
+- **要让右侧栏的内容随页面变化**（文章页显示目录、其它页面显示分类/标签），必须把 `#sidebar` 也交给 Swup 替换：`astro.config.mjs` 里 `containers: ["main", "#sidebar"]`。侧栏默认不在 Swup 的替换范围里，不写这条站内翻页时侧栏会一直停在上一页的内容（点了文章侧栏还是「分类 / 标签」）
+- 目录卡片的滚动容器 **id 必须是 `toc-inner-wrapper`**：`src/components/widget/TOC.astro` 里的脚本靠这个 id 找滚动容器，找不到就直接 `return`，目录的高亮和自动滚动会整个失效（页面上看不出报错）
 - `src/styles/*.css` 之间**不要**用 `@apply` 引用别的文件里的自定义类（比如 `@apply link`、`@apply btn-regular-dark`）：Tailwind 处理多个 CSS 文件的顺序不固定，会随机报 The `link` class does not exist，构建时好时坏。要用就把那边的属性展开成工具类照抄过来（`src/styles/markdown.css` 里已经这么改了）
 

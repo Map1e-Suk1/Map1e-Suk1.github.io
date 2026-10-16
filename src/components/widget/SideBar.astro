@@ -1,7 +1,9 @@
 ---
 import type { MarkdownHeading } from "astro";
+import { siteConfig } from "../../config";
 import Categories from "./Categories.astro";
 import Tag from "./Tags.astro";
+import TOC from "./TOC.astro";
 
 interface Props {
 	class?: string;
@@ -9,10 +11,37 @@ interface Props {
 }
 
 const className = Astro.props.class;
+const headings = Astro.props.headings ?? [];
+// 文章页（有标题）的侧栏显示本文目录，其它页面显示分类/标签。
+// 目录以前挂在页面最右侧那条随窗口宽度伸缩的窄边距里，窗口一窄就被压成细条，所以挪进侧栏。
+// 手机上侧栏在正文下方，目录没用，所以窄屏仍然显示分类/标签。
+const showToc = siteConfig.toc.enable && headings.length > 0;
 ---
 <div id="sidebar" class:list={[className, "w-full"]}>
     <div id="sidebar-sticky" class="transition-all duration-700 flex flex-col w-full gap-4 top-4 sticky top-4">
-        <Categories class="onload-animation" style="animation-delay: 150ms"></Categories>
-        <Tag class="onload-animation" style="animation-delay: 200ms"></Tag>
+        {showToc ? (
+            <>
+                <div id="toc-wrapper" class:list={["hidden lg:block pb-4 card-base onload-animation transition", {"toc-hide": siteConfig.banner.enable}]} style="animation-delay: 150ms">
+                    <div class="font-bold transition text-lg text-neutral-900 dark:text-neutral-100 relative ml-8 mt-4 mb-2
+                        before:w-1 before:h-4 before:rounded-md before:bg-[var(--primary)]
+                        before:absolute before:left-[-16px] before:top-[5.5px]">目录</div>
+                    <!-- id 必须是 toc-inner-wrapper：TOC.astro 里的滚动跟随脚本就是按这个 id 找滚动容器的 -->
+                    <div id="toc-inner-wrapper" class="px-4 max-h-[calc(100vh_-_16rem)] overflow-y-auto overflow-x-hidden hide-scrollbar">
+                        <div id="toc" class="transition-swup-fade">
+                            <TOC headings={headings}></TOC>
+                        </div>
+                    </div>
+                </div>
+                <div class="contents lg:hidden">
+                    <Categories class="onload-animation" style="animation-delay: 150ms"></Categories>
+                    <Tag class="onload-animation" style="animation-delay: 200ms"></Tag>
+                </div>
+            </>
+        ) : (
+            <>
+                <Categories class="onload-animation" style="animation-delay: 150ms"></Categories>
+                <Tag class="onload-animation" style="animation-delay: 200ms"></Tag>
+            </>
+        )}
     </div>
 </div>

@@ -711,9 +711,10 @@ if (window?.swup?.hooks) {
 }
 
 let backToTopBtn = document.getElementById('back-to-top-btn');
-let toc = document.getElementById('toc-wrapper');
 let navbar = document.getElementById('navbar-wrapper')
 function scrollFunction() {
+	// 侧栏会被 Swup 整个换掉，所以每次滚动都重新取一次目录元素
+	let toc = document.getElementById('toc-wrapper');
 	let bannerHeight = window.innerHeight * (BANNER_HEIGHT / 100)
 
 	if (backToTopBtn) {
