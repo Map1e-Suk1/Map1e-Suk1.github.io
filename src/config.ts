@@ -90,10 +90,9 @@ export const profileConfig: ProfileConfig = {
 export const heroConfig = {
 	enable: true,
 	slogans: [
-		"Roam free, for life is wide.",
-		"记录学习心得，也记录深夜的胡思乱想",
 		"一个还在慢慢变强的 CTF 新人",
 		"欢迎来我的秘密基地逛一逛~",
+		"你好呀",
 	],
 };
 
