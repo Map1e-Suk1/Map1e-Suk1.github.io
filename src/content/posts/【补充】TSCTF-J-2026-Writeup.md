@@ -54,7 +54,7 @@ http://53665a4675446e5473505a497a45326f464336546d-p80.chal.buptmerak.cn/storage/
 
 所以重复过程，速战速决。
 
-在根目录发现不可修改的`entrypoint.sh`，进去找找提示
+在根目录发现flag文件（不可读）和不可修改的`entrypoint.sh`，进去找找提示
 
 ```entrypoint.sh
 #!/bin/bash
