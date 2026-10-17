@@ -94,8 +94,80 @@
 
     .expressive-code {
         @apply my-4;
+        /* 左上角的折叠标签往上探出 1.5rem，这里给它留出位置 */
+        margin-top: 2.35rem;
         ::selection {
             @apply bg-[var(--codeblock-selection)];
+        }
+
+        /* —— 代码块左上角那块「折叠标签」：语言名 + 三角形，点一下收起 / 展开 —— */
+        .ec-fold-tab {
+            /* expressive-code 会给块里所有元素套 all: revert，这里一次性重置干净再自己写样式 */
+            all: unset;
+            position: absolute;
+            left: 0.75rem;
+            top: -1.5rem;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            height: 1.5rem;
+            padding: 0 0.6rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+            background: oklch(0.33 0.035 var(--hue));
+            color: oklch(0.78 0.1 var(--hue));
+            font-family: 'JetBrains Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+            font-size: 0.7rem;
+            font-weight: bold;
+            line-height: 1;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .ec-fold-tab:hover {
+            background: oklch(0.38 0.04 var(--hue));
+            color: oklch(0.86 0.1 var(--hue));
+        }
+
+        .ec-fold-tab:has(.ec-fold-checkbox:focus-visible) {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .ec-fold-checkbox {
+            position: absolute;
+            width: 0;
+            height: 0;
+            margin: 0;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .ec-fold-arrow {
+            width: 0;
+            height: 0;
+            border-left: 0.26rem solid transparent;
+            border-right: 0.26rem solid transparent;
+            border-top: 0.32rem solid currentColor;
+            transition: transform 0.25s ease;
+        }
+
+        /* 收起状态：代码只留一条窄边，三角形转成「展开」方向 */
+        .frame:has(> .ec-fold-tab > .ec-fold-checkbox:not(:checked)) {
+            pre {
+                min-height: 2.75rem;
+            }
+
+            pre > code {
+                display: none;
+            }
+
+            .ec-fold-arrow {
+                transform: rotate(-90deg);
+            }
         }
     }
 
@@ -127,4 +199,14 @@
         margin: 1em 0;
     }
     
+}
+
+/* 深色模式下页面背景本身很暗，把折叠标签提亮一点，免得和代码块糊成一片 */
+.dark .custom-md .expressive-code .ec-fold-tab {
+    background: oklch(0.42 0.055 var(--hue));
+    color: oklch(0.87 0.08 var(--hue));
+}
+
+.dark .custom-md .expressive-code .ec-fold-tab:hover {
+    background: oklch(0.48 0.06 var(--hue));
 }
