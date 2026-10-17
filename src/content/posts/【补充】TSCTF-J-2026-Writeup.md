@@ -10,9 +10,11 @@ draft: false
 
 对 **TSCTF-J 2026** 未解出题目的补充WP ~~（在努力做题了）~~
 
-# **web**
+该文章会一直更新到做不动为止 ~~（大概）~~
 
-## **玛德莱娜小蛋糕**
+# **web题**
+
+## **题目：玛德莱娜小蛋糕**
 
 ![alt text](/posts-images/【补充】TSCTF-J-2026-Writeup/image-1.png)
 
