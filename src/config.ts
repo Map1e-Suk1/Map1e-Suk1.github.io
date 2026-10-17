@@ -48,7 +48,7 @@ export const navBarConfig: NavBarConfig = {
 			url: "/about/",
 		},
 		{
-			name: "My Friends！",
+			name: "My Friends !",
 			url: "/friends/",
 		},
 		{
