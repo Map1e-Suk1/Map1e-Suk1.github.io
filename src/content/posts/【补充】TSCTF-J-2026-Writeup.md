@@ -8,13 +8,11 @@ category: CTF
 draft: false
 ---
 
-# **【补充】TSCTF-J 2026 Writeup**
-
 对 **TSCTF-J 2026** 未解出题目的补充WP ~~（在努力做题了）~~
 
-## **web**
+# **web**
 
-### **玛德莱娜小蛋糕**
+## **玛德莱娜小蛋糕**
 
 ![alt text](/posts-images/【补充】TSCTF-J-2026-Writeup/image-1.png)
 
