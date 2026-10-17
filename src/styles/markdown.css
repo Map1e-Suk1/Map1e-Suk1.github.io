@@ -109,8 +109,8 @@
             --fold-bottom: var(--codeblock-bg);
             --fold-radius: 0.5rem;
             position: absolute;
-            /* 让开代码块自己的圆角，下面那两段小圆弧才正好落在块的直边上 */
-            left: 1.5rem;
+            /* 贴住代码块左边缘：左上角的圆角缺口由下面 ::before 那块同色小方块补平 */
+            left: 0;
             top: -1.5rem;
             z-index: 5;
             display: flex;
@@ -139,26 +139,29 @@
             color: oklch(0.93 0.05 var(--hue));
         }
 
-        /* 左下 / 右下各补一小块「凹圆角」，把标签的竖边和代码块的横边用曲线接起来 */
-        .ec-fold-tab::before,
+        /* 左侧：标签和代码块左边对平，代码块左上角原本的圆角会留出一个小缺口，
+           这里用一块和代码块同色的小方块把它填平，左边就成了一条直线（同色，看不出补过） */
+        .ec-fold-tab::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 100%;
+            width: 0.9rem;
+            height: 0.9rem;
+            background: var(--fold-bottom);
+            pointer-events: none;
+        }
+
+        /* 右侧：补一小块「凹圆角」，把标签的竖边和代码块的横边用曲线接起来 */
         .ec-fold-tab::after {
             content: '';
             position: absolute;
+            right: calc(-1 * var(--fold-radius));
             bottom: 0;
             width: var(--fold-radius);
             height: var(--fold-radius);
             background: var(--fold-bottom);
             pointer-events: none;
-        }
-
-        .ec-fold-tab::before {
-            left: calc(-1 * var(--fold-radius));
-            -webkit-mask-image: radial-gradient(circle at 0 0, transparent calc(var(--fold-radius) - 0.5px), #000 calc(var(--fold-radius) - 0.5px));
-            mask-image: radial-gradient(circle at 0 0, transparent calc(var(--fold-radius) - 0.5px), #000 calc(var(--fold-radius) - 0.5px));
-        }
-
-        .ec-fold-tab::after {
-            right: calc(-1 * var(--fold-radius));
             -webkit-mask-image: radial-gradient(circle at 100% 0, transparent calc(var(--fold-radius) - 0.5px), #000 calc(var(--fold-radius) - 0.5px));
             mask-image: radial-gradient(circle at 100% 0, transparent calc(var(--fold-radius) - 0.5px), #000 calc(var(--fold-radius) - 0.5px));
         }
