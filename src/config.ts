@@ -76,6 +76,11 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa6-solid:envelope",
 			url: "mailto:Map1e-Suk1@qq.com",
 		},
+		{
+			name: "Bilibili",
+			icon: "fa6-brands:bilibili",
+			url: "https://space.bilibili.com/51436254",
+		},
 	],
 };
 
