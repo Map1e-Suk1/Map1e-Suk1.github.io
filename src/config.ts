@@ -91,7 +91,7 @@ export const heroConfig = {
 	slogans: [
 		"你好呀！",
 		"欢迎来我的秘密基地~",
-		"一个还在慢慢变强的 CTFer",
+		"一个在努力变强的 CTFer"
 	],
 };
 
@@ -138,7 +138,7 @@ export const friendsConfig: FriendsConfig = {
 			},
 			{
 				name: "Dalang",
-				url: "https://xiaolang0817.github.io",
+				url: "https://xiaolang0817.github.io/personal_blog/",
 				avatar: "https://xiaolang0817.github.io/personal_blog/touxiang.jpg",
 				description: "里面可能会有我半夜发疯想的东西和一些记录",
 			},
