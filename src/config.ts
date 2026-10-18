@@ -69,7 +69,7 @@ export const profileConfig: ProfileConfig = {
 		{ name: "GitHub", icon: "fa6-brands:github", url: "https://github.com/Map1e-Suk1" },
 		{ name: "Email", icon: "fa6-solid:envelope", url: "mailto:Map1e-Suk1@qq.com" },
 		{ name: "Bilibili", icon: "fa6-brands:bilibili", url: "https://space.bilibili.com/51436254" },
-		{ name: "VRChat", icon: "simple-icons:vrchat", url: "https://vrchat.com/home/user/usr_035da2f2-aa90-4fcd-853d-d2638e0f132a" }
+		{ name: "VRChat", icon: "/icons/vrchat.png", url: "https://vrchat.com/home/user/usr_035da2f2-aa90-4fcd-853d-d2638e0f132a" } // 图标也可以直接写图片地址（png/svg），这里用的是 VRChat 官网的站点图标
 	],
 };
 

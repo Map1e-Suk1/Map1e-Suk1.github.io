@@ -5,6 +5,9 @@ import { url } from "../../utils/url-utils";
 import ImageWrapper from "./ImageWrapper.astro";
 
 // 主页顶部的个人介绍大卡片：头像 + 名字 + 签名 + 打字机座右铭 + 联系方式 + 快捷入口
+// 社交链接的图标两种写法都认：Iconify 名字（fa6-brands:github）或图片地址（/icons/vrchat.png、https://…）
+const isImageIcon = (icon: string) => /^(\/|https?:\/\/)/.test(icon || "");
+
 const quickLinks = [
 	{ name: "About me", icon: "fa6-regular:address-card", url: url("/about/") },
 	{ name: "Articles", icon: "fa6-solid:box-archive", url: url("/archive/") },
@@ -69,7 +72,9 @@ const quickLinks = [
         {profileConfig.links.map(item => (
             <a rel="me" aria-label={item.name} href={item.url} target="_blank"
                class="btn-regular rounded-lg h-10 gap-2 px-4 text-sm font-bold active:scale-95">
-                <Icon name={item.icon} class="text-[1.25rem]"></Icon>
+                {isImageIcon(item.icon)
+                    ? <img src={item.icon.startsWith("/") ? url(item.icon) : item.icon} alt="" loading="lazy" decoding="async" class="w-[1.25rem] h-[1.25rem] object-contain" />
+                    : <Icon name={item.icon} class="text-[1.25rem]"></Icon>}
                 {item.name}
             </a>
         ))}
