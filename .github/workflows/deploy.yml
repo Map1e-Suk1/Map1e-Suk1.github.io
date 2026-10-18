@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # 每天自动重建一次：朋友们最近在写什么（/friends/updates/）是构建时抓的 RSS，
+  # 只靠 push 触发的话，得等你自己发新文章才会刷新。cron 是 UTC，17:08 UTC = 北京时间 01:08。
+  schedule:
+    - cron: "8 17 * * *"
 
 permissions:
   contents: read

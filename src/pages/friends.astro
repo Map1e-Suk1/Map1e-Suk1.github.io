@@ -28,6 +28,14 @@ const infoText = infoRows.map(({ key, value }) => key.padEnd(12) + value).join("
         <div class="card-base px-9 py-6">
             <div class="text-2xl font-bold text-[var(--primary)] mb-3 transition">{title}</div>
             {intro && <div class="text-black/50 dark:text-white/50 transition">{intro}</div>}
+            <a href={url("/friends/updates/")}
+               class="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold
+                      bg-[var(--btn-regular-bg)] text-[var(--primary)] transition
+                      hover:bg-[var(--btn-regular-bg-hover)] active:scale-[0.98]">
+                <Icon name="fa6-solid:clock-rotate-left" class="text-xs" />
+                朋友们最近在写什么
+                <Icon name="fa6-solid:angle-right" class="text-xs" />
+            </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

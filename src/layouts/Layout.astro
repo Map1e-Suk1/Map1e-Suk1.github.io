@@ -39,7 +39,8 @@ let { title, banner, description, lang, setOGTypeArticle } = Astro.props;
 // so use Swup hooks instead to change the height immediately when a link is clicked
 const isHomePage = pathsEqual(Astro.url.pathname, url("/"));
 // 主页 / 朋友们 / 关于我 都不显示右侧栏（分类 / 标签）
-const isFriendsPage = pathsEqual(Astro.url.pathname, url("/friends/"));
+// 朋友们那一组页面（/friends/ 和它下面的 /friends/updates/）整片都不显示
+const isFriendsPage = Astro.url.pathname.startsWith(url("/friends/"));
 const isAboutPage = pathsEqual(Astro.url.pathname, url("/about/"));
 // 三类页面共用一个开关：服务端给初值，客户端在 Swup 翻页时同步
 const hideSidebar = isFriendsPage || isHomePage || isAboutPage;
@@ -331,7 +332,7 @@ const bannerOffset =
 				const path = window.location.pathname;
 				document.body.classList.toggle(
 					"no-sidebar",
-					pathsEqual(path, friendsPath) ||
+					path.startsWith(friendsPath) ||
 						pathsEqual(path, homePath) ||
 						pathsEqual(path, aboutPath),
 				);
