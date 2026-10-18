@@ -68,6 +68,8 @@ export default defineConfig({
 				"fa6-brands": ["*"],
 				"fa6-regular": ["*"],
 				"fa6-solid": ["*"],
+				// VRChat 官方图标（Font Awesome 里没有这个牌子，Simple Icons 才有）
+				"simple-icons": ["vrchat"],
 			},
 		}),
 		expressiveCode({

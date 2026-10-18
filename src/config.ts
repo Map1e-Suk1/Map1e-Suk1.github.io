@@ -66,21 +66,10 @@ export const profileConfig: ProfileConfig = {
 	name: "Map1e-Suk1",
 	bio: "Roam free, for life is wide.",
 	links: [
-		{
-			name: "GitHub",
-			icon: "fa6-brands:github", // Visit https://icones.js.org/ for icon codes
-			url: "https://github.com/Map1e-Suk1",
-		},
-		{
-			name: "Email",
-			icon: "fa6-solid:envelope",
-			url: "mailto:Map1e-Suk1@qq.com",
-		},
-		{
-			name: "Bilibili",
-			icon: "fa6-brands:bilibili",
-			url: "https://space.bilibili.com/51436254",
-		},
+		{ name: "GitHub", icon: "fa6-brands:github", url: "https://github.com/Map1e-Suk1" },
+		{ name: "Email", icon: "fa6-solid:envelope", url: "mailto:Map1e-Suk1@qq.com" },
+		{ name: "Bilibili", icon: "fa6-brands:bilibili", url: "https://space.bilibili.com/51436254" },
+		{ name: "VRChat", icon: "simple-icons:vrchat", url: "https://vrchat.com/home/user/usr_035da2f2-aa90-4fcd-853d-d2638e0f132a" }
 	],
 };
 
