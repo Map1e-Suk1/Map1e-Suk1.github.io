@@ -1,0 +1,24 @@
+---
+// 这篇文章的地址从 /posts/为什么想聊这个/ 改成了 /posts/chat-about-vrchat/：
+// 原来文件名就是「为什么想聊这个？」，URL 跟着文件名走，和标题《【杂谈】聊聊VRchat》对不上。
+// 旧地址可能已经被分享出去了，所以留一个跳转页，不会 404。
+import { url } from "@utils/url-utils";
+
+const target = url("/posts/chat-about-vrchat/");
+---
+
+<html lang="zh-CN">
+	<head>
+		<meta charset="utf-8" />
+		<title>页面搬家了</title>
+		<link rel="canonical" href={target} />
+		<meta name="robots" content="noindex" />
+		<meta http-equiv="refresh" content={"0; url=" + target} />
+	</head>
+	<body>
+		<p style="font-family: sans-serif; padding: 2rem; line-height: 1.8">
+			这篇文章的地址换了：<a href={target}>点这里继续</a>
+		</p>
+		<script is:inline define:vars={{ target }}>location.replace(target);</script>
+	</body>
+</html>
