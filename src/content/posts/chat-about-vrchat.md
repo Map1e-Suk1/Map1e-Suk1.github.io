@@ -4,6 +4,7 @@ published: 2026-10-18
 description: 萌新入坑指北
 tags:
   - VRchat
+  - 游戏
 category: 杂谈
 draft: false
 ---
