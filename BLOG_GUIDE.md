@@ -202,6 +202,7 @@ git push          # 约 1 分钟后自动部署
 | 主页顶部的个人介绍大卡片 | `src/components/misc/HomeHero.astro`；里面轮播的句子在 `src/config.ts` 的 `heroConfig.slogans` |
 | 主页/关于页的签名文字 | `src/config.ts` 的 `profileConfig.bio` |
 | 文章 | `src/content/posts/` 新建 `.md`，或 `pnpm new-post 标题` |
+| 文章的「最后更新」日期 | front matter 里写 `updated: 2026-10-19`，文章顶部就会出现「最后更新 2026-10-19」；不写就不显示。以前要求 `updated` 和 `published` 不同才显示，同一天改稿会看不见，现在只要写了就显示（`src/components/PostMeta.astro`）。文字标签在 `src/i18n/languages/*.ts` 的 `updatedAt`（10 种语言都已补齐）；BlogGUI 保存文章时会自动写这个字段 |
 | 首页顶部横幅 banner | `src/config.ts` 的 `siteConfig.banner` |
 | 全站背景图 / 不透明度 | 图片放 `src/assets/images/`；透明度改 `src/config.ts` 的 `appearanceConfig.background.opacity`。开着背景图时页面底色会自动换成中性灰（`src/layouts/Layout.astro` 的 `html.has-site-bg`），否则半透明背景图会被主题色染色 |
 | 头像 | 替换 `public/avatar.webp`（固定地址，不带哈希，不会因更新而破图） |
@@ -222,6 +223,7 @@ git push          # 约 1 分钟后自动部署
 
 - **只改引号里的内容**，别删括号和逗号；`pnpm dev` 会立刻告诉你哪一行出错
 - 文章 frontmatter 里 `draft: true` 表示「不发布，只在本地可见」
+- 文章 frontmatter 的 `updated` 是「最后更新」日期，格式 `YYYY-MM-DD`（和 `published` 一样）；只写 `published` 就不会显示更新日期
 - 推之前 `git status` 看一眼改了哪些文件；`git checkout <文件>` 可以撤销还没提交的改动
 - 改坏了别慌：`git log --oneline` 找到上一个提交，把文件改回去再推一次即可
 - 部署结果在仓库的 **Actions** 页面看，绿勾＝已上线

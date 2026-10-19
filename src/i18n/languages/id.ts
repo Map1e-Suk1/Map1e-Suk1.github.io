@@ -34,5 +34,6 @@ export const id: Translation = {
 
 	[Key.author]: "Penulis",
 	[Key.publishedAt]: "Diterbitkan pada",
+	[Key.updatedAt]: "Diperbarui pada",
 	[Key.license]: "Lisensi",
 };

@@ -36,12 +36,15 @@ const className = Astro.props.class;
     </div>
 
     <!-- update date -->
-    {!hideUpdateDate && updated && updated.getTime() !== published.getTime() && (
-        <div class="flex items-center">
+    <!-- 只要 front matter 里写了 updated 就显示「最后更新 日期」；没写就不显示。
+         以前还要求 updated 与发布日期不同，但同一天改稿很常见，那样会看不到更新时间。 -->
+    {!hideUpdateDate && updated && (
+        <div class="flex items-center gap-1.5">
             <div class="meta-icon"
             >
                 <Icon name="material-symbols:edit-calendar-outline-rounded" class="text-xl"></Icon>
             </div>
+            <span class="text-50 text-sm font-medium">{i18n(I18nKey.updatedAt)}</span>
             <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(updated)}</span>
         </div>
     )}
