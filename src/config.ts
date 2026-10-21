@@ -28,7 +28,7 @@ export const siteConfig: SiteConfig = {
 	},
 	toc: {
 		enable: true, // Display the table of contents on the right side of the post
-		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
+		depth: 3, // Maximum heading depth to show in the table, from 1 to 3
 	},
 	favicon: [{ src: "/favicon/icon.png" }],
 };
@@ -152,7 +152,7 @@ export const appearanceConfig = {
 		enable: true,
 		opacity: 0.35,
 	},
-	fontFamily: "\"Noto Sans SC\", \"Source Han Sans SC\", \"Microsoft YaHei\", sans-serif",
+	fontFamily: "",
 	// 毛玻璃：卡片/悬浮面板底色百分比（越低越通透）+ 背景模糊 px
 	glass: { enable: true, card: 35, panel: 40, blur: 7 },
 	// 英文花体字体：只作用于英文和数字，中文会自动回退到上面的正文字体；留空 "" = 不用花体
