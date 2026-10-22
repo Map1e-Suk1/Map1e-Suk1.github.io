@@ -10,13 +10,11 @@ category: CTF
 draft: false
 ---
 
-# **【补充】TSCTF-J 2026 Writeup**
-
 对 **TSCTF-J 2026** 未解出题目的补充WP ~~（在努力做题了）~~
 
 会一直更新 ~~（大概）~~
 
-## **玛德莱娜小蛋糕**
+# **题目：玛德莱娜小蛋糕**
 
 ![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-1.png)
 
@@ -195,9 +193,9 @@ cat /flag > /var/www/html/storage/tmp/flagout.txt
 
 ---
 
-## **题目：MinePortrait**
+# **题目：MinePortrait**
 
-### 正文
+## 正文
 
 进入题目环境 见登录界面
 
@@ -445,7 +443,7 @@ if (source === "svg" && target === "png") {
 
 ---
 
-### 后日谈
+## 后日谈
 
 ***1.还有哪些优秀的 127.0.0.1等价host？***
 
@@ -464,7 +462,7 @@ DSH老师回答如下：
 
 ---
 
-### 个人联想
+## 个人联想
 
 笔者针对为什么能直接更改127.0.0.1的进制表示从而绕过WAF进行了一定探究。发现了一些可能存在的**历史渊源** ~~（大概只是过度解读）~~
 
