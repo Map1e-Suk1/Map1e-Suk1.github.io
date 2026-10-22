@@ -74,7 +74,12 @@ const scriptFamily = (key: string) =>
 	key.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
 const scriptStack = (key?: string) => {
 	const k = String(key || "").trim();
-	return k && scriptFontMap.has(k) ? `"${scriptFamily(k)}", ${appearanceConfig.fontFamily}` : "";
+	if (!k || !scriptFontMap.has(k)) return "";
+	// 正文字体允许留空（= 用站点默认字体）。留空时绝不能拼出 `"字体", ` 这种
+	// 末尾多一个逗号的写法：那会让浏览器把整条 font-family 声明判为无效并丢弃，
+	// 结果主页大标题 / 一句话签名会掉回默认字体。
+	const fallback = String(appearanceConfig.fontFamily || "").trim();
+	return fallback ? `"${scriptFamily(k)}", ${fallback}` : `"${scriptFamily(k)}"`;
 };
 const bioFontStack = scriptStack(appearanceConfig.bioFont);
 const titleFontStack = scriptStack(appearanceConfig.titleFont);
