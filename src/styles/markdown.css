@@ -203,6 +203,43 @@
                 transform: rotate(-90deg);
             }
         }
+
+        /* —— Tab / 4 空格缩进出来的那种块（Expressive Code 记成 plaintext）——
+           和真正的代码块区分开：VS Code 预览里的浅灰块，细边框、等宽字，
+           不显示语言标签、不显示行号 */
+        &:has(.frame.is-plaintext) {
+            /* 没有折叠标签，就不用给标签留出悬空的那 1.35rem */
+            margin-top: 1rem;
+        }
+
+        .frame.is-plaintext {
+            box-shadow: none;
+
+            pre {
+                --plain-bg: oklch(0.962 0.004 var(--hue));
+                --plain-brd: oklch(0.87 0.008 var(--hue));
+                --plain-fg: oklch(0.32 0.02 var(--hue));
+                background: var(--plain-bg);
+                border: 1px solid var(--plain-brd);
+                border-radius: 0.5rem;
+            }
+
+            pre > code {
+                color: var(--plain-fg);
+            }
+
+            /* Shiki 给每个 token 单独上了颜色（--0 / --1），而且它自己那条规则
+               优先级很高（带着 :root 和 [data-theme]），这里用 pre 把优先级顶上去，
+               不然浅色主题下会沿用深色主题的浅灰字，几乎看不见 */
+            pre .ec-line :where(span[style^='--']:not([class])) {
+                color: var(--plain-fg);
+            }
+
+            /* 不显示行号：左侧那条装行号的格子整个撤掉 */
+            .ec-line .gutter {
+                display: none;
+            }
+        }
     }
 
 
@@ -243,4 +280,11 @@
 
 .dark .custom-md .expressive-code .ec-fold-tab:hover {
     --fold-top: oklch(0.47 0.055 var(--hue));
+}
+
+/* 深色模式下的 plaintext 块：换成比正文卡片略深一点的中性灰，字色提亮 */
+.dark .custom-md .expressive-code .frame.is-plaintext pre {
+    --plain-bg: oklch(0.26 0.012 var(--hue));
+    --plain-brd: oklch(1 0 0 / 0.1);
+    --plain-fg: oklch(0.84 0.02 var(--hue));
 }

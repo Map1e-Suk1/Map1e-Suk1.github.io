@@ -55,7 +55,8 @@ define({
   --meta-divider: black(0.2) white(0.2)
 
   --inline-code-bg: var(--btn-regular-bg)
-  --inline-code-color: var(--btn-content)
+  /* 行内代码用 VS Code 那种红（浅色 / 深色各一个），和蓝色主题区分开 */
+  --inline-code-color: #cf222e #ff7b72
   --selection-bg: oklch(0.90 0.05 var(--hue)) oklch(0.40 0.08 var(--hue))
   --codeblock-selection: oklch(0.40 0.08 var(--hue))
   --codeblock-bg: oklch(0.17 0.015 var(--hue)) oklch(0.17 0.015 var(--hue))

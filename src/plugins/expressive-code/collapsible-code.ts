@@ -39,6 +39,14 @@ export function pluginCollapsibleCode() {
 				const title = String(context.codeBlock?.props?.title ?? "").trim();
 				const label = (title || preLanguage || context.codeBlock?.language || "code").trim();
 
+				// Markdown 里用 Tab / 4 空格缩进出来的块会被当成 plaintext 代码块：
+				// 这种块不加左上角折叠标签（也就不显示 PLAINTEXT），打个标记交给
+				// markdown.css 按 VS Code 预览那种浅灰块来画。
+				if (!title && (!preLanguage || /^(plaintext|text|txt)$/i.test(preLanguage))) {
+					figure.properties.className = [...classes.filter(Boolean), "is-plaintext"];
+					return;
+				}
+
 				const checkbox: Element = {
 					type: "element",
 					tagName: "input",
