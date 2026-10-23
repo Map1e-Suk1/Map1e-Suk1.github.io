@@ -84,11 +84,11 @@ const className = Astro.props.class;
                 </div>
             )}
             <div class="flex flex-row flex-nowrap items-center">
+                {/* 卡片上的标签名字用粗一点的字重（500 → 700），文章页保持原样 */}
                 {(tags && tags.length > 0) && tags.map((tag, i) => (
                     <div class:list={[{"hidden": i == 0}, "mx-1.5 text-[var(--meta-divider)] text-sm"]}>/</div>
                     <a href={getTagUrl(tag)} aria-label={`View all posts with the ${tag.trim()} tag`}
-                       class="link-lg transition text-50 text-sm font-medium
-                                    hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
+                       class:list={["link-lg transition text-50 text-sm hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap", metaRight ? "font-bold" : "font-medium"]}>
                         {tag.trim()}
                     </a>
                 ))}
