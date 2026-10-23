@@ -19,7 +19,7 @@ draft: false
 
 **（注意：该世界仅支持PC端。VR一体机，安卓端和IOS端均不可进入）** ~~(为什么新手教程不是人人都能进入)~~
 
-![alt text](/posts-images/为什么想聊这个？/image-3.png)
+![alt text](image-3.png)
 
 ~~其实本来想写写自己的故事的，但是写了一半感觉不合适所以全删了~~
 
@@ -63,7 +63,7 @@ Japan Shrine日本神社，日本人居多。
 
 请注意：模型房需要选择 **“模型世界”** 的分类才能看到。如图所示。
 
-![alt text](/posts-images/为什么想聊这个？/image-1.png)
+![alt text](image-1.png)
 
 ### 闲鱼购买
 
@@ -113,7 +113,7 @@ Japan Shrine日本神社，日本人居多。
 
 笔者在**新中文新人社区**，欢迎大家前来加入。群组的老大是曦晨六时，一个待人热情的好大哥。
 
-![alt text](/posts-images/为什么想聊这个？/image-4.png)
+![alt text](image-4.png)
 
 # 玩VRchat你需要知道的事
 
@@ -156,7 +156,7 @@ VRchat中的砂糖可以理解为虚拟恋人。人话就是网恋。由于VRcha
 **请不要去JHP地图或参与任何ERP行为。**
 
 ERP全称“Erotic Role-Playing”，想知道具体意思的请自行翻译。如果你在国内搜索引擎中搜索“ERP”，那么你大概率会获得
-![alt text](/posts-images/为什么想聊这个？/image-2.png)
+![alt text](image-2.png)
 
 因此ERP在游戏中被戏称为企业资源计划/管理。
 
@@ -193,7 +193,7 @@ ERP全称“Erotic Role-Playing”，想知道具体意思的请自行翻译。�
 # 关于笔者
 
 先附上一张笔者的账号截图
-![alt text](/posts-images/为什么想聊这个？/2a9551fcfd5e14e19e2fdd7d44f39988-1.png)
+![alt text](2a9551fcfd5e14e19e2fdd7d44f39988-1.png)
 
 虽然现在大学是很自由，但是好忙。怀念高考后的那个暑假，无忧无虑的，聊天也能一直专注于聊天。 ~~现在只能一边挂机听好友聊天，一边做数分，线代，密码等等作业~~
 

@@ -16,7 +16,7 @@ draft: false
 
 # **题目：玛德莱娜小蛋糕**
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-1.png)
+![alt text](image-1.png)
 
 进入主页面发现一个 *存入相册* 的按钮，考虑到这是一个低难度web题，猜测是一句话木马类型。
 
@@ -48,7 +48,7 @@ http://53665a4675446e5473505a497a45326f464336546d-p80.chal.buptmerak.cn/storage/
 
 尝试使用蚁剑进入文件夹，成功
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-2.png)
+![alt text](image-2.png)
 
 不过浏览了一会发现报错了，回到网页发现404，结合tmp路径，猜测文件被清理
 
@@ -199,11 +199,11 @@ cat /flag > /var/www/html/storage/tmp/flagout.txt
 
 进入题目环境 见登录界面
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/4e9da50bb48a48a281594dc0f26d8b30.png)
+![alt text](4e9da50bb48a48a281594dc0f26d8b30.png)
 
 用**dirsearch**扫一遍，发现有隐藏端口
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/8b033252dabfc55dbb1643afeaf9bbee.png)
+![alt text](8b033252dabfc55dbb1643afeaf9bbee.png)
 
 依次访问
 
@@ -211,11 +211,11 @@ cat /flag > /var/www/html/storage/tmp/flagout.txt
 
 **/robots.txt**返回有效内容
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/52549275338a7285d32457c8f2bc88e2.png)
+![alt text](52549275338a7285d32457c8f2bc88e2.png)
 
 追踪到 **/www.zip**，直接下载到了文件，解压得到两个文件
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-8.png)
+![alt text](image-8.png)
 
 打开**login_source.py**
 
@@ -250,7 +250,7 @@ def check_login(username, password):
 
 使用**m0rnis**和**passw0rd**登录进入网站。
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-9.png)
+![alt text](image-9.png)
 
 发现有上传文件的地方，随便找一张照片进行格式转化，发现**burp**抓不到包，判断有直接的**前端图片转化器**，不过服务器
 
@@ -383,7 +383,7 @@ if (source === "svg" && target === "png") {
 
 **svg**本质是一种**xml**，那么就可能存在**xxe实体注入**，往这个方向靠。（这里引用一下[Hello CTF](https://hello-ctf.com/hc-skill/web/xxe/)的内容）
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-10.png)
+![alt text](image-10.png)
 
 看到这个之后，笔者本来想去找P.W.N.CTF 2018的相关WP，但是似乎没找到（大概是没仔细找）
 
@@ -405,13 +405,13 @@ if (source === "svg" && target === "png") {
 
 回显
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-11.png)
+![alt text](image-11.png)
 
 明显被WAF了，让我们 **"Go refine it!"**
 
 正所谓**出题人不会给没有用的信息** ~~（雾）~~，前面说过可以在 `<!DOCTYPE` 和 `<!ENTITY` 之中插入空格，我们据此改进payload后，得到回显
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-4.png)
+![alt text](image-4.png)
 
 说明成功绕过了一层WAF，但是还有一层。这时候可以结合一下出题师傅给的提示
 
@@ -435,7 +435,7 @@ if (source === "svg" && target === "png") {
 
 得到
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-12.png)
+![alt text](image-12.png)
 
 一堆报错信息后面直接拿到flag
 
@@ -450,7 +450,7 @@ if (source === "svg" && target === "png") {
 
 dsh帮我测了一堆和**127.0.0.1**等价的host出来
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-13.png)
+![alt text](image-13.png)
 
 ---
 
@@ -458,7 +458,7 @@ dsh帮我测了一堆和**127.0.0.1**等价的host出来
 
 DSH老师回答如下：
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-14.png)
+![alt text](image-14.png)
 
 ---
 
@@ -470,7 +470,7 @@ DSH老师回答如下：
 
 去问DS老师，得到回答如下
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-15.png)
+![alt text](image-15.png)
 
 **legacy**一词引起了笔者的注意，因为前面的**old_note.txt**中也出现了**legacy**一词
 
@@ -481,9 +481,9 @@ DSH老师回答如下：
 
 于是我去追问DS: **"inet_aton是现代服务器都有的吗?"**
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-16.png)
+![alt text](image-16.png)
 
-![alt text](/posts-images/补充-TSCTF-J-2026-Writeup/image-17.png)
+![alt text](image-17.png)
 
 看来大概是 **“旧版肖像工具”** 使用了已经被时代遗弃的 **“inet_aton”** ，导致了漏洞的发生。
 
