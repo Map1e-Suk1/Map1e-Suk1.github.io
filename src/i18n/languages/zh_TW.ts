@@ -33,7 +33,7 @@ export const zh_TW: Translation = {
 	[Key.more]: "更多",
 
 	[Key.author]: "作者",
-	[Key.publishedAt]: "發佈於",
+	[Key.publishedAt]: "發佈時間",
 	[Key.updatedAt]: "最後更新",
 	[Key.license]: "許可協議",
 };

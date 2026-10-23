@@ -33,7 +33,7 @@ export const zh_CN: Translation = {
 	[Key.more]: "更多",
 
 	[Key.author]: "作者",
-	[Key.publishedAt]: "发布于",
+	[Key.publishedAt]: "发布时间",
 	[Key.updatedAt]: "最后更新",
 	[Key.license]: "",
 };
