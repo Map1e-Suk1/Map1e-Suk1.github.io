@@ -159,7 +159,7 @@ export const appearanceConfig = {
 	// 可选值 = public/fonts/script/ 下的文件名，目前有：great-vibes / dancing-script / pacifico / satisfy / allura
 	bioFont: "great-vibes", // 「一句话简介」用哪款花体
 	titleFont: "ma-shan-zheng", // 主页中央的大号站点标题用哪款花体
-	nameFont: "", // 「关于我」页面上我的名字用哪款字体（可选值同上面；留空 = 用主题默认字体）
+	nameFont: "allura", // 「关于我」页面上我的名字用哪款字体（可选值同上面；留空 = 用主题默认字体）
 	titleSize: 96, // 大号标题的字号（px，24~160）
 };
 
