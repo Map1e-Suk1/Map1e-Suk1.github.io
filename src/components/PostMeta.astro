@@ -40,8 +40,8 @@ const className = Astro.props.class;
                     <Icon name="material-symbols:calendar-today-outline-rounded" class="text-xl"></Icon>
                 </div>
             )}
-            {metaRight && <span class="text-50 text-sm font-medium">{i18n(I18nKey.publishedAt)}</span>}
-            <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(published)}</span>
+            {metaRight && <span class="text-50 text-sm font-extrabold">{i18n(I18nKey.publishedAt)}</span>}
+            <span class="text-50 text-sm font-extrabold">{formatDateToYYYYMMDD(published)}</span>
         </div>
 
         <!-- update date：只要 front matter 里写了 updated 就显示；没写就不显示 -->
@@ -52,8 +52,8 @@ const className = Astro.props.class;
                         <Icon name="material-symbols:edit-calendar-outline-rounded" class="text-xl"></Icon>
                     </div>
                 )}
-                <span class="text-50 text-sm font-medium">{i18n(I18nKey.updatedAt)}</span>
-                <span class="text-50 text-sm font-medium">{formatDateToYYYYMMDD(updated)}</span>
+                <span class="text-50 text-sm font-extrabold">{i18n(I18nKey.updatedAt)}</span>
+                <span class="text-50 text-sm font-extrabold">{formatDateToYYYYMMDD(updated)}</span>
             </div>
         )}
     </div>
@@ -69,7 +69,7 @@ const className = Astro.props.class;
             )}
             <div class="flex flex-row flex-nowrap items-center">
                 <a href={getCategoryUrl(category)} aria-label={`View all posts in the ${category} category`}
-                   class="link-lg transition text-50 text-sm font-medium
+                   class="link-lg transition text-50 text-sm font-extrabold
                                 hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
                     {category || i18n(I18nKey.uncategorized)}
                 </a>
@@ -84,11 +84,11 @@ const className = Astro.props.class;
                 </div>
             )}
             <div class="flex flex-row flex-nowrap items-center">
-                {/* 卡片上的标签名字用粗一点的字重（500 → 700），文章页保持原样 */}
                 {(tags && tags.length > 0) && tags.map((tag, i) => (
                     <div class:list={[{"hidden": i == 0}, "mx-1.5 text-[var(--meta-divider)] text-sm"]}>/</div>
                     <a href={getTagUrl(tag)} aria-label={`View all posts with the ${tag.trim()} tag`}
-                       class:list={["link-lg transition text-50 text-sm hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap", metaRight ? "font-bold" : "font-medium"]}>
+                       class="link-lg transition text-50 text-sm font-normal
+                                    hover:text-[var(--primary)] dark:hover:text-[var(--primary)] whitespace-nowrap">
                         {tag.trim()}
                     </a>
                 ))}

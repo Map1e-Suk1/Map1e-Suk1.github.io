@@ -40,7 +40,8 @@ const isImageIcon = (icon: string) => /^(\/|https?:\/\/)/.test(icon || "");
                 </div>
             </div>
 
-            <h1 class="text-3xl lg:text-4xl font-bold mb-3 dark:text-neutral-50 transition">
+            <!-- script-name：「关于我」页面上我的名字，字体由 appearanceConfig.nameFont 决定（软件「图形与字体」里选） -->
+            <h1 class="script-name text-3xl lg:text-4xl font-bold mb-3 dark:text-neutral-50 transition">
                 <span class="bg-gradient-to-r from-[var(--primary)] via-[oklch(0.72_0.16_var(--hue))] to-[oklch(0.62_0.18_var(--hue))]
                     bg-clip-text text-transparent">{profileConfig.name}</span>
             </h1>

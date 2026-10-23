@@ -96,7 +96,7 @@ git push
 - `profileConfig`：头像、昵称、签名（`bio`）、社交链接
 - `heroConfig.enable` / `heroConfig.showTitle`：主页大卡片的开关、以及大卡片顶部要不要显示大号的站点标题（`siteConfig.title`）
 - `heroConfig.slogans`：主页大卡片里那行轮播的「打字机」句子，写几句换着显示
-- `appearanceConfig.bioFont` / `titleFont` / `titleSize`：**自定义字体**。`bioFont` = 「一句话简介」用哪款字体，`titleFont` = 主页中央大号站点标题用哪款字体，`titleSize` = 大标题字号（px，24～160，默认 64）。取值就是 `public/fonts/script/` 里的文件名（不带扩展名），留空 = 不用。软件里内置 12 款：英文花体 `great-vibes` / `dancing-script` / `pacifico` / `satisfy` / `allura`，中英通用 `zcool-kuaile`（站酷快乐体）/ `zcool-qingke-huangyou`（站酷庆科黄油体）/ `zcool-xiaowei`（站酷小薇）/ `ma-shan-zheng`（马善政毛笔楷书）/ `long-cang`（龙藏）/ `zhi-mang-xing`（志莽行书）/ `liu-jian-mao-cao`（刘建毛草）
+- `appearanceConfig.bioFont` / `titleFont` / `nameFont` / `titleSize`：**自定义字体**。`bioFont` = 「一句话简介」用哪款字体，`titleFont` = 主页中央大号站点标题用哪款字体，`nameFont` = 「关于我」页面上你的名字用哪款字体（留空 = 跟随正文字体），`titleSize` = 大标题字号（px，24～160，默认 64）。取值就是 `public/fonts/script/` 里的文件名（不带扩展名），留空 = 不用。软件里内置 12 款：英文花体 `great-vibes` / `dancing-script` / `pacifico` / `satisfy` / `allura`，中英通用 `zcool-kuaile`（站酷快乐体）/ `zcool-qingke-huangyou`（站酷庆科黄油体）/ `zcool-xiaowei`（站酷小薇）/ `ma-shan-zheng`（马善政毛笔楷书）/ `long-cang`（龙藏）/ `zhi-mang-xing`（志莽行书）/ `liu-jian-mao-cao`（刘建毛草）
 
 > 上面这些都**不用手改**——打开「Blog Manager」软件 →「站点设置」，滑杆和下拉框点一点、点右上角「保存所有设置」就写回去了。
 
