@@ -9,7 +9,7 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "Map1e-Suk1的秘密基地",
+	title: "Map1e-Suk1の夢",
 	subtitle: "",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
@@ -62,7 +62,7 @@ export const navBarConfig: NavBarConfig = {
 export const profileConfig: ProfileConfig = {
 	// 以 / 开头 = public 目录里的固定地址（不带哈希，更新站点后不会出现破图）；
 	// 想改用外部图床热链，直接写成 "https://..." 即可。
-	avatar: "/avatar.webp",
+	avatar: "/avatar.png",
 	name: "Map1e-Suk1",
 	bio: "Roam free, for life is wide.",
 	links: [
@@ -78,9 +78,9 @@ export const heroConfig = {
 	enable: true,
 	showTitle: true, // 主页大卡片顶部是否显示大号站点标题（字体由 appearanceConfig.titleFont 决定）
 	slogans: [
-		"你好呀！",
-		"欢迎来我的秘密基地~",
-		"一个在努力变强的 CTFer"
+		"你好啊",
+		"远方而来的旅人",
+		"歇一歇吧"
 	],
 };
 
@@ -156,9 +156,12 @@ export const appearanceConfig = {
 	// 毛玻璃：卡片/悬浮面板底色百分比（越低越通透）+ 背景模糊 px
 	glass: { enable: true, card: 40, panel: 40, blur: 7 },
 	// 英文花体字体：只作用于英文和数字，中文会自动回退到上面的正文字体；留空 "" = 不用花体
-	// 可选值 = public/fonts/script/ 下的文件名，目前有：great-vibes / dancing-script / pacifico / satisfy / allura
+	// 可选值 = public/fonts/script/ 下的文件名：
+	//   英文花体 great-vibes / dancing-script / pacifico / satisfy / allura
+	//   中英通用 zcool-kuaile / zcool-qingke-huangyou / zcool-xiaowei / ma-shan-zheng / long-cang / zhi-mang-xing / liu-jian-mao-cao
+	//   日文通用 yuji-mai / yuji-boku / yusei-magic / zen-kurenaido / hachi-maru-pop（连假名「の」都有字形）
 	bioFont: "great-vibes", // 「一句话简介」用哪款花体
-	titleFont: "ma-shan-zheng", // 主页中央的大号站点标题用哪款花体
+	titleFont: "yuji-mai", // 主页中央的大号站点标题用哪款字体（日文毛笔行书，覆盖假名 + 汉字 + 英文）
 	nameFont: "allura", // 「关于我」页面上我的名字用哪款字体（可选值同上面；留空 = 用主题默认字体）
 	titleSize: 96, // 大号标题的字号（px，24~160）
 };
