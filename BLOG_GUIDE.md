@@ -115,7 +115,8 @@ git push
 
 - 字体文件放在 `public/fonts/script/`，**一个字体一个文件**（文件名去掉扩展名就是配置里写的 key，比如 `zcool-kuaile.woff2` → `titleFont: "zcool-kuaile"`），支持 `.woff2` / `.woff` / `.ttf` / `.otf`；同名文件只注册一个，优先 `.woff2`（体积最小）。OFL 的许可证 `.LICENSE.txt` 建议一起放进来。
 - 加字体最简单的办法：打开「Blog Manager」→「站点设置」→「网页外观」→「自定义字体」，点「导入我自己的字体…」选文件（多选），或把文件直接丢进那个目录再刷新软件。也可以直接在 `src/config.ts` 里写 key。
-- 内置 17 款：**英文花体** Great Vibes / Dancing Script / Pacifico / Satisfy / Allura；**中英通用** 站酷快乐体 / 站酷庆科黄油体 / 站酷小薇 / 马善政毛笔楷书 / 龙藏 / 志莽行书 / 刘建毛草；**日文通用** Yuji Mai 毛笔行书 / Yuji Boku 毛笔楷书 / Yusei 马克笔 / 恋奈手写体 / 八丸圆体（连假名「の」「あ」都有字形，标题混日文就用这一组；Yuji Boku 的数字 `1` 像 `7`，慎用）。中英通用的可以从 [Fontsource](https://fontsource.org/) 的 CJK 包拿（要选 `chinese-simplified` 是单文件、CSS 里没有 `unicode-range` 的那种，它本身就含拉丁字母）。
+- 内置 17 款：**英文花体** Great Vibes / Dancing Script / Pacifico / Satisfy / Allura；**中英通用** 站酷快乐体 / 站酷庆科黄油体 / 站酷小薇 / 马善政毛笔楷书 / 龙藏 / 志莽行书 / 刘建毛草；**日文通用** Yuji Mai 毛笔行书 / Yuji Boku 毛笔楷书 / Yusei 马克笔 / 恋奈手写体 / 八丸圆体（连假名「の」「あ」都有字形，标题混日文就用这一组；Yuji Boku 的数字 `1` 像 `7`，慎用）。软件里另外内置了 20 款日文字体（禅黑体/禅明朝/しっぽり系列/Klee One/Dela 超粗黑/DotGothic16 等），在「全局设置 → 网页外观 → 自定义字体」里点「补装缺失的内置字体」就能装进仓库使用，原件放在 `D:\PersonFiles\字体`。中英通用的可以从 [Fontsource](https://fontsource.org/) 的 CJK 包拿（要选 `chinese-simplified` 是单文件、CSS 里没有 `unicode-range` 的那种，它本身就含拉丁字母）。
+  - 2026-10-24 起仓库 `public/fonts/script/` 只留正在用的两款，文件名带 `used-` 前缀：`used-shippori-mincho.woff2`（主页大标题）、`used-dancing-script.woff2`（简介 + 关于页名字）；其余字体已清出仓库，要换字体在 BlogGUI 里点「补装缺失的内置字体」再选。
 - 样式在 `src/layouts/Layout.astro`：启动时扫描 `public/fonts/script/` 自动生成 `@font-face`（按扩展名写对应的 `format(...)`，文件名做 URL 编码）和 `--font-bio` / `--font-title` / `--title-size` 变量；`.script-bio` 用在主页、关于我、侧栏的签名上，`.script-title` 用在主页中央的大标题上。所以**不需要**在 `main.css` 里再写一份 `@font-face`（软件也不会重复写）。
 - **英文花体只对英文和数字生效**，中文会回退到正文字体，是「花体英文 + 常规中文」的混排；想要中英文统一风格，大标题就选中英通用那几款；标题里有日文假名就选日文通用那几款。
 - **体积**：访客只下载页面真正用到的那一款字体，没用到的不占访客流量，但占仓库体积，目前 `public/fonts/script/` 约 25MB。不用了的字体直接从目录里删掉即可。

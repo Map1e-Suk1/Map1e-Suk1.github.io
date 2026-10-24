@@ -9,7 +9,7 @@ import type {
 import { LinkPreset } from "./types/config";
 
 export const siteConfig: SiteConfig = {
-	title: "Map1e-Suk1の夢",
+	title: "Map1e-Suk1の郷",
 	subtitle: "",
 	lang: "zh_CN", // Language code, e.g. 'en', 'zh_CN', 'ja', etc.
 	themeColor: {
@@ -156,14 +156,13 @@ export const appearanceConfig = {
 	// 毛玻璃：卡片/悬浮面板底色百分比（越低越通透）+ 背景模糊 px
 	glass: { enable: true, card: 40, panel: 40, blur: 7 },
 	// 英文花体字体：只作用于英文和数字，中文会自动回退到上面的正文字体；留空 "" = 不用花体
-	// 可选值 = public/fonts/script/ 下的文件名：
-	//   英文花体 great-vibes / dancing-script / pacifico / satisfy / allura
-	//   中英通用 zcool-kuaile / zcool-qingke-huangyou / zcool-xiaowei / ma-shan-zheng / long-cang / zhi-mang-xing / liu-jian-mao-cao
-	//   日文通用 yuji-mai / yuji-boku / yusei-magic / zen-kurenaido / hachi-maru-pop（连假名「の」都有字形）
-	bioFont: "great-vibes", // 「一句话简介」用哪款花体
-	titleFont: "yuji-mai", // 主页中央的大号站点标题用哪款字体（日文毛笔行书，覆盖假名 + 汉字 + 英文）
-	nameFont: "allura", // 「关于我」页面上我的名字用哪款字体（可选值同上面；留空 = 用主题默认字体）
-	titleSize: 96, // 大号标题的字号（px，24~160）
+	// 可选值 = public/fonts/script/ 下的文件名；文件名带 used- 前缀的就是「现在正在用」的那几款
+	// 现在只留了正在用的两款：used-dancing-script（一句话简介 + 关于页名字）、used-shippori-mincho（主页大标题）
+	// 没用到的字体已经清出仓库；想换字体去 BlogGUI 里点「补装缺失的内置字体」装进来再选
+	bioFont: "used-dancing-script", // 「一句话简介」用哪款花体
+	titleFont: "used-shippori-mincho", // 主页中央的大号站点标题用哪款字体（这里用的是しっぽり明朝，细笔画的明朝体）
+	nameFont: "used-dancing-script", // 「关于我」页面上我的名字用哪款字体（可选值同上面；留空 = 用主题默认字体）
+	titleSize: 102, // 大号标题的字号（px，24~160）
 };
 
 // 樱花飘落动效：不想要就把 enable 改成 false
