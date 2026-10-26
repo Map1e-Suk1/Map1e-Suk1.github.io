@@ -160,7 +160,7 @@ export const appearanceConfig = {
 	// 现在只留了正在用的两款：used-dancing-script（一句话简介 + 关于页名字）、used-shippori-mincho（主页大标题）
 	// 没用到的字体已经清出仓库；想换字体去 BlogGUI 里点「补装缺失的内置字体」装进来再选
 	bioFont: "used-dancing-script", // 「一句话简介」用哪款花体
-	titleFont: "used-shippori-mincho", // 主页中央的大号站点标题用哪款字体（这里用的是しっぽり明朝，细笔画的明朝体）
+	titleFont: "hina-mincho", // 主页中央的大号站点标题用哪款字体（这里用的是しっぽり明朝，细笔画的明朝体）
 	nameFont: "used-dancing-script", // 「关于我」页面上我的名字用哪款字体（可选值同上面；留空 = 用主题默认字体）
 	titleSize: 102, // 大号标题的字号（px，24~160）
 };
